@@ -62,9 +62,14 @@
         </div>
         <div class="gate-field"><label>Institution / Organization</label><input type="text" id="r-institution" placeholder="College, firm, court, etc." /></div>
         <div class="gate-field"><label>Purpose of Access <span class="req">*</span></label><textarea id="r-purpose" rows="2" placeholder="Brief reason for access..."></textarea></div>
+
         <div class="gate-grid-2">
           <div class="gate-field"><label>Password <span class="req">*</span></label><input type="password" id="r-password" placeholder="Min. 6 characters" /></div>
           <div class="gate-field"><label>Confirm Password <span class="req">*</span></label><input type="password" id="r-password2" placeholder="Repeat password" /></div>
+        </div>
+        <div class="gate-check">
+          <input type="checkbox" id="r-agree" />
+          <label for="r-agree">I agree to the <button type="button" class="policy-btn-link" onclick="openPolicy()">Privacy Policy & Terms of Service</button></label>
         </div>
         <button class="gate-btn-primary" onclick="submitRegistration()">Create Account &rarr;</button>
         <p class="gate-note">You'll receive a verification email. Click the link to activate your account.</p>
@@ -224,10 +229,27 @@
     .badge-admin   { background: rgba(218,54,51,0.15); color: #f85149; }
     .badge-student { background: rgba(46,160,67,0.15);  color: #3fb950; }
     .badge-guest   { background: rgba(137,87,229,0.15); color: #a371f7; }
-    @media (max-width: 600px) {
-      .gate-card { padding: 24px 16px; border-radius: 16px; }
-      .gate-grid-2 { grid-template-columns: 1fr; }
+
+    /* Policy Modal */
+    #policy-modal {
+      position: fixed; inset: 0; z-index: 10000; background: rgba(0,0,0,0.85);
+      display: none; align-items: center; justify-content: center; backdrop-filter: blur(8px); padding: 20px;
     }
+    #policy-modal.active { display: flex; }
+    .policy-card {
+      background: #0d1117; border: 1px solid rgba(88,166,255,0.2); border-radius: 16px;
+      width: 100%; max-width: 650px; max-height: 85vh; overflow-y: auto; padding: 30px;
+      box-shadow: 0 25px 70px rgba(0,0,0,0.8);
+    }
+    .policy-content h3 { color: #58a6ff; margin-bottom: 20px; font-size: 1.4rem; }
+    .policy-content h4 { color: #e6edf3; margin: 18px 0 8px; font-size: 1rem; }
+    .policy-content p, .policy-content li { color: #8b949e; font-size: 0.9rem; line-height: 1.6; margin-bottom: 10px; }
+    .policy-content ul { padding-left: 20px; margin-bottom: 15px; }
+    .policy-close { width: 100%; margin-top: 20px; }
+    .gate-check { display: flex; align-items: center; gap: 10px; margin-top: 15px; margin-bottom: 5px; }
+    .gate-check input { width: 18px; height: 18px; cursor: pointer; }
+    .gate-check label { color: #8b949e; font-size: 0.8rem; cursor: pointer; }
+    .policy-btn-link { background: none; border: none; color: #58a6ff; cursor: pointer; text-decoration: underline; padding: 0; font: inherit; }
   </style>
 
   <!-- Gate UI — synchronous, always works -->
@@ -1926,8 +1948,13 @@
       var purp  = document.getElementById('r-purpose').value.trim();
       var pass  = document.getElementById('r-password').value;
       var pass2 = document.getElementById('r-password2').value;
+
+      var agree = document.getElementById('r-agree').checked;
       hideEl('reg-error'); hideEl('reg-success');
 
+      if (!agree) {
+        showMsg('reg-error', '\u26a0 Please accept the Privacy Policy & Terms.'); return;
+      }
       if (!name || !email || !prof || !purp || !pass) {
         showMsg('reg-error', '\u26a0 Please fill all required (*) fields.'); return;
       }
@@ -2082,6 +2109,42 @@
   document.querySelectorAll('.nav-item').forEach(btn =>
     btn.addEventListener('click', () => { if (window.innerWidth <= 1100) closeSidebar(); })
   );
+  </script>
+
+  <!-- ===== PRIVACY & TERMS MODAL ===== -->
+  <div id="policy-modal">
+    <div class="policy-card">
+      <div class="policy-content">
+        <h3>Privacy Policy & Terms</h3>
+        
+        <h4>1. Educational Purpose Only</h4>
+        <p>The BSA 2023 Guide is an educational resource developed for law students, advocates, and judicial officers. The content, including infographics and legal breakdowns, does not constitute formal legal advice. While we strive for absolute accuracy, always refer to the official Gazette of India for statutory verification.</p>
+
+        <h4>2. Data Protection (DPDP Compliance)</h4>
+        <p>As an Edu-Tech portal, we collect minimal data required for secure authentication (Name, Email, Profession, and Institution). Your data is used solely for:</p>
+        <ul>
+          <li>Granting access to secured modules.</li>
+          <li>Sending critical legal updates related to the BSA framework.</li>
+          <li>Administering the Mega Quiz and assessment results.</li>
+        </ul>
+        <p>Your data is securely stored in Google Firebase and will never be sold or shared with third parties for marketing.</p>
+
+        <h4>3. Intellectual Property</h4>
+        <p>The unique structural breakdowns, 8-dimensional forensic analysis, and interactive infographics on this platform are proprietary. Unauthorized reproduction, scraping, or commercial distribution of this material is strictly prohibited.</p>
+
+        <h4>4. User Conduct</h4>
+        <p>Accounts are for individual use. Sharing login credentials or attempting to bypass security gates will result in immediate suspension of access.</p>
+
+        <h4>5. Liability Disclaimer</h4>
+        <p>The developer shall not be liable for any legal interpretations made by users based on this guide. This is a learning tool designed to simplify complex transistions into the new evidentiary regime.</p>
+      </div>
+      <button class="gate-btn-primary policy-close" onclick="closePolicy()">I Understand & Accept</button>
+    </div>
+  </div>
+
+  <script>
+    window.openPolicy = function() { document.getElementById('policy-modal').classList.add('active'); };
+    window.closePolicy = function() { document.getElementById('policy-modal').classList.remove('active'); };
   </script>
 
 </body>
