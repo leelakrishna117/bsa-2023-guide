@@ -27,14 +27,14 @@
       </div>
       <div class="gate-tabs">
         <button class="gate-tab active" id="tab-login" onclick="switchTab('login')">Sign In</button>
-        <button class="gate-tab" id="tab-register" onclick="switchTab('register')">Request Access</button>
+        <button class="gate-tab" id="tab-register" onclick="switchTab('register')">Register</button>
       </div>
       <div id="panel-login">
         <div id="login-err" class="gate-error hidden"></div>
         <div class="gate-field"><label>Email Address</label><input type="email" id="g-user" placeholder="your@email.com" autocomplete="email" /></div>
         <div class="gate-field"><label>Password</label><input type="password" id="g-pass" placeholder="Enter your password" autocomplete="current-password" /></div>
         <button class="gate-btn-primary" onclick="attemptLogin()">Sign In &rarr;</button>
-        <p class="gate-note" style="display:flex;justify-content:space-between"><span>No account? Click <strong>Register</strong> above.</span><button onclick="forgotPassword()" style="background:none;border:none;color:#58a6ff;cursor:pointer;font-size:0.78rem;font-family:inherit">Forgot password?</button></p>
+        <p class="gate-note" style="display:flex;justify-content:space-between"><span>No account? <button onclick="switchTab('register')" style="background:none;border:none;color:#58a6ff;cursor:pointer;font-size:0.78rem;font-weight:700;font-family:inherit;text-decoration:underline;padding:0">Register here</button></span><button onclick="forgotPassword()" style="background:none;border:none;color:#58a6ff;cursor:pointer;font-size:0.78rem;font-family:inherit">Forgot password?</button></p>
       </div>
       <div id="panel-register" class="hidden">
         <div id="reg-success" class="gate-success hidden"></div>
