@@ -1702,9 +1702,8 @@
   const auth = getAuth(app);
   const db   = getFirestore(app);
 
-  // ── Add YOUR email here to get admin role automatically ──
-  const ADMIN_EMAILS = [];
-  // e.g. const ADMIN_EMAILS = ['yourname@gmail.com'];
+  // ── Admin emails — these get the 'admin' role automatically ──
+  const ADMIN_EMAILS = ['leelakrishna117@gmail.com'];
 
   const ROLE_ACCESS = {
     admin:   ['part1','digital-foundation','part2','part3','part5','part6','part7','quiz'],
