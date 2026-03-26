@@ -18,6 +18,12 @@
 
 
 
+  <!-- HAMBURGER MENU (mobile) -->
+  <button class="hamburger" id="hamburger" aria-label="Open navigation menu">
+    <span></span><span></span><span></span>
+  </button>
+  <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
     <!-- SIDEBAR NAVIGATION -->
     <aside class="sidebar">
       <div class="sidebar-header">
@@ -1603,5 +1609,36 @@
 
   <script src="script.js"></script>
 
+  <script>
+  // ── Mobile sidebar drawer ──
+  const hamburger = document.getElementById('hamburger');
+  const sidebar   = document.querySelector('.sidebar');
+  const overlay   = document.getElementById('sidebar-overlay');
+
+  function openSidebar() {
+    sidebar.classList.add('open');
+    hamburger.classList.add('open');
+    overlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeSidebar() {
+    sidebar.classList.remove('open');
+    hamburger.classList.remove('open');
+    overlay.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  hamburger.addEventListener('click', () =>
+    sidebar.classList.contains('open') ? closeSidebar() : openSidebar()
+  );
+  overlay.addEventListener('click', closeSidebar);
+
+  // Close drawer when a nav item is tapped on mobile
+  document.querySelectorAll('.nav-item').forEach(btn =>
+    btn.addEventListener('click', () => {
+      if (window.innerWidth <= 1100) closeSidebar();
+    })
+  );
+  </script>
 </body>
 </html>
