@@ -1,2151 +1,409 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>BSA 2023 - The Ultimate Elaborative Guide</title>
-  <link rel="stylesheet" href="style.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <!-- Mermaid.js for 15+ complex infographics -->
-  <script type="module">
-    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
-    mermaid.initialize({ startOnLoad: false, theme: 'dark', fontFamily: 'Inter' });
-    window.mermaidAPI = mermaid;
-  </script>
-  <!-- Firebase Compat SDK -->
-  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore-compat.js"></script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>BSA 2023 - The Ultimate Elaborative Guide</title>
+    <link rel="stylesheet" href="style.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Mermaid.js for 16+ complex infographics -->
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ 
+          startOnLoad: false, 
+          theme: 'dark', 
+          fontFamily: 'Inter',
+          themeVariables: {
+            primaryColor: '#1f6feb',
+            primaryTextColor: '#c9d1d9',
+            primaryBorderColor: '#30363d',
+            lineColor: '#58a6ff',
+            secondaryColor: '#238636',
+            tertiaryColor: '#8957e5'
+          }
+        });
+        window.mermaidAPI = mermaid;
+    </script>
+    <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore-compat.js"></script>
 </head>
 
 <body>
-  
-
-
-
-  <!-- ===== ACCESS GATE ===== -->
-  <div id="access-gate">
-    <div class="gate-card">
-      <div class="gate-logo">
-        <div class="gate-icon">&#9878;</div>
-        <div><h2>BSA 2023</h2><span>Masterclass Edition &mdash; Secured Portal</span></div>
-      </div>
-      <div class="gate-tabs">
-        <button class="gate-tab active" id="tab-login" onclick="switchTab('login')">Sign In</button>
-        <button class="gate-tab" id="tab-register" onclick="switchTab('register')">Register</button>
-      </div>
-      <div id="panel-login">
-        <div id="login-err" class="gate-error hidden"></div>
-        <div class="gate-field"><label>Email Address</label><input type="email" id="g-user" placeholder="your@email.com" autocomplete="email" /></div>
-        <div class="gate-field"><label>Password</label><input type="password" id="g-pass" placeholder="Enter your password" autocomplete="current-password" /></div>
-        <button class="gate-btn-primary" onclick="attemptLogin()">Sign In &rarr;</button>
-        <p class="gate-note" style="display:flex;justify-content:space-between"><span>No account? <button onclick="switchTab('register')" style="background:none;border:none;color:#58a6ff;cursor:pointer;font-size:0.78rem;font-weight:700;font-family:inherit;text-decoration:underline;padding:0">Register here</button></span><button onclick="forgotPassword()" style="background:none;border:none;color:#58a6ff;cursor:pointer;font-size:0.78rem;font-family:inherit">Forgot password?</button></p>
-      </div>
-      <div id="panel-register" class="hidden">
-        <div id="reg-success" class="gate-success hidden"></div>
-        <div id="reg-error" class="gate-error hidden"></div>
-        <div class="gate-grid-2">
-          <div class="gate-field"><label>Full Name <span class="req">*</span></label><input type="text" id="r-name" placeholder="Your full name" /></div>
-          <div class="gate-field"><label>Email Address <span class="req">*</span></label><input type="email" id="r-email" placeholder="your@email.com" /></div>
-        </div>
-        <div class="gate-grid-2">
-          <div class="gate-field"><label>Phone Number</label><input type="tel" id="r-phone" placeholder="+91 XXXXX XXXXX" /></div>
-          <div class="gate-field">
-            <label>Profession <span class="req">*</span></label>
-            <select id="r-profession">
-              <option value="">Select profession...</option>
-              <option>Law Student</option><option>Advocate / Lawyer</option>
-              <option>Judge / Judicial Officer</option><option>Law Professor / Faculty</option>
-              <option>Legal Researcher</option><option>Police / Investigator</option><option>Other</option>
-            </select>
-          </div>
-        </div>
-        <div class="gate-field"><label>Institution / Organization</label><input type="text" id="r-institution" placeholder="College, firm, court, etc." /></div>
-        <div class="gate-field"><label>Purpose of Access <span class="req">*</span></label><textarea id="r-purpose" rows="2" placeholder="Brief reason for access..."></textarea></div>
-
-        <div class="gate-grid-2">
-          <div class="gate-field"><label>Password <span class="req">*</span></label><input type="password" id="r-password" placeholder="Min. 6 characters" /></div>
-          <div class="gate-field"><label>Confirm Password <span class="req">*</span></label><input type="password" id="r-password2" placeholder="Repeat password" /></div>
-        </div>
-        <div class="gate-check">
-          <input type="checkbox" id="r-agree" />
-          <label for="r-agree">I agree to the <button type="button" class="policy-btn-link" onclick="openPolicy()">Privacy Policy & Terms of Service</button></label>
-        </div>
-        <button class="gate-btn-primary" onclick="submitRegistration()">Create Account &rarr;</button>
-        <p class="gate-note">You'll receive a verification email. Click the link to activate your account.</p>
-      </div>
-      <p class="gate-footer">Bharatiya Sakshya Adhiniyam 2023 &mdash; Interactive Masterclass</p>
-    </div>
-  </div>
-
-  <!-- ===== ADMIN PANEL ===== -->
-  <div id="admin-panel" class="hidden">
-    <div class="adm-card">
-      <div class="adm-header">
-        <h3>&#128100; Admin Control Panel</h3>
-        <button onclick="closeAdminPanel()" class="adm-close">&#x2715; Close</button>
-      </div>
-      <p style="color:#8b949e;font-size:0.88rem;margin-bottom:20px;line-height:1.6">All registered users are stored in Firebase. You can also disable any user from <a href="https://console.firebase.google.com" target="_blank" style="color:#58a6ff">console.firebase.google.com</a> &rarr; Authentication.</p>
-      <h4 style="color:#58a6ff;margin-bottom:12px;font-size:0.78rem;text-transform:uppercase;letter-spacing:0.07em">&#128100; Registered Users (from Firebase)</h4>
-      <div class="adm-table-wrap"><table class="adm-table"><thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Profession</th><th>Registered</th></tr></thead><tbody id="adm-users-tbody"><tr><td colspan="5" style="color:#8b949e;text-align:center;padding:20px">Loading...</td></tr></tbody></table></div>
-      <p style="color:#8b949e;font-size:0.85rem;margin-top:20px">To disable a user: go to Firebase Console &rarr; Authentication &rarr; find user &rarr; click Disable.</p>
-    </div>
-  </div>
-
-  <!-- HAMBURGER MENU (mobile) -->
-
-  <button class="hamburger" id="hamburger" aria-label="Open navigation menu">
-    <span></span><span></span><span></span>
-  </button>
-  <div class="sidebar-overlay" id="sidebar-overlay"></div>
-
-  <!-- ===== ACCESS GATE + ADMIN STYLES ===== -->
-  <style>
-    #access-gate {
-      position: fixed; inset: 0; z-index: 9999;
-      background: radial-gradient(ellipse at 20% 50%, rgba(31,111,235,0.12) 0%, transparent 60%),
-                  radial-gradient(ellipse at 80% 20%, rgba(137,87,229,0.12) 0%, transparent 60%),
-                  #060a10;
-      display: flex; align-items: center; justify-content: center; padding: 16px;
-      font-family: 'Inter', sans-serif;
-    }
-    #access-gate.hidden { display: none !important; }
-    .gate-card {
-      background: rgba(13,17,23,0.97);
-      border: 1px solid rgba(88,166,255,0.18); border-radius: 22px;
-      padding: 40px 36px; width: 100%; max-width: 560px;
-      box-shadow: 0 0 80px rgba(31,111,235,0.12), 0 30px 80px rgba(0,0,0,0.6);
-      animation: gateIn 0.4s cubic-bezier(0.34,1.56,0.64,1);
-      position: relative; overflow: hidden; max-height: 92vh; overflow-y: auto;
-    }
-    .gate-card::before {
-      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(88,166,255,0.6), rgba(137,87,229,0.5), transparent);
-    }
-    @keyframes gateIn {
-      from { opacity: 0; transform: scale(0.94) translateY(20px); }
-      to   { opacity: 1; transform: scale(1) translateY(0); }
-    }
-    .gate-logo { display: flex; align-items: center; gap: 14px; margin-bottom: 24px; }
-    .gate-icon {
-      font-size: 2rem; width: 50px; height: 50px; display: flex; align-items: center;
-      justify-content: center; background: linear-gradient(135deg, rgba(31,111,235,0.2), rgba(137,87,229,0.2));
-      border: 1px solid rgba(88,166,255,0.25); border-radius: 14px; color: #58a6ff; flex-shrink: 0;
-    }
-    .gate-logo h2 { font-size: 1.5rem; font-weight: 900; color: #e6edf3; margin: 0 0 3px; letter-spacing: -0.02em; }
-    .gate-logo span { font-size: 0.72rem; color: #484f58; text-transform: uppercase; letter-spacing: 0.06em; }
-    .gate-tabs {
-      display: flex; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.07);
-      border-radius: 12px; padding: 4px; margin-bottom: 22px; gap: 4px;
-    }
-    .gate-tab {
-      flex: 1; padding: 9px; border: 1px solid transparent; border-radius: 9px;
-      background: transparent; color: #8b949e; font-size: 0.88rem; font-weight: 600;
-      cursor: pointer; font-family: inherit; transition: all 0.2s;
-    }
-    .gate-tab.active {
-      background: linear-gradient(135deg, rgba(31,111,235,0.25), rgba(137,87,229,0.18));
-      color: #e6edf3; border-color: rgba(88,166,255,0.2);
-    }
-    .gate-field { margin-bottom: 14px; }
-    .gate-field label { display: block; font-size: 0.81rem; color: #c9d1d9; font-weight: 600; margin-bottom: 6px; }
-    .req { color: #f85149; }
-    .gate-field input, .gate-field select, .gate-field textarea {
-      width: 100%; background: rgba(255,255,255,0.04); border: 1px solid rgba(88,166,255,0.15);
-      color: #e6edf3; border-radius: 10px; padding: 10px 13px;
-      font-size: 0.91rem; font-family: inherit; outline: none; box-sizing: border-box;
-      transition: border-color 0.2s, box-shadow 0.2s; resize: vertical;
-    }
-    .gate-field input::placeholder, .gate-field textarea::placeholder { color: #484f58; }
-    .gate-field input:focus, .gate-field select:focus, .gate-field textarea:focus {
-      border-color: rgba(88,166,255,0.5); box-shadow: 0 0 0 3px rgba(88,166,255,0.1);
-    }
-    .gate-field select option { background: #161b22; }
-    .gate-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-    .gate-btn-primary {
-      width: 100%; padding: 12px; margin-top: 6px;
-      background: linear-gradient(135deg, #1f6feb, #8957e5);
-      color: #fff; border: none; border-radius: 11px;
-      font-size: 0.95rem; font-weight: 700; cursor: pointer; font-family: inherit;
-      transition: opacity 0.2s, transform 0.15s, box-shadow 0.2s;
-      box-shadow: 0 4px 20px rgba(31,111,235,0.3); letter-spacing: 0.02em;
-    }
-    .gate-btn-primary:hover { opacity: 0.9; transform: translateY(-1px); box-shadow: 0 8px 28px rgba(31,111,235,0.4); }
-    .gate-btn-secondary {
-      padding: 10px 20px; background: rgba(88,166,255,0.1); border: 1px solid rgba(88,166,255,0.25);
-      color: #58a6ff; border-radius: 9px; font-size: 0.86rem; font-weight: 600;
-      cursor: pointer; font-family: inherit; transition: all 0.2s; margin-top: 6px;
-    }
-    .gate-error {
-      background: rgba(218,54,51,0.1); border: 1px solid rgba(218,54,51,0.35);
-      color: #f85149; border-radius: 9px; padding: 11px 14px;
-      font-size: 0.85rem; margin-bottom: 14px; line-height: 1.5;
-    }
-    .gate-success {
-      background: rgba(46,160,67,0.1); border: 1px solid rgba(46,160,67,0.35);
-      color: #3fb950; border-radius: 9px; padding: 11px 14px;
-      font-size: 0.85rem; margin-bottom: 14px; line-height: 1.5;
-    }
-    .gate-note { color: #484f58; font-size: 0.77rem; text-align: center; margin-top: 12px; }
-    .gate-footer { color: #30363d; font-size: 0.71rem; text-align: center; margin-top: 22px; margin-bottom: 0; }
-    .shake { animation: gShake 0.4s ease; }
-    @keyframes gShake {
-      0%,100%{ transform: translateX(0); } 20%{ transform: translateX(-8px); }
-      40%{ transform: translateX(8px); } 60%{ transform: translateX(-5px); } 80%{ transform: translateX(5px); }
-    }
-    /* Admin Panel */
-    #admin-panel {
-      position: fixed; inset: 0; z-index: 9998; background: rgba(0,0,0,0.75);
-      display: flex; align-items: center; justify-content: center;
-      backdrop-filter: blur(6px); padding: 16px; font-family: 'Inter', sans-serif;
-    }
-    #admin-panel.hidden { display: none !important; }
-    .adm-card {
-      background: rgba(13,17,23,0.98); border: 1px solid rgba(88,166,255,0.18);
-      border-radius: 18px; padding: 30px; width: 100%; max-width: 720px;
-      max-height: 88vh; overflow-y: auto;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.7);
-    }
-    .adm-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
-    .adm-header h3 { font-size: 1.05rem; font-weight: 700; color: #e6edf3; }
-    .adm-close {
-      background: rgba(218,54,51,0.12); border: 1px solid rgba(218,54,51,0.3);
-      color: #f85149; border-radius: 8px; padding: 6px 12px;
-      cursor: pointer; font-size: 0.8rem; font-family: inherit; font-weight: 600;
-    }
-    .adm-table-wrap { overflow-x: auto; border-radius: 10px; border: 1px solid rgba(255,255,255,0.06); }
-    .adm-table { width: 100%; border-collapse: collapse; font-size: 0.87rem; }
-    .adm-table th {
-      background: rgba(31,111,235,0.12); color: #58a6ff; font-weight: 700;
-      padding: 12px 16px; text-align: left; font-size: 0.74rem;
-      text-transform: uppercase; letter-spacing: 0.05em;
-    }
-    .adm-table td { padding: 11px 16px; border-bottom: 1px solid rgba(255,255,255,0.05); color: #c9d1d9; }
-    .adm-table tr:last-child td { border-bottom: none; }
-    .badge {
-      display: inline-block; padding: 2px 9px; border-radius: 20px;
-      font-size: 0.71rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;
-    }
-    .badge-admin   { background: rgba(218,54,51,0.15); color: #f85149; }
-    .badge-student { background: rgba(46,160,67,0.15);  color: #3fb950; }
-    .badge-guest   { background: rgba(137,87,229,0.15); color: #a371f7; }
-
-    /* Policy Modal */
-    #policy-modal {
-      position: fixed; inset: 0; z-index: 10000; background: rgba(0,0,0,0.85);
-      display: none; align-items: center; justify-content: center; backdrop-filter: blur(8px); padding: 20px;
-    }
-    #policy-modal.active { display: flex; }
-    .policy-card {
-      background: #0d1117; border: 1px solid rgba(88,166,255,0.2); border-radius: 16px;
-      width: 100%; max-width: 650px; max-height: 85vh; overflow-y: auto; padding: 30px;
-      box-shadow: 0 25px 70px rgba(0,0,0,0.8);
-    }
-    .policy-content h3 { color: #58a6ff; margin-bottom: 20px; font-size: 1.4rem; }
-    .policy-content h4 { color: #e6edf3; margin: 18px 0 8px; font-size: 1rem; }
-    .policy-content p, .policy-content li { color: #8b949e; font-size: 0.9rem; line-height: 1.6; margin-bottom: 10px; }
-    .policy-content ul { padding-left: 20px; margin-bottom: 15px; }
-    .policy-close { width: 100%; margin-top: 20px; }
-    .gate-check { display: flex; align-items: center; gap: 10px; margin-top: 15px; margin-bottom: 5px; }
-    .gate-check input { width: 18px; height: 18px; cursor: pointer; }
-    .gate-check label { color: #8b949e; font-size: 0.8rem; cursor: pointer; }
-    .policy-btn-link { background: none; border: none; color: #58a6ff; cursor: pointer; text-decoration: underline; padding: 0; font: inherit; }
-  </style>
-
-  <!-- Gate UI — synchronous, always works -->
-  <script>
-    window.switchTab = function(tab) {
-      var pl = document.getElementById('panel-login');
-      var pr = document.getElementById('panel-register');
-      var tl = document.getElementById('tab-login');
-      var tr = document.getElementById('tab-register');
-      if (tab === 'login') {
-        pl.classList.remove('hidden'); pr.classList.add('hidden');
-        tl.classList.add('active');    tr.classList.remove('active');
-      } else {
-        pl.classList.add('hidden');    pr.classList.remove('hidden');
-        tl.classList.remove('active'); tr.classList.add('active');
-      }
-    };
-  </script>
-
-
-
-  <div class="app-layout" style="display:none;">
-    <aside class="sidebar">
-
-      <div class="sidebar-header">
-        <h2>BSA 2023</h2>
-        <span class="version-badge">Mega-Edition v5.0 Masterclass</span>
-      </div>
-      
-      <nav class="sidebar-nav">
-        <div class="nav-group">
-          <div class="nav-group-title">1. Legal Mastery (Parts)</div>
-          <button class="nav-item active" data-target="part1">Part I: Foundation & Relevancy</button>
-          <button class="nav-item" data-target="digital-foundation">Part II: Digital Foundation (Sec 2)</button>
-          <button class="nav-item" data-target="part2">Part III: On Proof & Digital Law</button>
-          <button class="nav-item" data-target="part3">Part IV: The Best Evidence Rule</button>
-          <button class="nav-item" data-target="part5">Part V: Digital Presumptions</button>
-          <button class="nav-item" data-target="part6">Part VI: Accelerated Authenticity</button>
-          <button class="nav-item" data-target="part7">Part VII: Cyber Forensics</button>
-          <div class="nav-group-title">2. Assessment</div>
-          <button class="nav-item" data-target="quiz">Mega Quiz (40 Qs)</button>
-        </div>
-      </nav>
-    </aside>
-
-    <!-- MAIN CONTENT -->
-    <main class="main-area">
-
-      <!-- ================= PART 1: RELEVANCY ================= -->
-      <section id="part1" class="content-section active">
-        <header class="section-header">
-          <h1>Part I: Foundation & Relevancy of Facts</h1>
-          <p class="subtitle">An exhaustive deep-dive into the modernization of evidentiary relevance, the abolition of archaic restraints, and the statutory elevation of digital investigation.</p>
-        </header>
-
-        <div class="hero-image-container">
-          <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=2600" alt="Glowing Global Digital Network representing Cyber Jurisdiction" class="hero-banner" />
-        </div>
-        
-
-
-        <div class="text-block card">
-          <h3>The Legal Universe & Modernized Dictionary</h3>
-          <p>Core framework establishing jurisdictions, definitions, and interpretations under the BSA, expanding beyond physical domains into the broader digital and evidential reality.</p>
-          <br>
-          <div class="accordion">
-             
-             <!-- Accordion 1 -->
-             <div class="accordion-item">
-                <div class="accordion-head"><h4>Section 1: Application and Jurisdiction</h4><span>+</span></div>
-                <div class="accordion-body">
-                   <p>This section defines the "Legal Universe" where the BSA operates.</p>
-                   <ul class="styled-list">
-                     <li><strong>Universal Application:</strong> It applies to all judicial proceedings in or before any Court.</li>
-                     <li><strong>Courts-Martial Inclusion:</strong> The Act explicitly covers Courts-martial.</li>
-                     <li><strong>Specific Exclusions:</strong>
-                        <ul style="margin-top: 10px; margin-left: 20px; list-style-type: circle;">
-                          <li><em>Affidavits:</em> Not covered by the BSA, as they are "sworn statements" governed by procedural codes (BNSS/CPC).</li>
-                          <li><em>Arbitrators:</em> To maintain the flexibility and speed of Alternative Dispute Resolution, arbitrators are not bound by the technicalities of the BSA.</li>
-                        </ul>
-                     </li>
-                   </ul>
-                </div>
-             </div>
-
-             <!-- Accordion 2 -->
-             <div class="accordion-item">
-                <div class="accordion-head"><h4>Section 2: The Modernized "Legal Dictionary"</h4><span>+</span></div>
-                <div class="accordion-body">
-                   <p>The definitions in the BSA have been expanded to bridge the gap between physical and digital reality.</p>
-                   
-                   <h5 style="margin-top: 20px; color: var(--primary-color);">1. Document [Section 2(1)(d)]</h5>
-                   <ul class="styled-list">
-                     <li>A document is no longer just paper; it is any matter recorded on any substance.</li>
-                     <li><strong>Digital Inclusion:</strong> It now explicitly includes electronic and digital records.</li>
-                     <li><strong>New Illustrations:</strong> Emails, server logs, documents on computers/laptops/smartphones, messages (WhatsApp/SMS), websites, locational evidence (GPS logs), and voice mails are now legally defined as "Documents".</li>
-                     <li><strong>Traditional Examples:</strong> Writing, maps, plans, caricatures, and inscriptions on stone/metal remain documents.</li>
-                   </ul>
-
-                   <h5 style="margin-top: 20px; color: var(--primary-color);">2. Evidence [Section 2(1)(e)]</h5>
-                   <ul class="styled-list">
-                     <li>Evidence is the medium through which facts are brought to the Court's notice.</li>
-                     <li><strong>Oral Evidence:</strong> Statements made by witnesses in Court. Crucially, the BSA now includes statements given electronically (video conferencing) as oral evidence.</li>
-                     <li><strong>Documentary Evidence:</strong> All documents produced for inspection, including digital/electronic records.</li>
-                   </ul>
-
-                   <h5 style="margin-top: 20px; color: var(--primary-color);">3. Fact vs. Fact in Issue [Section 2(1)(f) & (g)]</h5>
-                   <ul class="styled-list">
-                     <li><strong>Fact:</strong> Anything perceived by the senses (external) or any mental condition of which a person is conscious (internal, like intention or fraud).</li>
-                     <li><strong>Fact in Issue:</strong> These are the core points of dispute. If A is accused of murdering B, the "Facts in Issue" are: Did A cause the death? Did A intend to cause death? Was A of unsound mind?.</li>
-                   </ul>
-
-                   <h5 style="margin-top: 20px; color: var(--primary-color);">4. Standard of Proof [Section 2(1)(c), (j), (i)]</h5>
-                   <ul class="styled-list">
-                     <li>The BSA uses the "Prudent Man" standard for determining truth.</li>
-                     <li><strong>Proved:</strong> When the Court considers a fact’s existence so probable that a "prudent man" would act as if it exists.</li>
-                     <li><strong>Disproved:</strong> When the Court considers its non-existence so probable that a "prudent man" would act as if it does not exist.</li>
-                     <li><strong>Not Proved:</strong> When a fact is neither proved nor disproved (insufficient evidence).</li>
-                   </ul>
-
-                   <h5 style="margin-top: 20px; color: var(--primary-color);">5. The Three Tiers of Presumption</h5>
-                   <ul class="styled-list">
-                     <li><strong>May Presume [Sec 2(1)(h)]:</strong> The Court has the option to believe a fact exists unless it is disproved, or it may still demand proof.</li>
-                     <li><strong>Shall Presume [Sec 2(1)(l)]:</strong> The Court must believe the fact exists unless and until it is disproved.</li>
-                     <li><strong>Conclusive Proof [Sec 2(1)(b)]:</strong> The highest tier. Once one fact is proved, the Court must regard the second as proved and cannot allow any evidence to disprove it.</li>
-                   </ul>
-                </div>
-             </div>
-
-             <!-- Accordion 3 -->
-             <div class="accordion-item">
-                <div class="accordion-head"><h4>Relevant Landmark Caselaws for Part 1</h4><span>+</span></div>
-                <div class="accordion-body">
-                   <h5 style="margin-top: 15px; color: var(--primary-color);">1. State of Bombay v. Kathi Kalu Oghad (1961)</h5>
-                   <ul class="styled-list">
-                     <li><strong>Concept:</strong> The Definition of "Evidence" [Section 2(1)(e)]</li>
-                     <li><strong>Facts:</strong> During a murder investigation, the police compelled the accused to provide specimen handwriting and signatures to compare them with a threatening note found at the scene.</li>
-                     <li><strong>Issue:</strong> Does "giving evidence" include the forced production of physical traits like handwriting, or is it limited to speaking one's knowledge?</li>
-                     <li><strong>Judgement:</strong> An 11-judge bench held that "to be a witness" means imparting personal knowledge (testimonial compulsion). Giving thumb impressions or specimen writing is merely "exhibiting" physical characteristics. It does not involve the "mind" of the accused.</li>
-                     <li><strong>Significance for Part 1:</strong> This case establishes the boundary of what the Court considers "Oral" vs. "Documentary" evidence. It supports the BSA’s broad definition of evidence while protecting the constitutional right against self-incrimination.</li>
-                   </ul>
-                   
-                   <h5 style="margin-top: 20px; color: var(--primary-color);">2. Arjun Panditrao Khotkar v. Kailash Kushanrao Gorantyal (2020)</h5>
-                   <ul class="styled-list">
-                     <li><strong>Concept:</strong> Primary vs. Secondary Digital Documents [Section 2(1)(d) & Section 57]</li>
-                     <li><strong>Facts:</strong> In an election dispute, CCTV footage was sought to be proved. The original recording device (the DVR) was not produced, and only a copy was provided without the required technical certificate.</li>
-                     <li><strong>Issue:</strong> If the original digital source is available but not produced, can a copy be admitted as a "Document"?</li>
-                     <li><strong>Judgement:</strong> The Supreme Court clarified that if the original device (the physical smartphone, DVR, or laptop) is produced for inspection, it is Primary Evidence. A certificate is only mandatory for Secondary Evidence (copies or printouts).</li>
-                     <li><strong>Significance for Part 1:</strong> This case is the foundation for the new Explanations 4–7 in Section 57 of the BSA, which define simultaneous electronic storage as "Primary Evidence." It is the most important case for understanding digital documents today.</li>
-                   </ul>
-
-                   <h5 style="margin-top: 20px; color: var(--primary-color);">3. Goutam Kundu v. State of West Bengal (1993)</h5>
-                   <ul class="styled-list">
-                     <li><strong>Concept:</strong> Conclusive Proof and the "Prudent Man" Standard [Section 2(1)(b) & (j)]</li>
-                     <li><strong>Facts:</strong> A man denied paternity of a child born during a valid marriage to avoid paying maintenance. He demanded a blood test to prove he was not the biological father, attempting to rebut the legal presumption of legitimacy.</li>
-                     <li><strong>Issue:</strong> Can a scientific fact (blood/DNA) be used to disprove something the law labels as "Conclusive Proof"?</li>
-                     <li><strong>Judgement:</strong> The Court held that blood tests cannot be ordered as a matter of routine. It applied the "Prudent Man" standard: a fact is "proved" only if its existence is so probable that a prudent man would act on it. The law prioritizes the social fact of marriage over the biological fact of DNA unless "non-access" is proved.</li>
-                     <li><strong>Significance for Part 1:</strong> This case explains how the Court handles Section 2(1)(b) (Conclusive Proof). it illustrates that "Proof" in a court of law is a balance of legal policy and factual probability.</li>
-                   </ul>
-                </div>
-             </div>
-
-             <!-- Accordion 4 -->
-             <div class="accordion-item">
-                <div class="accordion-head"><h4>Conceptual Comparison Table</h4><span>+</span></div>
-                <div class="accordion-body">
-                   <table class="data-table" style="margin-top: 15px;">
-                     <tr><th>Term</th><th>Scope</th><th>Practical Example</th></tr>
-                     <tr><td><strong>Document</strong></td><td>Physical & Digital</td><td>A WhatsApp chat exported as a PDF.</td></tr>
-                     <tr><td><strong>Oral Evidence</strong></td><td>Direct & Electronic</td><td>A witness testifying via Video Link from London.</td></tr>
-                     <tr><td><strong>Fact</strong></td><td>Senses & Mental</td><td>Seeing a weapon (Sense) or Intending to steal (Mental).</td></tr>
-                     <tr><td><strong>Shall Presume</strong></td><td>Mandatory until disproved</td><td>Presumption of legitimacy of a child born during marriage.</td></tr>
-                   </table>
-                </div>
-             </div>
-
-          </div>
-        </div>
-      </section>
-
-      <!-- ================= DIGITAL FOUNDATION ================= -->
-      <section id="digital-foundation" class="content-section">
-        <header class="section-header">
-          <h1>Part II: The Digital Foundation of BSA</h1>
-          <p class="subtitle">A paradigm shift from the "Paper-First" regime of 1872 to the revolutionized "Data-First" philosophy, ensuring technology is the evidence itself.</p>
-        </header>
-
-        <div class="hero-image-container">
-          <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=2600" alt="Cyber Matrix and Digital Circuit" class="hero-banner" />
-        </div>
-
-        <div class="text-block card">
-          <h3 style="border-bottom-color: var(--primary-color);">1. Section 2(1)(d): Redefining the "What" (Document)</h3>
-          <h4 style="margin-bottom: 15px; color: var(--text-color);">Conceptual Understanding</h4>
-          <p>In the previous regime, a "document" was largely perceived as something tangible—ink on paper or carvings on stone. The BSA expands this paradigm to encompass <em>"any matter recorded on any substance,"</em> specifically bringing highly volatile electronic and digital records into the fold. The law now officially recognizes that a "substance" can be a silicon chip, a magnetic hard disk, or a decentralized cloud server.</p>
-          
-          <h4 style="margin-top: 30px; color: var(--gradient-2); margin-bottom: 20px;">Practical Inputs for the Digital Era</h4>
-          <div class="grid-2">
-             <div class="info-box">
-                <h4 style="color: var(--primary-color);">The Power of Metadata</h4>
-                <p>Under the new conceptual illustrations (such as server logs and locational evidence), a lawyer is no longer merely cross-examining the "content" of a message. You are analyzing the active metadata—the digital footprint that unequivocally shows <em>when</em> a file was sent, <em>from where</em> (via GPS coordinates), and <em>through which</em> relay server.</p>
-             </div>
-             <div class="info-box">
-                <h4 style="color: var(--primary-color);">The "Device" as a Document</h4>
-                <p>Because outputs like smartphone messages and emails are explicitly statutorily listed, the hardware—the entire device itself—acting as the repository can be treated conceptually as a composite primary document.</p>
-             </div>
-             <div class="info-box" style="grid-column: span 2; border-top: 3px solid var(--success);">
-                <h4 style="color: var(--success);">Website Relevancy</h4>
-                <p>Including "websites" as foundational documents transforms digital litigation. A live URL or a cached, archived version of a web page is now a primary point of evidence, forming the cornerstone in modern trials concerning online defamation, e-commerce frauds, or trademark infringement.</p>
-             </div>
-          </div>
-        </div>
-
-        <div class="text-block card">
-          <h3 style="border-bottom-color: var(--primary-color);">2. Section 2(1)(e): Redefining the "How" (Evidence)</h3>
-          <h4 style="margin-bottom: 15px; color: var(--text-color);">Conceptual Understanding</h4>
-          <p>This section bifurcates exactly how digital data physically and legally enters the court record. It solves the lengthy, archaic debate of whether a digital video call operates conceptually as "oral" or "documentary" evidence by splitting the definitions logically and practically.</p>
-          
-          <h4 style="margin-top: 30px; color: var(--gradient-2); margin-bottom: 20px;">Practical Inputs for the Digital Era</h4>
-          <div class="grid-2">
-             <div class="info-box" style="border-left: 4px solid var(--gradient-2);">
-                <h4>Oral Evidence (The Electronic Statement)</h4>
-                <p>By including "statements given electronically," the BSA grants Video Conferencing a titanium-clad statutory backbone.</p>
-                <div style="margin-top: 15px; padding: 15px; background: rgba(88, 166, 255, 0.1); border-radius: 8px;">
-                   <strong style="color: var(--primary-color);">Practical Tip:</strong> This allows critical witnesses (like busy forensic doctors, experts, or vulnerable overseas witnesses) to testify transparently from remote locations without the defense arguing that "presence" mandates strict physical proximity. It effectively turns a secure Zoom link into a "virtual legal dock."
-                </div>
-             </div>
-             <div class="info-box" style="border-left: 4px solid var(--gradient-1);">
-                <h4>Documentary Evidence (The Digital Inspection)</h4>
-                <p>Electronic records are no longer treated as mere "attachments" to a physical witness statement. They are documents produced independently for "inspection."</p>
-                <div style="margin-top: 15px; padding: 15px; background: rgba(31, 111, 235, 0.1); border-radius: 8px;">
-                   <strong style="color: var(--primary-color);">Practical Tip:</strong> This massive simplification speeds up the presentation phase of CCTV footage or bulky Cloud-stored financial data. If the Court can securely "inspect" it via a calibrated screen, it fulfills the absolute requirement of documentary evidence.
-                </div>
-             </div>
-          </div>
-        </div>
-
-        <div class="text-block card">
-          <h3 style="border-bottom-color: var(--primary-color);">3. Key Landmark Concepts (Caselaw Logic Codified)</h3>
-          <p>The foundational framework of the BSA didn't spawn from a vacuum; it aggressively codifies the digital evolution born from these critical Supreme Court rulings:</p>
-
-          <div class="accordion" style="margin-top: 25px;">
-             <div class="accordion-item">
-                <div class="accordion-head"><h4>Arjun Panditrao Khotkar v. Kailash Kushanrao Gorantyal (2020)</h4><span>+</span></div>
-                <div class="accordion-body">
-                   <p><strong>The Logic:</strong> It conclusively established the legal binary that if you bring the actual, physical original device (the "substance" enumerated in Section 2) directly into the courtroom, it functions as Primary Evidence.</p>
-                   <p style="margin-top: 15px;"><strong>BSA Application:</strong> This supreme distinction maps perfectly to Section 57, where the updated definitions embedded in Section 2 allow the original un-seized smartphone or laptop to be physically produced as the "Document" itself, negating complex secondary paperwork.</p>
-                </div>
-             </div>
-             <div class="accordion-item">
-                <div class="accordion-head"><h4>Anvar P.V. v. P.K. Basheer (2014)</h4><span>+</span></div>
-                <div class="accordion-body">
-                   <p><strong>The Logic:</strong> It firmly held that digital evidence is highly volatile and unique, requiring a highly specific "gateway" (the statutory certificate) to ensure it hasn't been maliciously altered or tampered with.</p>
-                   <p style="margin-top: 15px;"><strong>BSA Application:</strong> Empowering the definitions in Section 2(1)(d), it ensures that an extracted digital file—even a short Voice Mail or a forwarded WhatsApp message—must pass unequivocally through the technical authentication gate of Section 63.</p>
-                </div>
-             </div>
-          </div>
-        </div>
-
-        <div class="text-block card">
-          <h3 style="border-bottom-color: var(--primary-color);">4. Practical Action-Logic for Modern Law Students</h3>
-          <p>Navigating the BSA requires leaving behind 19th-century mentalities and adopting a rigorous, algorithmically-aware approach to litigation.</p>
-          
-          <div class="grid-2 mt-4">
-             <div class="info-box" style="border-top: 3px solid var(--primary-color);">
-                <h4>The "Hash Value" Mindset</h4>
-                <p>Since "Document" now statutorily includes abstract server configurations and backend logs, trial lawyers must internalize Hash Values. A digital document is only considered "real" if its mathematical fingerprint (e.g., SHA-256) remains flawlessly unchanged from the precise millisecond of digital seizure to the day of the trial.</p>
-             </div>
-             <div class="info-box" style="border-top: 3px solid var(--error);">
-                <h4>Locational Evidence (The Alibi Killer)</h4>
-                <p>Because GPS data is now explicitly listed as a document under Section 2(1)(d)(vi), the strategic "Plea of Alibi" has fundamentally transformed. You no longer merely need a human witness to swear the accused was elsewhere; an opposing council can produce the defendant’s Google Maps "Timeline" array as a harsh, irrefutable documentary fact.</p>
-             </div>
-             <div class="info-box" style="border-top: 3px solid var(--success); grid-column: span 2;">
-                <h4>Mastering Virtual Cross-Examination</h4>
-                <p>Future litigators must practically prepare for a reality where intense, grueling cross-examination happens strictly via a digital screen. Understanding the "Electronic Oral Evidence" clause signifies knowing that the nuanced laws regarding the "demeanor of the witness" now vigorously apply to how a person reacts, hesitates, or breaks eye contact on a high-definition video call.</p>
-             </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- ================= PART 3: ON PROOF ================= -->
-      <section id="part2" class="content-section">
-        <header class="section-header">
-          <h1>Part III: On Proof & Digital Law</h1>
-          <p class="subtitle">Complete overhaul of the mechanisms for establishing facts, focusing purely on technological parity and the erasure of paper supremacy.</p>
-        </header>
-
-        <div class="hero-image-container">
-          <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&q=80&w=2600" alt="Digital Code and Tech Interface" class="hero-banner" />
-        </div>
-
-        <div class="text-block card">
-          <h3 style="border-bottom-color: var(--primary-color);">1. The 8 Dimensions of Cyber Relevancy</h3>
-          <p>To master Part III of the BSA in the cyber context, one must understand that the law has moved from "tangible evidence" to "data-driven probability." This part of the Act determines Relevancy, essentially deciding which digital footprints are allowed to legitimately enter the court’s record.</p>
-
-          <div class="accordion mt-4">
-             <!-- Dimension 1 -->
-             <div class="accordion-item">
-                <div class="accordion-head"><h4>1. Digital Res Gestae: The Spontaneous Log (Section 4)</h4><span>+</span></div>
-                <div class="accordion-body">
-                   <h5 style="color: var(--primary-color); margin-top: 10px;">1. The Concept & Digital Shift</h5>
-                   <p><strong>Traditional Concept:</strong> Res Gestae relied on the human "startled utterance"—the idea that a person screaming during a crime has no time to fabricate a lie.</p>
-                   <p><strong>The Digital Shift:</strong> Spontaneity is no longer human; it is algorithmic. A server log, a GPS ping, or an automated "Door Unlocked" notification occurs at the exact microsecond of the event. Because these records are generated by pre-programmed system triggers without human intervention, they constitute an undeniable chronological "skeleton" of the crime.</p>
-                   
-                   <h5 style="color: var(--gradient-2); margin-top: 25px;">2. Landmark Caselaw</h5>
-                   <div style="background: rgba(137, 87, 229,0.1); padding: 15px; border-left: 3px solid var(--gradient-2); margin-top: 10px;">
-                      <strong>Ratten v. Regina (1971)</strong><br>
-                      <em>Facts:</em> A man claimed his gun went off accidentally. Evidence was introduced of a terrorized phone call made by the wife to an operator just before the line went dead.<br>
-                      <em>Ruling:</em> Admitted as Res Gestae. The call was so spontaneously linked to the shooting that it formed part of the "same transaction."<br>
-                      <em>BSA Relevance:</em> This remains the gold standard for admitting spontaneous digital cries (like a live-streamed scream or panic-sent text).
-                   </div>
-
-                   <h5 style="color: var(--success); margin-top: 25px;">3. Practical Understanding for Litigators</h5>
-                   <p><strong>Mastering the "Zero-Gap" Rule:</strong> To admit a digital log, prove there was no human intervention.</p>
-                   <p><strong>Strategic Tip:</strong> Don't just rely on a screenshot of Google Maps. Request the raw KML or JSON data packets from Google Takeout. These raw files contain the "spontaneous" timestamps that are much harder for the opposition to challenge as fabricated.</p>
-                </div>
-             </div>
-
-             <!-- Dimension 2 -->
-             <div class="accordion-item">
-                <div class="accordion-head"><h4>2. Digital Conduct: The Breadcrumbs of Intent (Section 6)</h4><span>+</span></div>
-                <div class="accordion-body">
-                   <h5 style="color: var(--primary-color); margin-top: 10px;">1. The Concept & Digital Shift</h5>
-                   <p>Conduct is the physical manifestation of a "guilty mind."</p>
-                   <p><strong>Preparation:</strong> Searching for "how to hide an IP address" or "lethal toxin concentrations" on Google is the digital equivalent of casing a building. It shows a mind that has moved past thought into action.</p>
-                   <p><strong>Subsequent Conduct:</strong> Deleting logs or executing a "Factory Reset" is no longer just a privacy setting; it is a digital "flight from the scene."</p>
-
-                   <h5 style="color: var(--success); margin-top: 25px;">2. Practical Understanding for Litigators</h5>
-                   <p><strong>Weaponizing the "Wipe" Presumption:</strong> Argue a "Factory Reset" or the use of a "File Shredder" app immediately following a legal notice as Subsequent Conduct to establish overwhelming guilt.</p>
-                   <p><strong>Strategic Tip:</strong> Always analyze the System Logs for "Uptime" or "Last Reset." If a device was reset 10 minutes after a crime, that timing itself becomes a relevant "Fact of Conduct" under Section 6, even if all internal data is completely eradicated.</p>
-                </div>
-             </div>
-
-             <!-- Dimension 3 -->
-             <div class="accordion-item">
-                <div class="accordion-head"><h4>3. Digital Occasion and Opportunity (Section 5)</h4><span>+</span></div>
-                <div class="accordion-body">
-                   <h5 style="color: var(--primary-color); margin-top: 10px;">1. The Concept & Digital Shift</h5>
-                   <p>This section focuses on the "Environment" of the crime. Traditionally it asks: Was the door left open? Who had the key?</p>
-                   <p><strong>The Digital Shift:</strong> The "door" is now an Open Port or an encrypted VPN tunnel. The "key" is a User ID equipped with Root/Admin privileges. Proving an active Biometric Session during a fraudulent transfer creates an "exclusive opportunity," conceptually placing the accused's "digital hand" on the keyboard.</p>
-
-                   <h5 style="color: var(--gradient-2); margin-top: 25px;">2. Landmark Caselaw</h5>
-                   <div style="background: rgba(137, 87, 229,0.1); padding: 15px; border-left: 3px solid var(--gradient-2); margin-top: 10px;">
-                      <strong>R.M. Malkani v. State of Maharashtra (1973)</strong><br>
-                      <em>Facts:</em> A bribery demand was secretly tape-recorded via a telephone "tap" without the accused's knowledge.<br>
-                      <em>Ruling:</em> The Supreme Court held the recording admissible under 3 criteria: Relevance, Voice Identification, and Proof of Accuracy. Crucially, even illegally obtained evidence is admissible if strictly relevant.<br>
-                      <em>BSA Relevance:</em> The "grandfather" case for the digital era, justifying the admissibility of covert server logs and hidden camera footage under Section 5.
-                   </div>
-
-                   <h5 style="color: var(--success); margin-top: 25px;">3. Practical Understanding for Litigators</h5>
-                   <p><strong>Proving Exclusive Opportunity via the MFA Defense:</strong> In cyber-crimes, defendants regularly argue their account was hacked.</p>
-                   <p><strong>Strategic Tip:</strong> Demand Multi-Factor Authentication (MFA) logs. If a Push Notification was accepted on the physical hardware of the accused's phone exactly at the time of the hack, it destroys the defense and proves "Unique Opportunity" under Section 5.</p>
-                </div>
-             </div>
-
-             <!-- Dimension 4 -->
-             <div class="accordion-item">
-                <div class="accordion-head"><h4>4. Digital Conspiracy: Group Chat Evidence (Section 8)</h4><span>+</span></div>
-                <div class="accordion-body">
-                   <h5 style="color: var(--primary-color); margin-top: 10px;">1. The Concept & Digital Shift</h5>
-                   <p><strong>Traditional Concept:</strong> Conspiracy is a dark agreement. Once the agreement exists, every member absorbs liability for the acts of the others.</p>
-                   <p><strong>The Digital Shift:</strong> The "Common Intention" is now systematically mapped through WhatsApp, Telegram, or Discord server networks. The name of the group, its member roster, and shared encrypted files automatically constitute the "Common Design."</p>
-
-                   <h5 style="color: var(--gradient-2); margin-top: 25px;">2. Landmark Caselaw</h5>
-                   <div style="background: rgba(137, 87, 229,0.1); padding: 15px; border-left: 3px solid var(--gradient-2); margin-top: 10px;">
-                      <strong>Badri Rai v. State of Bihar (1958)</strong><br>
-                      <em>Facts:</em> Badri and Ramji conspired to bribe an Inspector. Badri approached the Inspector with cash and explicitly stated he was sent by Ramji.<br>
-                      <em>Ruling:</em> The Court held that since "reasonable grounds" existed to believe a conspiracy was active, the statement of one conspirator is universally admissible against all.<br>
-                      <em>BSA Relevance:</em> This operates as the legal bedrock for prosecuting modern Cyber-Conspiracies, where a single Telegram text by one hacker legally implicates the entire server group.
-                   </div>
-
-                   <h5 style="color: var(--success); margin-top: 25px;">3. Practical Understanding for Litigators</h5>
-                   <p><strong>Decoding the "Admin" Liability:</strong> Operating as a "Group Admin" holds intense legal relevancy for proving Common Intention.</p>
-                   <p><strong>Strategic Tip:</strong> Always scrutinize the "Member Added/Removed" logs. If the accused Admin added a specialist malware-developer to the chat just before a breach, that specific administrative "Action" is a crushing relevant fact of conspiracy under Section 8.</p>
-                </div>
-             </div>
-
-             <!-- Dimension 5 -->
-             <div class="accordion-item">
-                <div class="accordion-head"><h4>5. The Digital Alibi: Impossible Presence (Section 9)</h4><span>+</span></div>
-                <div class="accordion-body">
-                   <h5 style="color: var(--primary-color); margin-top: 10px;">1. The Concept & Digital Shift</h5>
-                   <p><strong>Traditional Concept:</strong> Facts that make the main event highly improbable (The Plea of Alibi).</p>
-                   <p><strong>The Digital Shift:</strong> This is arguably the most powerful shield for the defense. Human witnesses are notoriously unreliable, but a structured Google Timeline or a Netflix viewing log linked exclusively to a trusted home IP address constructs an impenetrable "digital wall."</p>
-
-                   <h5 style="color: var(--gradient-2); margin-top: 25px;">2. Landmark Caselaw</h5>
-                   <div style="background: rgba(137, 87, 229,0.1); padding: 15px; border-left: 3px solid var(--gradient-2); margin-top: 10px;">
-                      <strong>Dudh Nath Pandey v. State of U.P. (1981)</strong><br>
-                      <em>Facts:</em> The accused claimed he was at his factory during the murder via "punch-in" records. However, the factory was just a few minutes away from the scene.<br>
-                      <em>Ruling:</em> An Alibi is strictly successful only if it renders the presence of the accused at the crime scene mathematically and physically impossible.<br>
-                      <em>BSA Relevance:</em> In the digital era, proving you were logged into a streaming service at home is worthless if cell-tower triangulation places your smartphone within a mile of the crime scene.
-                   </div>
-
-                   <h5 style="color: var(--success); margin-top: 25px;">3. Practical Understanding for Litigators</h5>
-                   <p><strong>The Heartbeat Evidence Strategy:</strong> Traditional human-based alibis are easily shaken in cross-examination. Health telemetry is not.</p>
-                   <p><strong>Strategic Tip:</strong> Subpoena health data from wearables (Apple Watch, Oura, Fitbit). If the prosecution claims the accused was violently fleeing a crime scene, but the defendant's smartwatch logs a steady "Resting Heart Rate" strictly aligned with deep sleep, the prosecution’s theory is rendered "logically impossible" under Section 9.</p>
-                </div>
-             </div>
-
-             <!-- Dimension 6 -->
-             <div class="accordion-item">
-                <div class="accordion-head"><h4>6. Cyber Dying Declarations: The Final Message (Section 26)</h4><span>+</span></div>
-                <div class="accordion-body">
-                   <h5 style="color: var(--primary-color); margin-top: 10px;">1. The Concept & Digital Shift</h5>
-                   <p><strong>Traditional Concept:</strong> Statements made by a person directly referencing the circumstances of their impending death.</p>
-                   <p><strong>The Digital Shift:</strong> The BSA officially modernizes this doctrine by stating it explicitly includes "statements given electronically." A dying declaration has evolved from a whispered word to a high-definition recorded file or SOS SMS message.</p>
-
-                   <h5 style="color: var(--success); margin-top: 25px;">2. Practical Understanding for Litigators</h5>
-                   <p><strong>Authenticating the Final Message:</strong> The modern challenge is completely pivoted to absolute Integrity.</p>
-                   <p><strong>Strategic Tip:</strong> Because video/audio can now be synthesized via Deepfake AI, securing the Original Device is paramount. Utilize the Section 63 Certificate to bind the file’s Hash Value (MD5/SHA256). If the hash value produced in court flawlessly matches the hash value retrieved exactly at the time of the victim's death, any Deepfake defense is instantly neutralized.</p>
-                </div>
-             </div>
-
-             <!-- Dimension 7 -->
-             <div class="accordion-item">
-                <div class="accordion-head"><h4>7. Systemic Fraud: The Pattern of "Accidents" (Section 13)</h4><span>+</span></div>
-                <div class="accordion-body">
-                   <h5 style="color: var(--primary-color); margin-top: 10px;">1. The Concept & Digital Shift</h5>
-                   <p><strong>Traditional Concept:</strong> The judicial mechanism used to definitively distinguish between an isolated "mistake" and an intentional "system."</p>
-                   <p><strong>The Digital Shift:</strong> In complex Phishing attacks or Cyber-scams, the primary defense vector is almost always that the malicious link was forwarded "by an innocent accident" without knowing its payload.</p>
-
-                   <h5 style="color: var(--success); margin-top: 25px;">2. Practical Understanding for Litigators</h5>
-                   <p><strong>Spotting the "System" via the IP-Cluster Strategy:</strong></p>
-                   <p><strong>Strategic Tip:</strong> File a robust "Discovery of Facts" motion targeting similar transactions originating from the accused's IP or MAC Address. Mathematically demonstrating a cluster of 50 similar "accidental" transfers proves an irrefutable <em>Modus Operandi</em> under Section 13, entirely dismantling the "accident" defense.</p>
-                </div>
-             </div>
-
-             <!-- Dimension 8 -->
-             <div class="accordion-item">
-                <div class="accordion-head"><h4>8. State of Mind: The History of "Likes" (Section 12)</h4><span>+</span></div>
-                <div class="accordion-body">
-                   <h5 style="color: var(--primary-color); margin-top: 10px;">1. The Concept & Digital Shift</h5>
-                   <p><strong>Traditional Concept:</strong> Establishing the relevancy of internal intent, calculated ill-will, or genuine good faith.</p>
-                   <p><strong>The Digital Shift:</strong> Intent is rarely explicitly confessed; in the cyber era, it is meticulously inferred from massive datasets of chronic behavior.</p>
-
-                   <h5 style="color: var(--success); margin-top: 25px;">2. Practical Understanding for Litigators</h5>
-                   <p><strong>Weaponizing Digital History:</strong> In severe defamation, terrorism, or "Hate Speech" legislation, an isolated retweet might be dismissed as an anomaly.</p>
-                   <p><strong>Strategic Tip:</strong> A history encompassing hundreds of "Likes," "Shares," or forum up-votes on similarly hostile material objectively proves a persistent, aggravated "State of Mind" under Section 12, transforming a claimed "slip of the thumb" into legally verified, premeditated malice.</p>
-                </div>
-             </div>
-
-          </div>
-        </div>
-
-        <div class="text-block card mt-4">
-           <h3 style="border-bottom-color: var(--error);">2. State Privilege vs. Digital Transparency</h3>
-           <div style="background: rgba(218,54,51,0.1); padding: 25px; border-radius: 8px; border-left: 4px solid var(--error);">
-              <h4 style="color: var(--error); margin-bottom: 10px;">State of U.P. v. Raj Narain (1975)</h4>
-              <p><strong>Concept:</strong> Relevancy of Documents vs. State Privilege (BSA Section 2(1)(d) & Section 158)</p>
-              <p style="margin-top: 10px;"><strong>Facts:</strong> Raj Narain sought the production of the "Blue Book" (protective security instructions for the PM). The State claimed absolute "privilege" to keep it secret.</p>
-              <p style="margin-top: 10px;"><strong>Ruling:</strong> The Court emphatically destroyed blanket secrecy, ruling that the judiciary retains the power to inspect a "Document" in-camera to decide its strict relevancy. Public interest in the transparent "administration of justice" actively outweighs "secrecy."</p>
-              <p style="margin-top: 10px;"><strong>BSA Relevance:</strong> This sets the supreme limit on the government's ability to conceal highly relevant digital or physical documents behind the shield of state privilege.</p>
-           </div>
-        </div>
-
-        <div class="text-block card mt-4">
-           <h3 style="border-bottom-color: var(--gradient-1);">3. Ultimate Student Checklist: Digital Evidence Collection</h3>
-           <p>A battle-ready reference for navigating the technical aspects of evidence collection under the BSA's modernized cyber mandates.</p>
-           
-           <div class="table-wrapper mt-4">
-             <table class="data-table">
-               <tr>
-                 <th>Evidence Type</th>
-                 <th>Relevant Section</th>
-                 <th>What exactly to ask for? (The Technical Proof)</th>
-               </tr>
-               <tr>
-                 <td><strong>WhatsApp / Encrypted Chat</strong></td>
-                 <td>Sec. 4 & 8 (Res Gestae & Conspiracy)</td>
-                 <td>Exported raw <code>.txt</code> or JSON file + Master Encryption Key + Verified Server Timestamps (not just screenshots).</td>
-               </tr>
-               <tr>
-                 <td><strong>Google Timeline / GPS</strong></td>
-                 <td>Sec. 9 (Plea of Alibi)</td>
-                 <td>Raw KML or JSON location data via Google Takeout + Device MAC Address binding.</td>
-               </tr>
-               <tr>
-                 <td><strong>Search History / Intent</strong></td>
-                 <td>Sec. 6 & 12 (Preparation & State of Mind)</td>
-                 <td>Browser Cache, Session Cookies, and cross-device Synced History (e.g. Google Activity Logs).</td>
-               </tr>
-               <tr>
-                 <td><strong>System Breach / Hack</strong></td>
-                 <td>Sec. 5 (Opportunity)</td>
-                 <td>Server Audit Logs, Multi-Factor Authentication (MFA) Push timestamps, and precise IP Geolocation logs.</td>
-               </tr>
-               <tr>
-                 <td><strong>CCTV / Video Evidence</strong></td>
-                 <td>Sec. 61 & 63 (Primary / Secondary)</td>
-                 <td>The original DVR/NVR hard drive (Sec 61 Primary) OR the extracted MP4 with mathematically verified SHA-256 Hash Value & Sec 63 Certificate.</td>
-               </tr>
-               <tr>
-                 <td><strong>Email Phishing / Cyber Fraud</strong></td>
-                 <td>Sec. 13 & 14 (Systemic Fraud vs Accident)</td>
-                 <td>Full Email Header Metadata (showing originating IP, Return-Path, and internal routing servers) to establish the Modus Operandi.</td>
-               </tr>
-               <tr>
-                 <td><strong>Electronic Oral Statements</strong></td>
-                 <td>Sec. 2(1)(e) & 26 (Oral Evid.)</td>
-                 <td>Audio/Video file naturally accompanied by Voice Print Identification analysis and precisely verified Call Data Records (CDR) matching the telecom node timeline.</td>
-               </tr>
-             </table>
-           </div>
-        </div>
-      </section>
-
-      <!-- ================= PART 4: BEST EVIDENCE RULE ================= -->
-      <section id="part3" class="content-section">
-        <header class="section-header">
-          <h1>Part IV: The Best Evidence Rule & Digital Admissibility</h1>
-          <p class="subtitle">Moving beyond the 19th-century "Carbon Copy" mindset to master the technical admissibility of Primary and Secondary Digital Evidence under the BSA.</p>
-        </header>
-
-        <div class="hero-image-container">
-          <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=2600" alt="Cyber Security Data Vault" class="hero-banner" />
-        </div>
-
-        <div class="text-block card">
-           <h3 style="border-bottom-color: var(--primary-color);">1. The Digital Segregation: Primary vs Secondary Evidence</h3>
-           <p>The digital realm is fluid; therefore, the law now fundamentally distinguishes evidence based on its strict computing origin (Primary) versus its representation (Secondary).</p>
-
-           <!-- PART 1: PRIMARY -->
-           <h4 style="margin-top: 25px; color: var(--gradient-1); margin-bottom: 10px;">Part 1: Primary Digital Evidence (The Source)</h4>
-           <div class="info-box" style="border-left: 4px solid var(--gradient-1);">
-              <p><strong>Conceptual Definition:</strong> Primary evidence is the "original" bitstream. Section 57 of the BSA formally recognizes that in modern computing, an identical "original" can exist in multiple scattered locations if it is part of a synchronized or automated process.</p>
-           </div>
-           
-           <div class="grid-2 mt-4">
-              <div class="accordion">
-                 <h5 style="color: var(--text-color); margin-bottom: 15px;">1. What Constitutes Primary?</h5>
-                 <div class="accordion-item">
-                    <div class="accordion-head"><h4>Original Storage Media</h4><span>+</span></div>
-                    <div class="accordion-body">
-                       <p>The physical silicon or magnetic disk (Smartphone, HDD, SSD, SD Card) where the data was exclusively first written.</p>
-                    </div>
-                 </div>
-                 <div class="accordion-item">
-                    <div class="accordion-head"><h4>Synchronized Cloud Records (Sec. 57, Expl. 4)</h4><span>+</span></div>
-                    <div class="accordion-body">
-                       <p>If a file is stored simultaneously in multiple storage spaces (e.g., a WhatsApp database synced between your phone and a Google Drive backup), <strong>each</strong> manifestation is legally primary evidence.</p>
-                    </div>
-                 </div>
-                 <div class="accordion-item">
-                    <div class="accordion-head"><h4>Live Broadcasts & Real-Time Storage (Sec. 57, Expl. 5)</h4><span>+</span></div>
-                    <div class="accordion-body">
-                       <p>For content synchronously stored and transmitted (e.g., Facebook Live, a Zoom recording, or an IP CCTV feed uploading to a remote server), the stored file is primary evidence.</p>
-                    </div>
-                 </div>
-                 <div class="accordion-item">
-                    <div class="accordion-head"><h4>Automated System Outputs (Sec. 57, Expl. 4)</h4><span>+</span></div>
-                    <div class="accordion-body">
-                       <p>Records generated by a "common process" (e.g., 500 identical automated "Invoice Generated" emails dispatched by a central server) are primary evidence of the contents of all of them.</p>
-                    </div>
-                 </div>
-                 <div class="accordion-item">
-                    <div class="accordion-head"><h4>Proper Custody Records (Sec. 57, Expl. 6)</h4><span>+</span></div>
-                    <div class="accordion-body">
-                       <p>Digital records produced from a place where they would "naturally be" (e.g., an official bank’s internal enterprise ledger or a government portal’s logs) are presumed primary.</p>
-                    </div>
-                 </div>
-              </div>
-
-              <div>
-                 <h5 style="color: var(--text-color); margin-bottom: 15px;">2. Primary Admissibility Requirements</h5>
-                 <div class="card" style="border-top: 3px solid var(--error); padding: 20px; box-shadow: none; background: rgba(26,30,35,0.5);">
-                    <h4 style="color: var(--error);">The "Output" Certificate (Section 63)</h4>
-                    <p><strong>CRITICAL:</strong> Even if the evidence is "Primary," the simple act of securely showing it to a judge (on an LCD screen or a printout) transforms it structurally into a "Computer Output." Therefore, a Section 63 Certificate is <strong>mandatory.</strong></p>
-                    
-                    <h4 style="color: var(--primary-color); margin-top: 20px;">Dual-Signature Verification</h4>
-                    <p>The certificate must be fiercely signed by the User/Manager <strong>AND</strong> a notified Technical Expert (as per the Schedule).</p>
-
-                    <h4 style="color: var(--success); margin-top: 20px;">Integrity Proof</h4>
-                    <p>You must prove mathematically that the "Source" hasn't been tampered with since the incident (verified rigorously via system logs or hardware write-blockers during police seizure).</p>
-                 </div>
-              </div>
-           </div>
-
-           <!-- PART 2: SECONDARY -->
-           <h4 style="margin-top: 45px; color: var(--gradient-2); margin-bottom: 10px;">Part 2: Secondary Digital Evidence (The Derivative)</h4>
-           <div class="info-box" style="border-left: 4px solid var(--gradient-2);">
-              <p><strong>Conceptual Definition:</strong> Secondary evidence is functionally a "copy of a copy." Under Section 58, it is fiercely admitted <strong>only</strong> when the primary source is definitively destroyed, logistically inaccessible, or intentionally withheld by the opposing party.</p>
-           </div>
-           
-           <div class="grid-2 mt-4">
-              <div class="accordion">
-                 <h5 style="color: var(--text-color); margin-bottom: 15px;">1. What Constitutes Secondary?</h5>
-                 <div class="accordion-item">
-                    <div class="accordion-head"><h4>Optical/Magnetic Copies</h4><span>+</span></div>
-                    <div class="accordion-body">
-                       <p>Data brutally copied from a computer onto a Pen Drive, CD, or DVD specifically for submission to the court.</p>
-                    </div>
-                 </div>
-                 <div class="accordion-item">
-                    <div class="accordion-head"><h4>Visual Captures (Screenshots/Photos)</h4><span>+</span></div>
-                    <div class="accordion-body">
-                       <p>A photograph of a monitor showing a WhatsApp chat, or a localized screenshot taken of a live website. These are visual "copies" derived from the original digital display.</p>
-                    </div>
-                 </div>
-                 <div class="accordion-item">
-                    <div class="accordion-head"><h4>Exported Artifacts</h4><span>+</span></div>
-                    <div class="accordion-body">
-                       <p>A PDF export of a Gmail thread or a generated <code>.txt</code> file of a Discord chat history.</p>
-                    </div>
-                 </div>
-                 <div class="accordion-item">
-                    <div class="accordion-head"><h4>Oral Accounts (Sec. 58)</h4><span>+</span></div>
-                    <div class="accordion-body">
-                       <p>A human witness’s verbal testimony inside the courtroom about what they explicitly saw on a digital screen, strictly provided they have verified personal knowledge of the source contents.</p>
-                    </div>
-                 </div>
-              </div>
-
-              <div>
-                 <h5 style="color: var(--text-color); margin-bottom: 15px;">2. Secondary Admissibility Requirements</h5>
-                 <div class="card" style="border-top: 3px solid var(--warning); padding: 20px; box-shadow: none; background: rgba(26,30,35,0.5);">
-                    <h4 style="color: var(--warning);">The "Gateway" Conditions (Section 60)</h4>
-                    <p>You must provide a strictly defined legal reason why the Primary Evidence is definitively missing (e.g., "The phone was vaporized in a fire" or "The server is hosted in a hostile country without a mutual legal assistance treaty").</p>
-                    
-                    <h4 style="color: var(--primary-color); margin-top: 20px;">The "Mirror" Certificate (Section 63)</h4>
-                    <p>Because a digital copy is fundamentally easy to maliciously edit, the certificate must prove unconditionally that the secondary copy is a flawless bit-for-bit mirror of the original.</p>
-
-                    <h4 style="color: var(--success); margin-top: 20px;">Mandatory Hash Value</h4>
-                    <p>The certificate must feature the Hash Value (e.g., SHA-256 or MD5) of the exact copy. This immutable "digital fingerprint" legally ensures the copy remains unchanged from the precise millisecond it was struck until the trial date.</p>
-                 </div>
-              </div>
-           </div>
-        </div>
-
-        <div class="text-block card mt-4">
-           <h3 style="border-bottom-color: var(--primary-color);">2. The Judicial Tug-of-War: Evolution of Evidence</h3>
-           <p>To master the strict admissibility of digital evidence under the BSA, one must fundamentally understand the decades of conflicting Supreme Court judgments. The BSA 2023 is effectively the final, absolute legislative answer to this chaos.</p>
-
-           <div class="grid-2 mt-4">
-              <div class="info-box" style="border-top: 3px solid #8e44ad;">
-                 <h4 style="color: #b794f4;">1. State (NCT of Delhi) v. Navjot Sandhu (2005) – The "Liberal" Phase</h4>
-                 <p><strong>The Context:</strong> Parliament Attack Case. Reliance on mobile phone CDRs without a technical certificate (then Sec 65B IEA).</p>
-                 <p><strong>The Ruling:</strong> Held that even without a certificate, electronic records could be proved using general secondary evidence rules. Oral testimony was allowed to authenticate printouts.</p>
-                 <p><strong>Impact:</strong> Created a highly "relaxed" era oblivious to digital tampering risks.</p>
-              </div>
-              <div class="info-box" style="border-top: 3px solid var(--error);">
-                 <h4 style="color: var(--error);">2. Anvar P.V. v. P.K. Basheer (2014) – The "Strict" Phase</h4>
-                 <p><strong>The Context:</strong> Defamatory speeches on CDs without certificates.</p>
-                 <p><strong>The Ruling:</strong> Overruled Navjot Sandhu. Applied <em>Generalia specialibus non derogant</em>. Ruled Section 65B is a "Complete Code" and the certificate is the mandatory gateway.</p>
-                 <p><strong>Impact:</strong> Made the technical certificate strictly mandatory for all digital copies. <strong>(This logic is fully codified into the BSA).</strong></p>
-              </div>
-              <div class="info-box" style="border-top: 3px solid #f39c12;">
-                 <h4 style="color: #f1c40f;">3. Shafhi Mohammad v. State of H.P. (2018) – The "Pragmatic" Phase</h4>
-                 <p><strong>The Context:</strong> A victim producing CCTV footage from a shop they didn't own.</p>
-                 <p><strong>The Ruling:</strong> Relaxed Anvar, stating the certificate is procedural and waived if the party doesn't own or control the device.</p>
-                 <p><strong>Impact:</strong> Introduced "Judicial Discretion" based on the sheer impossibility of technical performance.</p>
-              </div>
-              <div class="info-box" style="border-top: 3px solid var(--success);">
-                 <h4 style="color: var(--success);">4. Arjun Panditrao Khotkar (2020) – The "Final Settlement"</h4>
-                 <p><strong>The Ruling:</strong> Reaffirmed Anvar P.V. and completely overruled Shafhi. A certificate is a "condition precedent" to admissibility. Carved out the "Original Exception" (If you bring the original device, no cert needed) and the "Impossible Exception" (Court can compel an owner to produce the cert).</p>
-                 <p><strong>Impact:</strong> The direct operational blueprint for Section 63 of the BSA.</p>
-              </div>
-           </div>
-           
-           <div class="table-wrapper mt-4">
-             <table class="data-table">
-               <tr>
-                 <th>Case Law</th>
-                 <th>Key Stance</th>
-                 <th>Status under BSA 2023</th>
-               </tr>
-               <tr>
-                 <td><strong>Navjot Sandhu (2005)</strong></td>
-                 <td>Certificate is purely optional.</td>
-                 <td><span style="color: var(--error);">Overruled.</span> BSA makes it aggressively mandatory.</td>
-               </tr>
-               <tr>
-                 <td><strong>Anvar P.V. (2014)</strong></td>
-                 <td>Certificate is mandatory; "Complete Code."</td>
-                 <td><span style="color: var(--success);">Codified.</span> BSA follows this hyper-strict path.</td>
-               </tr>
-               <tr>
-                 <td><strong>Shafhi Mohammad (2018)</strong></td>
-                 <td>Configurable relaxation if device isn't in control.</td>
-                 <td><span style="color: #f1c40f;">Modified.</span> BSA requires an Expert to bridge this technical gap.</td>
-               </tr>
-               <tr>
-                 <td><strong>Arjun Khotkar (2020)</strong></td>
-                 <td>Aggressive mandatory certificate for all "outputs."</td>
-                 <td><span style="color: var(--success);">Foundation.</span> BSA’s strict Schedule is built entirely on this logic.</td>
-               </tr>
-             </table>
-           </div>
-        </div>
-
-        <div class="text-block card mt-4">
-           <h3 style="border-bottom-color: var(--success);">3. 8 High-Impact Practical Inputs for Navigating Digital Evidence</h3>
-           <p>Master these tactical advantages to legally outmaneuver the opposition in cyber litigation.</p>
-
-           <div class="accordion mt-4">
-              <div class="accordion-item">
-                 <div class="accordion-head"><h4>1. The "Cloud Sync" Priority (Primary &gt; Secondary)</h4><span>+</span></div>
-                 <div class="accordion-body">
-                    <p><strong>The Input:</strong> Use Section 57, Expl. 4. Since data stored simultaneously in multiple storage spaces is Primary, a pristine forensic download from a synced Google Drive is legally as impregnable as the physically destroyed phone itself.</p>
-                    <p style="margin-top: 10px; color: var(--success);"><strong>Strategic Advantage:</strong> Primary evidence carries a towering "Presumption of Truth" and is astronomically harder for the opposition to contest as "edited."</p>
-                 </div>
-              </div>
-              <div class="accordion-item">
-                 <div class="accordion-head"><h4>2. The "Dual-Signature" Audit (Section 63)</h4><span>+</span></div>
-                 <div class="accordion-body">
-                    <p><strong>The Input:</strong> Under the advanced BSA, a certificate is a severe procedural "gateway." It must be dual-signed: (1) The person in charge of the device AND (2) a technical expert (as per the Schedule).</p>
-                    <p style="margin-top: 10px; color: var(--success);"><strong>Strategic Advantage:</strong> If defending, relentlessly audit the opposition's certificate for the Expert's signature. If missing, the evidence is procedurally dead on arrival and can be abruptly struck out pre-trial.</p>
-                 </div>
-              </div>
-              <div class="accordion-item">
-                 <div class="accordion-head"><h4>3. Hash Values: The "Digital Seal"</h4><span>+</span></div>
-                 <div class="accordion-body">
-                    <p><strong>The Input:</strong> The BSA Schedule specifically flags the Hash Function (SHA-256). This is the unbreakable mathematical "digital fingerprint" of the file.</p>
-                    <p style="margin-top: 10px; color: var(--success);"><strong>Strategic Advantage:</strong> The microsecond you create a secondary optical copy, generate its Hash Value. Demonstrating to the judge that the hash in your certificate flawlessly matches the file dynamically executing in court mathematically proves zero tampering.</p>
-                 </div>
-              </div>
-              <div class="accordion-item">
-                 <div class="accordion-head"><h4>4. Challenging "Proper Custody" (Section 57, Expl. 6)</h4><span>+</span></div>
-                 <div class="accordion-body">
-                    <p><strong>The Input:</strong> The BSA benevolently assumes records from "natural" corporate places (a bank’s server) are genuine. Do not let this pass unchallenged. Aggressively request the internal System Audit Logs.</p>
-                    <p style="margin-top: 10px; color: var(--success);"><strong>Strategic Advantage:</strong> If server logs betray that an administrator accessed or altered the local record 48 hours before the court date, the "Presumption of Proper Custody" is instantly shattered.</p>
-                 </div>
-              </div>
-              <div class="accordion-item">
-                 <div class="accordion-head"><h4>5. The "Output" Certificate Reality</h4><span>+</span></div>
-                 <div class="accordion-body">
-                    <p><strong>The Input:</strong> Even bringing the pristine Original Device (Primary) to court does not shield you. The act of projecting that WhatsApp text onto an LED screen for the Judge mathematically constitutes a "Computer Output."</p>
-                    <p style="margin-top: 10px; color: var(--success);"><strong>Strategic Advantage:</strong> Preemptively file a Section 63 Certificate for the "display output" to instantly kill any stalling technical objections from opposing counsel.</p>
-                 </div>
-              </div>
-              <div class="accordion-item">
-                 <div class="accordion-head"><h4>6. "Common Process" for Mass Data</h4><span>+</span></div>
-                 <div class="accordion-body">
-                    <p><strong>The Input:</strong> In mass phishing or corporate fraud, you don't forensically dissect 1,000 separate emails. Argue the records were violently birthed by a Common Process (Sec 57, Expl 4).</p>
-                    <p style="margin-top: 10px; color: var(--success);"><strong>Strategic Advantage:</strong> Successfully verifying the core "Template" and the automated deployment "Log" makes a single instance Primary Evidence of all 1,000 emails, saving months of agonizing forensic delay.</p>
-                 </div>
-              </div>
-              <div class="accordion-item">
-                 <div class="accordion-head"><h4>7. The "Impossible Performance" Application</h4><span>+</span></div>
-                 <div class="accordion-body">
-                    <p><strong>The Input:</strong> If a hostile third-party refuses to furnish a certificate for critical CCTV footage, do not pathetically file it as "Secondary." File an aggressive motion under the BNSS to compel the court to force the owner to produce it.</p>
-                    <p style="margin-top: 10px; color: var(--success);"><strong>Strategic Advantage:</strong> This harnesses the raw Arjun Khotkar principle: weaponizing the court's authority to satisfy the "Mandatory Gateway" on your behalf.</p>
-                 </div>
-              </div>
-              <div class="accordion-item">
-                 <div class="accordion-head"><h4>8. Metadata as the "Silent Witness"</h4><span>+</span></div>
-                 <div class="accordion-body">
-                    <p><strong>The Input:</strong> The BSA's definition of "Document" devours Server Logs and Metadata. When producing an email, systematically include the raw Header Data (creation date, author ID, routing IPs).</p>
-                    <p style="margin-top: 10px; color: var(--success);"><strong>Strategic Advantage:</strong> Unseen Metadata provides the true "Context of Creation." It is the metadata—not the deceptive text—that legally proves a critical business document was fraudulently backdated.</p>
-                 </div>
-              </div>
-           </div>
-        </div>
-
-        <div class="text-block card mt-4">
-           <h3 style="border-bottom-color: var(--gradient-1);">4. The Comprehensive Evidence Checklists</h3>
-           <p>To effectively manage digital evidence under the BSA 2023, you must flawlessly satisfy Legal Relevancy (Part III) and Technical Admissibility (Part IV). Utilize these 5 checklists before walking into court.</p>
-
-           <div class="grid-2 mt-4">
-              <!-- Checklist 1 -->
-              <div class="info-box">
-                 <h4 style="color: var(--primary-color);">I. The "Primary Evidence" Verification</h4>
-                 <ul class="styled-list">
-                    <li><input type="checkbox" disabled checked> <strong>Identify the Source:</strong> Is it the original device or a synchronized cloud space? (Both are Primary under Sec. 57, Expl. 4).</li>
-                    <li><input type="checkbox" disabled checked> <strong>Proper Custody:</strong> Prove the device was kept exactly where it would "naturally" be.</li>
-                    <li><input type="checkbox" disabled checked> <strong>Check "Common Process":</strong> For automated system outputs, prove the routine operation.</li>
-                    <li><input type="checkbox" disabled checked> <strong>Secure the Hardware:</strong> Protect physical devices from remote-wiping (Faraday bag/Airplane Mode).</li>
-                 </ul>
-              </div>
-              
-              <!-- Checklist 2 -->
-              <div class="info-box">
-                 <h4 style="color: var(--warning);">II. Secondary Evidence Admissibility</h4>
-                 <ul class="styled-list">
-                    <li><input type="checkbox" disabled checked> <strong>Establish the Gateway (Sec 60):</strong> Have a rock-solid, legal reason why Primary is unavailable (destroyed/withheld).</li>
-                    <li><input type="checkbox" disabled checked> <strong>Mirror Integrity:</strong> Verify the optical copy is a bit-for-bit, mathematically identical mirror.</li>
-                    <li><input type="checkbox" disabled checked> <strong>Verify "Common Process":</strong> If a printout, strictly prove it was produced during ordinary operational activity.</li>
-                 </ul>
-              </div>
-
-              <!-- Checklist 3 -->
-              <div class="info-box" style="grid-column: span 2; border-top: 3px solid var(--error);">
-                 <h4 style="color: var(--error);">III. The Mandatory Section 63 Certificate (The Golden Rule)</h4>
-                 <p style="margin-bottom: 10px; font-size: 0.9em; opacity: 0.8;">Without this, the evidence is legally dead regardless of its content.</p>
-                 <ul class="styled-list">
-                    <li><input type="checkbox" disabled checked> <strong>Dual Signatures:</strong> (1) Person in Charge AND (2) Notified Technical Expert.</li>
-                    <li><input type="checkbox" disabled checked> <strong>Hash Value:</strong> Specifies exactly the Hash Function used (SHA-256) and the massive resulting alphanumeric Hash Value string.</li>
-                    <li><input type="checkbox" disabled checked> <strong>Device Profile:</strong> Clearly identifies the make, model, MAC, and serial number of the computer.</li>
-                    <li><input type="checkbox" disabled checked> <strong>Operating Status:</strong> Swears unconditionally that the system was running flawlessly during record creation.</li>
-                    <li><input type="checkbox" disabled checked> <strong>Strict Schedule Compliance:</strong> Adheres perfectly to the layout of Part A and Part B of the BSA Schedule.</li>
-                 </ul>
-              </div>
-
-              <!-- Checklist 4 -->
-              <div class="info-box">
-                 <h4 style="color: var(--success);">IV. "Real-Time Footprint" (Relevancy)</h4>
-                 <ul class="styled-list">
-                    <li><input type="checkbox" disabled checked> <strong>Res Gestae (Sec 4):</strong> Log is perfectly contemporaneous with the event.</li>
-                    <li><input type="checkbox" disabled checked> <strong>Digital Conduct (Sec 6):</strong> Search history proves vicious Preparation or Subsequent Wipe.</li>
-                    <li><input type="checkbox" disabled checked> <strong>Unique Opportunity (Sec 5):</strong> MFA/Biometrics place the accused on the keyboard.</li>
-                    <li><input type="checkbox" disabled checked> <strong>Digital Alibi (Sec 9):</strong> Telemetry makes presence at scene physically impossible.</li>
-                 </ul>
-              </div>
-
-              <!-- Checklist 5 -->
-              <div class="info-box">
-                 <h4 style="color: #8e44ad;">V. Expert & Forensic Check</h4>
-                 <ul class="styled-list">
-                    <li><input type="checkbox" disabled checked> <strong>Notified Examiner:</strong> Is the expert certified under Sec. 79A of the IT Act?</li>
-                    <li><input type="checkbox" disabled checked> <strong>Write-Blocker Hardware:</strong> Formally prevents any accidental metadata alteration during extraction.</li>
-                    <li><input type="checkbox" disabled checked> <strong>Metadata Preservation:</strong> Original creation timestamps and IP headers are perfectly intact and filed.</li>
-                 </ul>
-              </div>
-           </div>
-           
-           <div style="margin-top: 30px; text-align: center; padding: 20px; background: rgba(31,111,235,0.1); border-radius: 10px; border: 2px dashed var(--primary-color);">
-              <h3 style="color: var(--primary-color); margin-bottom: 10px;">The Supreme Golden Rule</h3>
-              <p style="font-size: 1.2em; font-weight: bold; font-style: italic;">"If it's on a screen, it needs a Certificate. If it's a copy, it needs a Hash. If it's in court, it needs an Expert."</p>
-           </div>
-        </div>
-      </section>
-
-      <!-- ================= PART 5: DIGITAL PRESUMPTIONS ================= -->
-      <section id="part5" class="content-section">
-        <header class="section-header">
-          <h1>Part V: Digital Presumptions and New Concepts</h1>
-          <p class="subtitle">An exhaustive dive into "Secure" electronic records, digital signatures, and the accelerated authenticity of the cyber era.</p>
-        </header>
-
-        <div class="hero-image-container">
-          <img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&q=80&w=2600" alt="Cyber Security Digital Lock Matrix" class="hero-banner" />
-        </div>
-
-        <div class="text-block card">
-           <h3 style="border-bottom-color: var(--primary-color);">1. Digital Presumptions and Conceptual Core</h3>
-           <p>Modern litigation heavily relies on legal presumptions to establish truth without endless technical hearings. Here is the operational breakdown.</p>
-           
-           <div class="accordion mt-4">
-              <!-- Concept 1 -->
-              <div class="accordion-item">
-                 <div class="accordion-head"><h4>1. Presumption of "Secure" Electronic Records (Section 86)</h4><span>+</span></div>
-                 <div class="accordion-body">
-                    <p><strong>Conceptual Clarity:</strong> This is the "Integrity Shortcut." The law distinguishes between a standard file (which is easily edited) and a "Secure" record (one protected by a verified security procedure).</p>
-                    <p style="margin-top: 10px;"><strong>The Rule:</strong> If a record has been subjected to a prescribed security procedure (like a digital time-stamp or a blockchain hash), the Court <strong>shall presume</strong> it has not been altered since that point.</p>
-                    <p style="margin-top: 10px; color: var(--error);"><strong>The "Shall" Mandate:</strong> This is a strong presumption. The Judge must assume the file is genuine.</p>
-                    <div style="background: rgba(46,160,67,0.1); padding: 15px; border-left: 3px solid var(--success); margin-top: 10px;">
-                       <strong>Practical Relevance:</strong> If you submit a document from a Certified Document Vault, you don't need to prove it wasn't hacked. The opponent must prove that the security procedure itself failed.
-                    </div>
-                 </div>
-              </div>
-
-              <!-- Concept 2 -->
-              <div class="accordion-item">
-                 <div class="accordion-head"><h4>2. Digital Agreements & Signatures (Section 85)</h4><span>+</span></div>
-                 <div class="accordion-body">
-                    <p><strong>Conceptual Clarity:</strong> This addresses the "Identity vs. Intent" problem. It assumes that if your digital signature is on a file, you intended to be bound by its contents.</p>
-                    <p style="margin-top: 10px;"><strong>The Rule:</strong> The Court <strong>shall presume</strong> that an agreement was concluded by the parties whose digital signatures are attached.</p>
-                    <div style="background: rgba(46,160,67,0.1); padding: 15px; border-left: 3px solid var(--success); margin-top: 10px;">
-                       <strong>Practical Relevance:</strong> This elevates e-contracts (DocuSign, Aadhaar-eSign) to the same status as notarized paper. It removes the need for "attesting witnesses" to testify that they saw you sign; the mathematical link between your ID and the file is the witness.
-                    </div>
-                 </div>
-              </div>
-
-              <!-- Concept 3 -->
-              <div class="accordion-item">
-                 <div class="accordion-head"><h4>3. The "Email Transmission" Logic (Section 90)</h4><span>+</span></div>
-                 <div class="accordion-body">
-                    <p><strong>Conceptual Clarity:</strong> This separates the "Delivery" from the "Author." It presumes the mail carrier (the server) did its job correctly.</p>
-                    <p style="margin-top: 10px;"><strong>The Rule:</strong> The Court <strong>may presume</strong> that an email reached the addressee in the same form it was "fed" into the computer.</p>
-                    <p style="margin-top: 10px; color: var(--warning);"><strong>The Legal Gap:</strong> It does <em>not</em> presume that the person named as the sender is the one who actually sent it.</p>
-                    <div style="background: rgba(46,160,67,0.1); padding: 15px; border-left: 3px solid var(--success); margin-top: 10px;">
-                       <strong>Practical Relevance:</strong> This is a "Presumption of Delivery." You can prove someone received a legal notice via email, but you still need to prove the identity of the sender using Section 6 (Conduct) or Section 5 (Opportunity).
-                    </div>
-                 </div>
-              </div>
-
-              <!-- Concept 4 -->
-              <div class="accordion-item">
-                 <div class="accordion-head"><h4>4. Accelerated Authenticity: The 5-Year Rule (Section 93)</h4><span>+</span></div>
-                 <div class="accordion-body">
-                    <p><strong>Conceptual Clarity:</strong> This is "Digital Antiquity." The law acknowledges that 30 years (the old standard for paper) is an eternity in technology.</p>
-                    <p style="margin-top: 10px;"><strong>The Rule:</strong> For electronic records produced from Proper Custody, the requirement for proving the signature and contents is drastically reduced from 30 years to <strong>5 years</strong>.</p>
-                    <div style="background: rgba(46,160,67,0.1); padding: 15px; border-left: 3px solid var(--success); margin-top: 10px;">
-                       <strong>Practical Relevance:</strong> If you produce a 2021 email from a company's archive, the Court may presume it is genuine. This is a practical necessity because digital storage formats change so fast that a 30-year-old file would be unreadable.
-                    </div>
-                 </div>
-              </div>
-
-              <!-- Concept 5 -->
-              <div class="accordion-item">
-                 <div class="accordion-head"><h4>5. Presumption as to Electronic Gazettes (Section 82)</h4><span>+</span></div>
-                 <div class="accordion-body">
-                    <p><strong>Conceptual Clarity:</strong> This is the "Sovereign Trust" rule. It assumes that official government digital portals are tamper-proof.</p>
-                    <p style="margin-top: 10px;"><strong>The Rule:</strong> The Court <strong>shall presume</strong> the genuineness of any electronic record purporting to be the Official Gazette.</p>
-                    <div style="background: rgba(46,160,67,0.1); padding: 15px; border-left: 3px solid var(--success); margin-top: 10px;">
-                       <strong>Practical Relevance:</strong> In litigation, you no longer need a "Certified True Copy" with a physical stamp. A simple link to the .gov.in Gazette is treated as absolute truth by the Court.
-                    </div>
-                 </div>
-              </div>
-
-              <!-- Concept 6 -->
-              <div class="accordion-item">
-                 <div class="accordion-head"><h4>6. The Examiner of Electronic Evidence (Section 39)</h4><span>+</span></div>
-                 <div class="accordion-body">
-                    <p><strong>Conceptual Clarity:</strong> This bridges the gap between "Judge" and "Expert." It integrates high-end forensics into the judicial opinion.</p>
-                    <p style="margin-top: 10px;"><strong>The Rule:</strong> The opinion of an official "Examiner of Electronic Evidence" (notified under Section 79A of the IT Act) is a directly <strong>relevant fact</strong>.</p>
-                    <div style="background: rgba(46,160,67,0.1); padding: 15px; border-left: 3px solid var(--success); margin-top: 10px;">
-                       <strong>Practical Relevance:</strong> This is the primary weapon against Deepfakes. If an official forensic lab issues a report stating a video is authentic, that report is a "Statutory Opinion" that carries much more weight than a private expert.
-                    </div>
-                 </div>
-              </div>
-
-              <!-- Concept 7 -->
-              <div class="accordion-item">
-                 <div class="accordion-head"><h4>7. Joint Liability of Group Admins (Section 8)</h4><span>+</span></div>
-                 <div class="accordion-body">
-                    <p><strong>Conceptual Clarity:</strong> This treats "Digital Spaces" as "Physical Meeting Rooms" for the purpose of conspiracy.</p>
-                    <p style="margin-top: 10px;"><strong>The Rule:</strong> Statements made by members of a digital group in reference to a Common Intention are <strong>relevant against all</strong>.</p>
-                    <div style="background: rgba(46,160,67,0.1); padding: 15px; border-left: 3px solid var(--success); margin-top: 10px;">
-                       <strong>Practical Relevance:</strong> If a WhatsApp group is named "Bank Heist Planning," and you remain in the group while plans are discussed, your Silence can be interpreted as Conduct (Section 6). Group Admins have a higher burden to show they didn't facilitate the common design.
-                    </div>
-                 </div>
-              </div>
-
-              <!-- Concept 8 -->
-              <div class="accordion-item">
-                 <div class="accordion-head"><h4>8. Automated Identification (Section 52)</h4><span>+</span></div>
-                 <div class="accordion-body">
-                    <p><strong>Conceptual Clarity:</strong> This is the "Biometric Comparison" rule. It allows the Court to use technology as an investigative tool.</p>
-                    <p style="margin-top: 10px;"><strong>The Rule:</strong> The Court can logically compare digital signatures, fingerprints, or other digital markers with those already proved to belong to a person.</p>
-                    <div style="background: rgba(46,160,67,0.1); padding: 15px; border-left: 3px solid var(--success); margin-top: 10px;">
-                       <strong>Practical Relevance:</strong> This provides the legal basis for Face-ID or Fingerprint matching during a trial. If a seized phone is locked by a fingerprint, and that fingerprint matches the accused, the Court can verify the match digitally without needing an external manual expert for every comparison.
-                    </div>
-                 </div>
-              </div>
-           </div>
-        </div>
-
-        <!-- 5 Landmark Cases specific to this section -->
-        <div class="text-block card mt-4">
-           <h3 style="border-bottom-color: var(--gradient-2);">2. Landmark Jurisprudence on Digital Procedures</h3>
-           <p>Critical judicial interventions clarifying the boundaries of privacy, physical devices, and procedural delays.</p>
-           
-           <div class="grid-2 mt-4">
-              <div class="info-box" style="border-top: 3px solid var(--primary-color);">
-                 <h4 style="color: var(--primary-color);">1. P. Gopalkrishnan v. State of Kerala (2020)</h4>
-                 <p><strong>Concept:</strong> Digital Evidence as a "Document" vs. a "Material Object"</p>
-                 <p style="margin-top: 10px;"><strong>The Case:</strong> The accused sought a copy of a memory card containing digital evidence. The state argued it was a "material object" (like a physical weapon) and copies shouldn't be given.</p>
-                 <p style="margin-top: 10px;"><strong>The Ruling:</strong> The Supreme Court held that the contents of a memory card/pen drive are explicitly "Documents" under the Evidence Act.</p>
-                 <p style="margin-top: 10px; color: var(--success);"><strong>BSA Relevance:</strong> This is the bedrock of Section 2(1)(d). Because files are "Documents," the accused has a right to "Inspection," balanced with Privacy Rights.</p>
-              </div>
-
-              <div class="info-box" style="border-top: 3px solid var(--warning);">
-                 <h4 style="color: var(--warning);">2. State of Karnataka v. T. Naseer (2023)</h4>
-                 <p><strong>Concept:</strong> The "Delayed Certificate" Principle</p>
-                 <p style="margin-top: 10px;"><strong>The Case:</strong> The prosecution failed to submit the Sec 65B (now 63) certificate at the time of filing the charge sheet, providing it later during trial.</p>
-                 <p style="margin-top: 10px;"><strong>The Ruling:</strong> A "fair trial" allows the prosecution to rectify this "procedural defect" later, provided it doesn't cause irreparable prejudice to the accused.</p>
-                 <p style="margin-top: 10px; color: var(--success);"><strong>BSA Relevance:</strong> This clarifies that the Section 63 certificate is a mere mathematical procedural requirement for admissibility, not a substantive requirement for the core "fact."</p>
-              </div>
-
-              <div class="info-box" style="border-top: 3px solid var(--gradient-1);">
-                 <h4 style="color: var(--gradient-1);">3. V. Vineeth v. State of Kerala (2022)</h4>
-                 <p><strong>Concept:</strong> Presumption of Identity in Social Media</p>
-                 <p style="margin-top: 10px;"><strong>The Case:</strong> Defamatory posts were made on social media. The accused argued anyone could have accessed his logged-in device.</p>
-                 <p style="margin-top: 10px;"><strong>The Ruling:</strong> If a post is made from a verified account, there is a rebuttable presumption that the account holder is the author, unless they can prove "Unauthorized Access."</p>
-                 <p style="margin-top: 10px; color: var(--success);"><strong>BSA Relevance:</strong> Links Sec 6 (Conduct) with Sec 90. It heavily shifts the burden onto the account holder to prove a "Security Breach."</p>
-              </div>
-
-              <div class="info-box" style="border-top: 3px solid var(--error);">
-                 <h4 style="color: var(--error);">4. Mukul Roy v. State of West Bengal (2019)</h4>
-                 <p><strong>Concept:</strong> Privacy vs. Relevancy of Tapped Calls</p>
-                 <p style="margin-top: 10px;"><strong>The Case:</strong> Intercepted phone calls were used as evidence without strict statutory procedures, arguably violating the Right to Privacy.</p>
-                 <p style="margin-top: 10px;"><strong>The Ruling:</strong> While Privacy is fundamental, it does not magically render evidence inadmissible if it is strictly relevant to a crime. (Though collection methods can be scrutinized later).</p>
-                 <p style="margin-top: 10px; color: var(--success);"><strong>BSA Relevance:</strong> Guides Section 5. It decisively confirms that "Relevancy" remains the ultimate test, outranking the method of collection in Indian courts.</p>
-              </div>
-
-              <div class="info-box" style="border-top: 3px solid #f39c12; grid-column: span 2;">
-                 <h4 style="color: #f39c12;">5. Veerendra v. State of Madhya Pradesh (2022)</h4>
-                 <p><strong>Concept:</strong> The Reliability of CCTV and "Proper Custody"</p>
-                 <p style="margin-top: 10px;"><strong>The Case:</strong> The defense argued that the primary CCTV footage was easily tampered with because the chain of possession was broken.</p>
-                 <p style="margin-top: 10px;"><strong>The Ruling:</strong> For CCTV to be "Reliable," the Chain of Custody from the DVR to the Court must be absolutely unbroken. Any physical "Gap" destroys the certificate.</p>
-                 <p style="margin-top: 10px; color: var(--success);"><strong>BSA Relevance:</strong> The practical application of Section 57, Expl. 6. A mathematical hash is useless if physical custody was illicitly compromised.</p>
-              </div>
-           </div>
-        </div>
-
-        <!-- 8 Practical Inputs Section -->
-        <div class="text-block card mt-4">
-           <h3 style="border-bottom-color: var(--success);">3. 8 Elaborative Practical Inputs for Navigating Presumptions</h3>
-           <p>Tactical advice for litigators manipulating presumptions in open court.</p>
-           
-           <div class="grid-2 mt-4">
-              <!-- Input 1 -->
-              <div class="info-box">
-                 <h4 style="color: var(--primary-color);">1. The "Shall" vs. "May" Tactical Audit</h4>
-                 <p><strong>The Input:</strong> Not all presumptions are created equal. "Shall" is mandatory, "May" is discretionary.</p>
-                 <p style="margin-top: 10px;"><strong>Practical Strategy:</strong> When drafting pleadings, forcefully categorize your evidence under a "Shall Presume" section (e.g., Sec 86). It forces the Judge to accept the data as truth.</p>
-                 <p style="margin-top: 10px; color: var(--success);"><strong>Action:</strong> If the opposition produces an email, explicitly remind the court it falls under Section 90 ("May Presume"), pushing the Judge to demand independent verification of the sender.</p>
-              </div>
-
-              <!-- Input 2 -->
-              <div class="info-box">
-                 <h4 style="color: var(--primary-color);">2. Anchoring the "5-Year Rule" (Section 93)</h4>
-                 <p><strong>The Input:</strong> The 5-year reduction is huge, but it legally requires "Proper Custody."</p>
-                 <p style="margin-top: 10px;"><strong>Practical Strategy:</strong> You can't just find an old file on a random USB drive. You must prove the "Natural Home."</p>
-                 <p style="margin-top: 10px; color: var(--success);"><strong>Action:</strong> Show the 2021 email resides within the company's verified archived server logs. Once custody is proved, the 5-year presumption unconditionally activates.</p>
-              </div>
-
-              <!-- Input 3 -->
-              <div class="info-box">
-                 <h4 style="color: var(--primary-color);">3. Invoking the "Secure Procedure" Shield (Section 86)</h4>
-                 <p><strong>The Input:</strong> To get the Gold Standard presumption, the record must be "Secure."</p>
-                 <p style="margin-top: 10px;"><strong>Practical Strategy:</strong> Mere passwords are insufficient. Demonstrate a recognized procedure like AES-256 encryption or a blockchain hash.</p>
-                 <p style="margin-top: 10px; color: var(--success);"><strong>Action:</strong> In your Sec 63 certificate, specifically list the encryption standard used. Once proved, its digital integrity is unquestionable.</p>
-              </div>
-
-              <!-- Input 4 -->
-              <div class="info-box">
-                 <h4 style="color: var(--primary-color);">4. The "Group Admin" Defense (Section 8)</h4>
-                 <p><strong>The Input:</strong> Digital groups are now viewed as conspiracy hubs, where silence equates to liability.</p>
-                 <p style="margin-top: 10px;"><strong>Practical Strategy:</strong> An admin must actively distance themselves from conspiracy to avoid joint liability.</p>
-                 <p style="margin-top: 10px; color: var(--success);"><strong>Action:</strong> Subpoena the application "Exit Logs" or "Muted Notifications." Proving the accused hadn't opened the app for days expertly rebuts the presumption of "Common Intention."</p>
-              </div>
-
-              <!-- Input 5 -->
-              <div class="info-box">
-                 <h4 style="color: var(--primary-color);">5. Weaponizing "Adverse Inference" (Section 6)</h4>
-                 <p><strong>The Input:</strong> If digital evidence exists and isn't produced, the law presumes it's unfavorable to the holder.</p>
-                 <p style="margin-top: 10px;"><strong>Practical Strategy:</strong> Use the Tomaso Bruno logic. Don't just complain about missing CCTV—act.</p>
-                 <p style="margin-top: 10px; color: var(--success);"><strong>Action:</strong> File an immediate application demanding an "Adverse Inference," arguing the withheld logs legally prove your client's absolute innocence.</p>
-              </div>
-
-              <!-- Input 6 -->
-              <div class="info-box">
-                 <h4 style="color: var(--primary-color);">6. The "Delivery vs. Authorship" Trap (Section 90)</h4>
-                 <p><strong>The Input:</strong> The law presumes an email arrived, but never presumes precisely who typed it.</p>
-                 <p style="margin-top: 10px;"><strong>Practical Strategy:</strong> Don't logically confuse network "Receipt" with personal "Liability."</p>
-                 <p style="margin-top: 10px; color: var(--success);"><strong>Action:</strong> Ensure you cross-reference Sec 90 with Sec 5 (Opportunity) to comprehensively prove the accused was the only person with access to the password during transmission.</p>
-              </div>
-
-              <!-- Input 7 -->
-              <div class="info-box">
-                 <h4 style="color: var(--primary-color);">7. Using Section 39 as a "Checkmate"</h4>
-                 <p><strong>The Input:</strong> The notified Examiner of Electronic Evidence acts as the ultimate technical tie-breaker.</p>
-                 <p style="margin-top: 10px;"><strong>Practical Strategy:</strong> Against Deepfakes, standard witness statements are entirely obsolete.</p>
-                 <p style="margin-top: 10px; color: var(--success);"><strong>Action:</strong> Immediately move the Court to assign a Sec 79A Forensic Lab. Their formalized report holds monumental statutory weight crushing any private IT testimony.</p>
-              </div>
-
-              <!-- Input 8 -->
-              <div class="info-box">
-                 <h4 style="color: var(--primary-color);">8. The Biometric Identification Shortcut (Section 52)</h4>
-                 <p><strong>The Input:</strong> The Court is authorized to cross-check digital markers directly.</p>
-                 <p style="margin-top: 10px;"><strong>Practical Strategy:</strong> This entirely removes the "Expert Bottleneck" for simple hardware authentications.</p>
-                 <p style="margin-top: 10px; color: var(--success);"><strong>Action:</strong> If the accused wildly denies owning a seized iPhone, aggressively ask the Judge to simply apply the accused's Face-ID. Under Sec 52, unlocking it creates a fully authenticated legal Match.</p>
-              </div>
-           </div>
-        </div>
-
-        <div class="text-block card mt-4">
-           <h3 style="border-bottom-color: var(--gradient-1);">4. Summary Table for Students: Presumption Logic</h3>
-           <div class="table-wrapper mt-4">
-             <table class="data-table">
-               <tr>
-                 <th>BSA Section</th>
-                 <th>Presumption Type</th>
-                 <th>Tactical Strength</th>
-               </tr>
-               <tr>
-                 <td><strong>Section 86</strong></td>
-                 <td>Secure Record (Encryption)</td>
-                 <td><span style="color: var(--success); font-weight: bold;">High (Shall Presume)</span></td>
-               </tr>
-               <tr>
-                 <td><strong>Section 85</strong></td>
-                 <td>Digital Signature</td>
-                 <td><span style="color: var(--success); font-weight: bold;">High (Shall Presume)</span></td>
-               </tr>
-               <tr>
-                 <td><strong>Section 93</strong></td>
-                 <td>5-Year-Old Record</td>
-                 <td><span style="color: #f39c12; font-weight: bold;">Medium (May Presume)</span></td>
-               </tr>
-               <tr>
-                 <td><strong>Section 90</strong></td>
-                 <td>Email Transmission</td>
-                 <td><span style="color: var(--error); font-weight: bold;">Low (May Presume Delivery Only)</span></td>
-               </tr>
-             </table>
-           </div>
-        </div>
-      </section>
-
-      <!-- ================= PART 6: ACCELERATED AUTHENTICITY ================= -->
-      <section id="part6" class="content-section">
-        <header class="section-header">
-          <h1>Part VI: Accelerated Authenticity (Section 93)</h1>
-          <p class="subtitle">A landmark acknowledgment of the "Digital Velocity" of modern life, shifting the legacy 30-year presumption to a rapid 5-year cybersecurity standard.</p>
-        </header>
-
-        <div class="hero-image-container">
-          <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&q=80&w=2600" alt="Futuristic Time Gateway Digital Vault" class="hero-banner" />
-        </div>
-
-        <div class="text-block card">
-           <h3 style="border-bottom-color: var(--primary-color);">1. 8-Dimensional Breakdown of Time-and-Trust Provisions</h3>
-           <p>The operational framework of Section 93 and related provisions transforming digital antiquity.</p>
-           
-           <div class="accordion mt-4">
-              <!-- Concept 1 -->
-              <div class="accordion-item">
-                 <div class="accordion-head"><h4>1. The 5-Year Presumption: Digital Maturity (Section 93)</h4><span>+</span></div>
-                 <div class="accordion-body">
-                    <p><strong>The Concept:</strong> Under the old law, a document had to be 30 years old to be presumed "duly executed." The BSA slashes this to 5 years for electronic records.</p>
-                    <p style="margin-top: 10px;"><strong>The Logic:</strong> Digital hardware and software formats become obsolete rapidly (e.g., the shift from physical servers to Cloud). If the law waited 30 years, the device required to read the evidence would likely no longer exist.</p>
-                    <div style="background: rgba(46,160,67,0.1); padding: 15px; border-left: 3px solid var(--success); margin-top: 10px;">
-                       <strong>The Rule:</strong> If an electronic record is 5 years old and produced from Proper Custody, the Court <strong>may presume</strong> that the digital signature and the contents are genuine.
-                    </div>
-                 </div>
-              </div>
-
-              <!-- Concept 2 -->
-              <div class="accordion-item">
-                 <div class="accordion-head"><h4>2. The "Proper Custody" Anchor (Section 93, Expl.)</h4><span>+</span></div>
-                 <div class="accordion-body">
-                    <p><strong>The Concept:</strong> A presumption is only as strong as the place where the data was kept.</p>
-                    <p style="margin-top: 10px;"><strong>Legal Definition:</strong> Proper custody means the record is in the place where it would "naturally be" (e.g., an old email in an official company archive or a 2021 transaction log in a bank's database).</p>
-                    <div style="background: rgba(218,54,51,0.1); padding: 15px; border-left: 3px solid var(--error); margin-top: 10px;">
-                       <strong>Practical Input:</strong> You cannot find an old file on a random, unlabeled USB drive and claim the 5-year presumption. The Chain of Custody must be proven to trigger Section 93.
-                    </div>
-                 </div>
-              </div>
-
-              <!-- Concept 3 -->
-              <div class="accordion-item">
-                 <div class="accordion-head"><h4>3. Presumption of Electronic Gazettes (Section 82)</h4><span>+</span></div>
-                 <div class="accordion-body">
-                    <p><strong>The Concept:</strong> Instantaneous official truth.</p>
-                    <p style="margin-top: 10px;"><strong>The Rule:</strong> The Court <strong>shall presume</strong> the genuineness of every electronic record purporting to be the Official Gazette.</p>
-                    <div style="background: rgba(46,160,67,0.1); padding: 15px; border-left: 3px solid var(--success); margin-top: 10px;">
-                       <strong>Relevance to Time:</strong> Unlike private documents that need 5 years, a Government Gazette is presumed authentic the second it is published on a .gov.in portal. This eliminates the need for "Certified True Copies" in digital litigation.
-                    </div>
-                 </div>
-              </div>
-
-              <!-- Concept 4 -->
-              <div class="accordion-item">
-                 <div class="accordion-head"><h4>4. Presumption of "Secure" Status (Section 86)</h4><span>+</span></div>
-                 <div class="accordion-body">
-                    <p><strong>The Concept:</strong> Integrity over time.</p>
-                    <p style="margin-top: 10px;"><strong>The Rule:</strong> For a "Secure Electronic Record" (one with a verified security procedure like a digital timestamp), the Court <strong>shall presume</strong> it has not been altered since that specific point in time.</p>
-                    <div style="background: rgba(46,160,67,0.1); padding: 15px; border-left: 3px solid var(--success); margin-top: 10px;">
-                       <strong>Practical Input:</strong> This works in tandem with Section 93. If a 5-year-old record is also a "Secure" record, the Court presumes both its Execution (who signed it) and its Integrity (that it wasn't edited).
-                    </div>
-                 </div>
-              </div>
-
-              <!-- Concept 5 -->
-              <div class="accordion-item">
-                 <div class="accordion-head"><h4>5. Presumption of Maps and Charts (Section 83)</h4><span>+</span></div>
-                 <div class="accordion-body">
-                    <p><strong>The Concept:</strong> The reliability of digital mapping.</p>
-                    <p style="margin-top: 10px;"><strong>The Rule:</strong> The Court <strong>shall presume</strong> that maps or plans purporting to be made by the authority of the Central or State Government are accurate.</p>
-                    <div style="background: rgba(46,160,67,0.1); padding: 15px; border-left: 3px solid var(--success); margin-top: 10px;">
-                       <strong>Digital Shift:</strong> This applies to Google Maps overlays used in official surveys or ISRO satellite imagery. If the government authorized the digital map, its accuracy is a legal "shortcut" (presumption).
-                    </div>
-                 </div>
-              </div>
-
-              <!-- Concept 6 -->
-              <div class="accordion-item">
-                 <div class="accordion-head"><h4>6. Presumption of Electronic Messages (Section 90)</h4><span>+</span></div>
-                 <div class="accordion-body">
-                    <p><strong>The Concept:</strong> The "Logistics" of delivery.</p>
-                    <p style="margin-top: 10px;"><strong>The Rule:</strong> The Court <strong>may presume</strong> that an electronic message reached the addressee in the same form as it was fed into the computer.</p>
-                    <p style="margin-top: 10px; color: var(--error);"><strong>The Limitation:</strong> It does <em>not</em> presume the identity of the sender.</p>
-                    <div style="background: rgba(218,54,51,0.1); padding: 15px; border-left: 3px solid var(--error); margin-top: 10px;">
-                       <strong>Practical Input:</strong> Even if a message is 5 years old, Section 90 only helps you prove it was delivered. You still need Section 93 to presume the signature on that message is genuine.
-                    </div>
-                 </div>
-              </div>
-
-              <!-- Concept 7 -->
-              <div class="accordion-item">
-                 <div class="accordion-head"><h4>7. Presumption of Powers-of-Attorney (Section 84)</h4><span>+</span></div>
-                 <div class="accordion-body">
-                    <p><strong>The Concept:</strong> Digital delegation of authority.</p>
-                    <p style="margin-top: 10px;"><strong>The Rule:</strong> The Court <strong>shall presume</strong> that every document purporting to be a Power-of-Attorney, executed before and authenticated by a Notary Public or Court, was so executed.</p>
-                    <div style="background: rgba(46,160,67,0.1); padding: 15px; border-left: 3px solid var(--success); margin-top: 10px;">
-                       <strong>Digital Shift:</strong> This now includes digitally notarized Powers-of-Attorney. If the digital signature of the Notary is verified, the "Execution" of the power is presumed.
-                    </div>
-                 </div>
-              </div>
-
-              <!-- Concept 8 -->
-              <div class="accordion-item">
-                 <div class="accordion-head"><h4>8. Presumption of "Certified" Copies (Section 77)</h4><span>+</span></div>
-                 <div class="accordion-body">
-                    <p><strong>The Concept:</strong> The digital "True Copy."</p>
-                    <p style="margin-top: 10px;"><strong>The Rule:</strong> The Court <strong>shall presume</strong> every certified copy of a digital record to be genuine, provided it is executed in the manner directed by law.</p>
-                    <div style="background: rgba(46,160,67,0.1); padding: 15px; border-left: 3px solid var(--success); margin-top: 10px;">
-                       <strong>Practical Input:</strong> If a government officer provides a "digitally certified" copy of a land record, you don't need to produce the original server. The law presumes the copy is a faithful mirror of the source.
-                    </div>
-                 </div>
-              </div>
-           </div>
-        </div>
-
-        <!-- Landmark Cases -->
-        <div class="text-block card mt-4">
-           <h3 style="border-bottom-color: var(--gradient-2);">2. Landmark Jurisprudence on Regularity & Custody</h3>
-           <p>How the Supreme Court has historically navigated the assumptions of official acts and physical custody.</p>
-           
-           <div class="grid-2 mt-4">
-              <div class="info-box" style="border-top: 3px solid var(--primary-color);">
-                 <h4 style="color: var(--primary-color);">1. State of Haryana v. Ram Singh (2002)</h4>
-                 <p><strong>Concept:</strong> Presumption of Genuineness in Certified Copies</p>
-                 <p style="margin-top: 10px;"><strong>The Facts:</strong> The defense challenged certified copies of public records, demanding the "original" registers be produced.</p>
-                 <p style="margin-top: 10px;"><strong>The Judgment:</strong> The Supreme Court held that once a document is a "Public Record" and a "Certified Copy" is issued, the Court shall rigidly presume its genuineness.</p>
-                 <p style="margin-top: 10px; color: var(--success);"><strong>BSA Relevance (Section 77):</strong> Expands this to Digital Certified Copies. If a .gov.in portal issues a digitally signed PDF, it gains immediate presumption of truth without needing the master server log.</p>
-              </div>
-
-              <div class="info-box" style="border-top: 3px solid var(--warning);">
-                 <h4 style="color: var(--warning);">2. V.N. Ratnam v. State (2012)</h4>
-                 <p><strong>Concept:</strong> The Definition of "Proper Custody"</p>
-                 <p style="margin-top: 10px;"><strong>The Facts:</strong> Ancient documents were produced by a family member who wasn't the direct legal heir but had found them in a family chest.</p>
-                 <p style="margin-top: 10px;"><strong>The Judgment:</strong> Proper Custody does not mean the absolute best possible custody, but custody that is "natural" under the circumstances.</p>
-                 <p style="margin-top: 10px; color: var(--success);"><strong>BSA Relevance (Section 93):</strong> For the 5-Year Rule to apply, you must show the digital file came from a "natural" place—like a corporate archive or an official "Sent" folder, granting legitimate possession over purely technical ownership.</p>
-              </div>
-
-               <div class="info-box" style="border-top: 3px solid var(--gradient-1);">
-                 <h4 style="color: var(--gradient-1);">3. Union of India v. Tulsiram Patel (1985)</h4>
-                 <p><strong>Concept:</strong> Presumption of Regularity in Official Acts</p>
-                 <p style="margin-top: 10px;"><strong>The Facts:</strong> A massive case analyzing whether the "Official Notifications" by the President could be deeply questioned for procedural lapses.</p>
-                 <p style="margin-top: 10px;"><strong>The Judgment:</strong> The Court reiterated the maxim <em>Omnia praesumuntur rite et solemniter esse acta</em>—"All official acts are presumed to have been done regularly."</p>
-                 <p style="margin-top: 10px; color: var(--success);"><strong>BSA Relevance (Section 82 & 83):</strong> The core DNA of the digital era. A notification on the e-Gazette or a remote satellite overlay is legally presumed to have followed iron-clad government protocol.</p>
-              </div>
-
-
-               <div class="info-box" style="border-top: 3px solid var(--error);">
-                  <h4 style="color: var(--error);">4. Lakhi Baruah v. Padma Kanta Kalita (1996)</h4>
-                  <p><strong>Concept:</strong> The Limit of Presumption (Execution vs. Contents)</p>
-                  <p style="margin-top: 10px;"><strong>The Facts:</strong> A challenge to a 30-year-old sale deed. The party argued that because the document was old, the "contents" (the truth of the statements inside) should also be presumed true.</p>
-                  <p style="margin-top: 10px;"><strong>The Judgment:</strong> The Court made a vital distinction: The law presumes the Execution (that 'A' signed it), but it does not necessarily presume that the Contents are true.</p>
-                  <p style="margin-top: 10px; color: var(--success);"><strong>BSA Relevance (Section 93):</strong> This is a crucial practical input for students. Section 93 helps you prove who signed the 5-year-old digital file, but you still need other evidence to prove that what they wrote in that file was actually true.</p>
-               </div>
-
-               <div class="info-box" style="border-top: 3px solid #8e44ad; grid-column: span 2;">
-                  <h4 style="color: #b794f4;">5. State of Andhra Pradesh v. T. Venugopal (1964)</h4>
-                  <p><strong>Concept:</strong> The "Proper Custody" of Police Records</p>
-                  <p style="margin-top: 10px;"><strong>The Facts:</strong> A case involving the entries in a Police General Diary (GD). The defense argued the entries were fabricated.</p>
-                  <p style="margin-top: 10px;"><strong>The Judgment:</strong> The Court held that since the GD is a statutory record maintained in the "Ordinary Course of Business," it enjoys a presumption of regularity.</p>
-                  <p style="margin-top: 10px; color: var(--success);"><strong>BSA Relevance (Section 90 & 93):</strong> In the cyber era, this applies to CCTNS logs. If the police produce a 5-year-old digital log from CCTNS, Section 93 and the principle of "Ordinary Course" make it nearly unshakeable.</p>
-               </div>
+    <!-- ===== ACCESS GATE ===== -->
+    <div id="access-gate">
+        <div class="gate-card">
+            <div class="gate-logo">
+                <div class="gate-icon">&#9878;</div>
+                <div><h2>BSA 2023</h2><span>Masterclass Edition &mdash; Secured Portal</span></div>
             </div>
-
-            <h3 style="margin-top: 40px; border-bottom-color: var(--gradient-1);">3. Summary Table: Case Law to BSA Mapping</h3>
-            <div class="table-wrapper mt-4">
-               <table class="data-table">
-                  <tr>
-                     <th>Case Law</th>
-                     <th>Key Legal Principle</th>
-                     <th>BSA Provision</th>
-                  </tr>
-                  <tr>
-                     <td><strong>Ram Singh</strong></td>
-                     <td>Certified copies are "Primary" for proof.</td>
-                     <td>Section 77 (Digital Copies)</td>
-                  </tr>
-                  <tr>
-                     <td><strong>V.N. Ratnam</strong></td>
-                     <td>Custody must be "Natural" and "Legitimate."</td>
-                     <td>Section 93 (5-Year Rule)</td>
-                  </tr>
-                  <tr>
-                     <td><strong>Tulsiram Patel</strong></td>
-                     <td>Government digital acts are presumed regular.</td>
-                     <td>Section 82 & 83 (Gazettes/Maps)</td>
-                  </tr>
-                  <tr>
-                     <td><strong>Lakhi Baruah</strong></td>
-                     <td>Presume the "Signature," not the "Story."</td>
-                     <td>Section 93 (Scope of Presumption)</td>
-                  </tr>
-                  <tr>
-                     <td><strong>T. Venugopal</strong></td>
-                     <td>Statutory records enjoy a presumption of regularity.</td>
-                     <td>Section 90 & 93 (Police Logs)</td>
-                  </tr>
-               </table>
+            <div class="gate-tabs">
+                <button class="gate-tab active" id="tab-login" onclick="switchTab('login')">Sign In</button>
+                <button class="gate-tab" id="tab-register" onclick="switchTab('register')">Register</button>
             </div>
-         </div>
-
-        <!-- 8 Practical Inputs Section -->
-        <div class="text-block card mt-4">
-           <h3 style="border-bottom-color: var(--success);">4. 8 Tactical Frameworks for Accelerated Authenticity</h3>
-           <p>Litigation strategies for mastering the new time-bound presumptions.</p>
-           
-           <div class="grid-2 mt-4">
-              <!-- Input 1 -->
-              <div class="info-box">
-                 <h4 style="color: var(--primary-color);">1. The "Proper Custody" Affidavit</h4>
-                 <p><strong>The Input:</strong> Section 93 is not automatic; it is strictly triggered by proving "Proper Custody."</p>
-                 <p style="margin-top: 10px;"><strong>Practical Strategy:</strong> Do not just present a 5-year-old email. Attach an affidavit from the System Administrator or CISO.</p>
-                 <p style="margin-top: 10px; color: var(--success);"><strong>Action:</strong> The affidavit aggressively confirms the record resided in an "Authorized Corporate Archive" since 2021, instantly satisfying the V.N. Ratnam criteria.</p>
-              </div>
-
-              <!-- Input 2 -->
-              <div class="info-box">
-                 <h4 style="color: var(--primary-color);">2. The "Bit-Rot" Defense</h4>
-                 <p><strong>The Input:</strong> Technology degrades. This is why the BSA reduced the rule to 5 years.</p>
-                 <p style="margin-top: 10px;"><strong>Practical Strategy:</strong> If the opposition demands the "original server" for a 2018 file, use the Technological Lifecycle argument.</p>
-                 <p style="margin-top: 10px; color: var(--success);"><strong>Action:</strong> Argue <em>Lex non cogit ad impossibilia</em> (law does not compel the impossible). Hardware from 6 years ago is functionally obsolete, making the 5-year secondary certificate sufficient.</p>
-              </div>
-
-              <!-- Input 3 -->
-              <div class="info-box">
-                 <h4 style="color: var(--primary-color);">3. Layering Section 93 with Section 86 (Secure Records)</h4>
-                 <p><strong>The Input:</strong> Sec 93 presumes "Execution", while Sec 86 presumes "Integrity".</p>
-                 <p style="margin-top: 10px;"><strong>Practical Strategy:</strong> Always verify if your 5-year-old document carries a Digital Signature or Blockchain trace.</p>
-                 <p style="margin-top: 10px; color: var(--success);"><strong>Action:</strong> Invoke them simultaneously. The Judge is now legally forced to presume both that the signature is real AND the content hasn't been edited.</p>
-              </div>
-
-              <!-- Input 4 -->
-              <div class="info-box">
-                 <h4 style="color: var(--primary-color);">4. The "Hearsay" Counter-Attack</h4>
-                 <p><strong>The Input:</strong> Presumption of Execution is NOT a presumption of material Truth.</p>
-                 <p style="margin-top: 10px;"><strong>Practical Strategy:</strong> Use the Lakhi Baruah logic. Just because a 5-year-old contract email is genuine doesn't mean its internal claims are factual.</p>
-                 <p style="margin-top: 10px; color: var(--error);"><strong>Action:</strong> Concede the signature but attack the Contents as unverified hearsay requiring distinct collateral corroboration.</p>
-              </div>
-
-              <!-- Input 5 -->
-              <div class="info-box">
-                 <h4 style="color: var(--primary-color);">5. The e-Gazette "Instant Truth" Maneuver</h4>
-                 <p><strong>The Input:</strong> Section 82 (Gazettes) completely bypasses the 5-year wait.</p>
-                 <p style="margin-top: 10px;"><strong>Practical Strategy:</strong> Never wait for a physical hard-copy notification from a ministry.</p>
-                 <p style="margin-top: 10px; color: var(--success);"><strong>Action:</strong> Produce the live URL from egazette.nic.in. The "Shall Presume" mandate legally allows you to secure a stay order or injunction immediately based on the digital file.</p>
-              </div>
-
-              <!-- Input 6 -->
-              <div class="info-box">
-                 <h4 style="color: var(--primary-color);">6. Auditing "Natural" Digital Flow</h4>
-                 <p><strong>The Input:</strong> Proper custody requires the file to be where it is logically expected.</p>
-                 <p style="margin-top: 10px;"><strong>Practical Strategy:</strong> Map the specific "Digital Journey" of the submitted evidence.</p>
-                 <p style="margin-top: 10px; color: var(--success);"><strong>Action:</strong> If opposing counsel produces a critical contract from a hidden "Trash" folder or an unverified "Downloads" directory, aggressively attack the Sec 93 presumption as legally broken.</p>
-              </div>
-
-              <!-- Input 7 -->
-              <div class="info-box">
-                 <h4 style="color: var(--primary-color);">7. Use of Section 90 for "Delivery Proof"</h4>
-                 <p><strong>The Input:</strong> Section 93 proves authorship, but Section 90 proves receipt.</p>
-                 <p style="margin-top: 10px;"><strong>Practical Strategy:</strong> In Corporate Breach cases, you need to prove the opposing board received the notice.</p>
-                 <p style="margin-top: 10px; color: var(--success);"><strong>Action:</strong> Synthesize the server's "Delivery Status Notification" (DSN) with the 5-year rule. The loop is closed: authenticated signature (Sec 93) + presumed receipt (Sec 90).</p>
-              </div>
-
-              <!-- Input 8 -->
-              <div class="info-box">
-                 <h4 style="color: var(--primary-color);">8. The "Metadata" Verification Trap</h4>
-                 <p><strong>The Input:</strong> The immense power of the 5-year rule relies entirely on the precise "Date of Creation."</p>
-                 <p style="margin-top: 10px;"><strong>Practical Strategy:</strong> Ensure backend EXIF/Metadata flawlessly matches the claimed document age.</p>
-                 <p style="margin-top: 10px; color: var(--error);"><strong>Action:</strong> If a document claims to be from 2020 but the EXIF "Created Date" reveals 2025, attempting to use the Sec 93 presumption exposes the client to devastating perjury charges.</p>
-              </div>
-           </div>
+            <div id="panel-login">
+                <div id="login-err" class="gate-error hidden"></div>
+                <div class="gate-field"><label>Email Address</label><input type="email" id="g-user" placeholder="your@email.com" autocomplete="email" /></div>
+                <div class="gate-field"><label>Password</label><input type="password" id="g-pass" placeholder="Enter your password" autocomplete="current-password" /></div>
+                <button class="gate-btn-primary" onclick="attemptLogin()">Sign In &rarr;</button>
+                <p class="gate-note" style="display:flex;justify-content:space-between"><span>No account? <button onclick="switchTab('register')" style="background:none;border:none;color:#58a6ff;cursor:pointer;font-size:0.78rem;font-weight:700;font-family:inherit;text-decoration:underline;padding:0">Register here</button></span><button onclick="forgotPassword()" style="background:none;border:none;color:#58a6ff;cursor:pointer;font-size:0.78rem;font-family:inherit">Forgot password?</button></p>
+            </div>
+            <div id="panel-register" class="hidden">
+                <div id="reg-success" class="gate-success hidden"></div>
+                <div id="reg-error" class="gate-error hidden"></div>
+                <div class="gate-grid-2">
+                    <div class="gate-field"><label>Full Name <span class="req">*</span></label><input type="text" id="r-name" placeholder="Your full name" /></div>
+                    <div class="gate-field"><label>Email Address <span class="req">*</span></label><input type="email" id="r-email" placeholder="your@email.com" /></div>
+                </div>
+                <div class="gate-grid-2">
+                    <div class="gate-field"><label>Phone Number</label><input type="tel" id="r-phone" placeholder="+91 XXXXX XXXXX" /></div>
+                    <div class="gate-field">
+                        <label>Profession <span class="req">*</span></label>
+                        <select id="r-profession">
+                            <option value="">Select profession...</option>
+                            <option>Law Student</option><option>Advocate / Lawyer</option>
+                            <option>Judge / Judicial Officer</option><option>Law Professor / Faculty</option>
+                            <option>Legal Researcher</option><option>Police / Investigator</option><option>Other</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="gate-field"><label>Institution / Organization</label><input type="text" id="r-institution" placeholder="College, firm, court, etc." /></div>
+                <div class="gate-field"><label>Purpose of Access <span class="req">*</span></label><textarea id="r-purpose" rows="2" placeholder="Brief reason for access..."></textarea></div>
+                <div class="gate-grid-2">
+                    <div class="gate-field"><label>Password <span class="req">*</span></label><input type="password" id="r-password" placeholder="Min. 6 characters" /></div>
+                    <div class="gate-field"><label>Confirm Password <span class="req">*</span></label><input type="password" id="r-password2" placeholder="Repeat password" /></div>
+                </div>
+                <div class="gate-check">
+                    <input type="checkbox" id="r-agree" />
+                    <label for="r-agree">I agree to the <button type="button" class="policy-btn-link" onclick="openPolicy()">Privacy Policy & Terms of Service</button></label>
+                </div>
+                <button class="gate-btn-primary" onclick="submitRegistration()">Create Account &rarr;</button>
+                <p class="gate-note">You'll receive a verification email. Click the link to activate your account.</p>
+            </div>
+            <p class="gate-footer">Bharatiya Sakshya Adhiniyam 2023 &mdash; Interactive Masterclass</p>
         </div>
-      </section>
-
-      <!-- ================= PART 7: CYBER FORENSICS ================= -->
-      <section id="part7" class="content-section">
-        <header class="section-header">
-          <h1>Part VII: Cyber Forensics and Expert Opinion</h1>
-          <p class="subtitle">The "Technical Heart" bridging the Courtroom and the Forensic Laboratory, enabling Judges to integrate bitstreams, hash functions, and AI-generated realities.</p>
-        </header>
-
-        <div class="hero-image-container">
-          <img src="https://images.unsplash.com/photo-1563206767-5b18f218e8de?auto=format&fit=crop&q=80&w=2600" alt="Cyber Forensics Analysis Matrix Fingerprint" class="hero-banner" />
-        </div>
-
-        <div class="text-block card">
-           <h3 style="border-bottom-color: var(--primary-color);">1. 8-Dimensional Breakdown of Expert Opinion & Forensics</h3>
-           <p>How the BSA formalizes the integration of technical testimony, digital signatures, and system integrity into legal facts.</p>
-           
-           <div class="accordion mt-4">
-              <!-- Concept 1 -->
-              <div class="accordion-item">
-                 <div class="accordion-head"><h4>1. The Statutory Expert: Examiner of Electronic Evidence (Section 39)</h4><span>+</span></div>
-                 <div class="accordion-body">
-                    <p><strong>The Concept:</strong> The law moves beyond general "IT experts" to a specific, legally notified authority.</p>
-                    <p style="margin-top: 10px;"><strong>The Rule:</strong> Section 39(2) states that when the Court needs to form an opinion on any matter relating to any information transmitted or stored in a computer resource, the opinion of the Examiner of Electronic Evidence is a relevant fact.</p>
-                    <p style="margin-top: 10px; color: var(--success);"><strong>The "79A" Link:</strong> This examiner must be notified by the Central Government under Section 79A of the IT Act, 2000.</p>
-                    <div style="background: rgba(46,160,67,0.1); padding: 15px; border-left: 3px solid var(--success); margin-top: 10px;">
-                       <strong>Practical Input:</strong> This is a "Super Expert" status. Their report carries a statutory presumption of technical accuracy that is much higher than a private forensic consultant.
-                    </div>
-                 </div>
-              </div>
-
-              <!-- Concept 2 -->
-              <div class="accordion-item">
-                 <div class="accordion-head"><h4>2. The Weapon Against Deepfakes & AI (Expert Status)</h4><span>+</span></div>
-                 <div class="accordion-body">
-                    <p><strong>The Concept:</strong> Solving the "Authenticity Crisis" in the age of Generative AI.</p>
-                    <p style="margin-top: 10px;"><strong>The Rule:</strong> By defining the Examiner as an "Expert," the law allows them to testify on the Integrity of the media.</p>
-                    <div style="background: rgba(46,160,67,0.1); padding: 15px; border-left: 3px solid var(--success); margin-top: 10px;">
-                       <strong>Practical Input:</strong> If a video is alleged to be a Deepfake, the Expert doesn't just look at it; they analyze frame-consistency, noise distribution, and metadata. Their testimony guides the Judge on whether the "Digital Reality" has been manipulated.
-                    </div>
-                 </div>
-              </div>
-
-              <!-- Concept 3 -->
-              <div class="accordion-item">
-                 <div class="accordion-head"><h4>3. Verification of Digital Signatures (Section 73)</h4><span>+</span></div>
-                 <div class="accordion-body">
-                    <p><strong>The Concept:</strong> The Court’s power to "unmask" or verify a digital identity.</p>
-                    <p style="margin-top: 10px;"><strong>The Logic:</strong> This allows the Court to compare the digital signature on a disputed document with the official public key recorded with the CA.</p>
-                    <p style="margin-top: 10px; color: var(--warning);"><strong>The Rule:</strong> Section 73 authorizes the Court to direct a person or the Certifying Authority (CA) to produce the Digital Signature Certificate (DSC).</p>
-                    <div style="background: rgba(46,160,67,0.1); padding: 15px; border-left: 3px solid var(--success); margin-top: 10px;">
-                       <strong>Practical Input:</strong> If an accused denies signing an e-contract, the Court can compel the CA (like eMudhra) to provide the audit logs of when that specific DSC was used.
-                    </div>
-                 </div>
-              </div>
-
-              <!-- Concept 4 -->
-              <div class="accordion-item">
-                 <div class="accordion-head"><h4>4. Opinion on Digital Signatures (Section 52)</h4><span>+</span></div>
-                 <div class="accordion-body">
-                    <p><strong>The Concept:</strong> Authentication through mathematical comparison.</p>
-                    <p style="margin-top: 10px;"><strong>The Rule:</strong> To determine if a digital signature belongs to a person, the Court may compare it with one admitted or proved to be theirs.</p>
-                    <div style="background: rgba(46,160,67,0.1); padding: 15px; border-left: 3px solid var(--success); margin-top: 10px;">
-                       <strong>Practical Input:</strong> The Court can use specialized software to verify the Hash Value of two signatures. If the mathematical output is identical, the Court concludes they are the same without needing a manual handwriting expert.
-                    </div>
-                 </div>
-              </div>
-
-              <!-- Concept 5 -->
-              <div class="accordion-item">
-                 <div class="accordion-head"><h4>5. The "Fact-Finding" vs. "Opinion" Distinction</h4><span>+</span></div>
-                 <div class="accordion-body">
-                    <p><strong>The Concept:</strong> Experts provide "Opinions" (Section 39), but Forensic Reports provide absolute "Facts."</p>
-                    <p style="margin-top: 10px;"><strong>The Logic:</strong> A forensic report showing a "Hash Mismatch" is a hard fact. The Expert’s testimony explaining <em>why</em> the mismatch happened (e.g., "The file was edited at 10:00 PM") is an opinion.</p>
-                    <div style="background: rgba(218,54,51,0.1); padding: 15px; border-left: 3px solid var(--error); margin-top: 10px;">
-                       <strong>Practical Input:</strong> Litigators should focus on the Forensic Report as the primary asset. The Expert is simply the "voice" that interprets that report for the Judge.
-                    </div>
-                 </div>
-              </div>
-
-              <!-- Concept 6 -->
-              <div class="accordion-item">
-                 <div class="accordion-head"><h4>6. Opinion on Data Breaches & Encryption</h4><span>+</span></div>
-                 <div class="accordion-body">
-                    <p><strong>The Concept:</strong> Managing complex corporate cyber-crimes and liabilities.</p>
-                    <p style="margin-top: 10px;"><strong>The Rule:</strong> Experts can guide the Court on whether a data breach was due to sheer "Negligence" or a highly sophisticated "External Attack."</p>
-                    <div style="background: rgba(46,160,67,0.1); padding: 15px; border-left: 3px solid var(--success); margin-top: 10px;">
-                       <strong>Practical Input:</strong> The Expert analyzes Firewall Logs and Access Controls. Their opinion directly helps the Judge decide if the company followed "Reasonable Security Practices" under the IT Act.
-                    </div>
-                 </div>
-              </div>
-
-              <!-- Concept 7 -->
-              <div class="accordion-item">
-                 <div class="accordion-head"><h4>7. Compelling Technical Cooperation (Section 73)</h4><span>+</span></div>
-                 <div class="accordion-body">
-                    <p><strong>The Concept:</strong> Overcoming direct technical obstruction from the accused.</p>
-                    <p style="margin-top: 10px;"><strong>The Rule:</strong> The Court can direct any person to apply their digital signature for the strict purpose of comparison.</p>
-                    <div style="background: rgba(46,160,67,0.1); padding: 15px; border-left: 3px solid var(--success); margin-top: 10px;">
-                       <strong>Practical Input:</strong> If an accused refuses to provide a sample digital signature for verification, the Court can legally order it. Blatant refusal to comply triggers a massive Adverse Inference against the accused.
-                    </div>
-                 </div>
-              </div>
-
-              <!-- Concept 8 -->
-              <div class="accordion-item">
-                 <div class="accordion-head"><h4>8. The Integrity of the "Computer Resource"</h4><span>+</span></div>
-                 <div class="accordion-body">
-                    <p><strong>The Concept:</strong> Proving the underlying "Health" of the computational machine.</p>
-                    <p style="margin-top: 10px;"><strong>The Rule:</strong> The Expert's opinion often includes a verified statement that the computer system was "operating properly" during the relevant period.</p>
-                    <div style="background: rgba(46,160,67,0.1); padding: 15px; border-left: 3px solid var(--success); margin-top: 10px;">
-                       <strong>Practical Input:</strong> This is the functional foundation of the Section 63 Certificate. The Expert's role is to assure the Judge that the "Output" produced in court is a faithful, untampered representation of the "Source."
-                    </div>
-                 </div>
-              </div>
-           </div>
-        </div>
-
-        <!-- Practical Inputs Section -->
-        <div class="text-block card mt-4">
-           <h3 style="border-bottom-color: var(--success);">2. Practical Strategies for Law Students & Litigators</h3>
-           <p>Weaponize the technical limits of expert opinion effectively in the courtroom.</p>
-           
-           <div class="grid-2 mt-4">
-              <!-- Strat 1 -->
-              <div class="info-box">
-                 <h4 style="color: var(--primary-color);">1. Challenge the "Expert" Credentials</h4>
-                 <p><strong>Action:</strong> Always decisively check if the prosecution's witness is officially notified under Section 79A of the IT Act. If they are just a "Local IT Guy" or a general hardware vendor, their opinion legally fails to qualify as an "Examiner of Electronic Evidence" under Section 39.</p>
-              </div>
-
-              <!-- Strat 2 -->
-              <div class="info-box">
-                 <h4 style="color: var(--primary-color);">2. Request a "Clone" for Defense</h4>
-                 <p><strong>Action:</strong> Under the legal principle that digital data is fundamentally a "Document," use Section 39 to aggressively request a Forensic Image (Bit-by-Bit Clone) of the seized drive. Have your own independent expert analyze it to discover "Exculpatory Evidence" that the state might have intentionally or accidentally ignored.</p>
-              </div>
-
-              <!-- Strat 3 -->
-              <div class="info-box" style="grid-column: span 2; border-top: 3px solid var(--error);">
-                 <h4 style="color: var(--error);">3. The Hash Battle</h4>
-                 <p><strong>Action:</strong> If the prosecution boldly produces a digital file, instantly ask for its precise MD5 or SHA-256 Hash. If they cannot swiftly provide it, the "Integrity" of the evidence is unproven. Argue that without a hash anchor, the Expert's verbal opinion under Section 39 possesses zero scientific basis.</p>
-              </div>
-
-              <!-- Strat 4 -->
-              <div class="info-box" style="grid-column: span 2; border-top: 3px solid var(--gradient-1);">
-                 <h4 style="color: var(--gradient-1);">4. Verification via Certifying Authority</h4>
-                 <p><strong>Action:</strong> In high-stakes white-collar crimes involving e-signatures, utilize Section 73 to firmly summon the Certifying Authority. Their pristine server logs represent the "Neutral Truth" capable of instantly overriding a fraudulent claim of "I didn't actually sign it."</p>
-              </div>
-           </div>
-        </div>
-
-        <!-- Landmark Caselaws -->
-        <div class="text-block card mt-4">
-           <h3 style="border-bottom-color: var(--gradient-2);">3. Key Landmark Caselaws on Expert Forensics</h3>
-           
-           <div class="grid-2 mt-4">
-              <div class="info-box" style="border-top: 3px solid var(--primary-color);">
-                 <h4 style="color: var(--primary-color);">1. Shajhi v. State of Kerala (2011)</h4>
-                 <p style="margin-top: 10px;"><strong>The Concept:</strong> The weight of expert testimony.</p>
-                 <p style="margin-top: 10px;"><strong>The Ruling:</strong> This case emphasized that the opinion of a traditional handwriting expert is strictly "advisory" and should not be aggressively convicted upon without corroboration.</p>
-                 <p style="margin-top: 10px; color: var(--success);"><strong>BSA Shift:</strong> The BSA drastically elevates the Cyber Expert under Section 39 because digital signatures and hash evaluations are predicated on absolute mathematical certainty, transcending mere subjective visual style.</p>
-              </div>
-
-              <div class="info-box" style="border-top: 3px solid #8e44ad;">
-                 <h4 style="color: #b794f4;">2. Ritesh Sinha v. State of U.P. (2019)</h4>
-                 <p style="margin-top: 10px;"><strong>The Concept:</strong> Compelling physical samples for technological comparison.</p>
-                 <p style="margin-top: 10px;"><strong>The Ruling:</strong> Though primarily focused on voice samples, the Supreme Court unequivocally established its intrinsic power to compel an accused to provide "samples" for expert comparison.</p>
-                 <p style="margin-top: 10px; color: var(--success);"><strong>BSA Connection:</strong> This aggressive logic is now firmly codified in Section 52 and Section 73, expressly permitting the court to order the provisioning of digital markers and passwords.</p>
-              </div>
-           </div>
-        </div>
-
-        <!-- Advanced Application Modules -->
-        <div class="text-block card mt-4">
-           <h3 style="border-bottom-color: var(--primary-color);">4. Advanced Application Modules</h3>
-           
-           <div class="accordion mt-4">
-              <!-- Module 1 -->
-              <div class="accordion-item">
-                 <div class="accordion-head"><h4>Module 1: Draft Section 63 Part B Certificate (Template)</h4><span>+</span></div>
-                 <div class="accordion-body">
-                    <p><strong>Note:</strong> Part B is to be signed strictly by the Expert/Officer who extracted the data.</p>
-                    <div style="background: rgba(15,20,25,0.7); padding: 15px; border-left: 3px solid var(--gradient-1); margin-top: 10px; font-family: monospace; color: #a1b2c3;">
-                       <p style="text-align: center; font-weight: bold; color: #fff;">CERTIFICATE UNDER SECTION 63 (PART B) OF BSA, 2023</p>
-                       <p><br>I, [Expert Name], Notified Examiner of Electronic Evidence / Technical Officer acting under [Designation], hereby certify that:</p>
-                       <p>1. The electronic record described as [File Name.mp4 / System Logs] was lawfully extracted by me on [Date].</p>
-                       <p>2. The Hash Value (SHA-256) of the aforementioned identical copy is:<br>[e.g., e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855]</p>
-                       <p>3. A forensic write-blocker [Make/Model] was utilized during the extraction process to strictly prevent any structural alteration of metadata or core binary data.</p>
-                       <p>4. The data is logically pure, untampered, and accurately reflects the original data present within the primary semiconductor memory resource [Device Make/MAC Address].</p>
-                       <p><br>[Signature]<br>[Digital Timestamp Seal]<br>[Designation / Forensics Registration Number]</p>
-                    </div>
-                 </div>
-              </div>
-
-              <!-- Module 2 -->
-              <div class="accordion-item">
-                 <div class="accordion-head"><h4>Module 2: Analyzing Section 39 vs. Section 45</h4><span>+</span></div>
-                 <div class="accordion-body">
-                    <p>Understanding the tectonic shift in expert testimony.</p>
-                    <table class="data-table" style="margin-top: 15px;">
-                       <tr><th>Parameter</th><th>Section 45 (Traditional Expert)</th><th>Section 39 (Cyber Expert)</th></tr>
-                       <tr><td><strong>Scope</strong></td><td>Science, Art, Handwriting, Fingerprints.</td><td>Information stored/transmitted in computer resources.</td></tr>
-                       <tr><td><strong>Qualifications</strong></td><td>"Specially skilled" (Subjective determination by Court).</td><td>"Examiner of Electronic Evidence" officially notified under Sec 79A IT Act.</td></tr>
-                       <tr><td><strong>Subjectivity</strong></td><td>High subjectivity (e.g., visual handwriting analysis).</td><td>High objectivity (mathematical hash values, server protocols).</td></tr>
-                       <tr><td><strong>Binding Nature</strong></td><td>Generally advisory, requires corroboration.</td><td>Possesses elevated statutory presumption on hardware integrity.</td></tr>
-                    </table>
-                 </div>
-              </div>
-
-              <!-- Module 3 -->
-              <div class="accordion-item">
-                 <div class="accordion-head"><h4>Module 3: Impact of Deepfakes on the BSA Framework</h4><span>+</span></div>
-                 <div class="accordion-body">
-                    <p>The infiltration of Generative AI has necessitated a complete paradigm shift within the Bharatiya Sakshya Adhiniyam.</p>
-                    <p style="margin-top: 10px;"><strong>1. The Eradication of "Seeing is Believing":</strong><br>Under traditional law, a video showing a crime was considered flawless corroboration. Deepfakes shatter this. Now, the <em>Visual</em> output is legally secondary; the backend <em>Metadata</em> is primary. The BSA structurally forces courts to authenticate the digital envelope before looking at the content.</p>
-                    <p style="margin-top: 10px;"><strong>2. The Elevation of Section 39:</strong><br>Prior to Deepfakes, a judge could rely on their own "Prudent Man" assessment to establish if a video looked spliced. Today, AI video synthesis operates at the sub-pixel level. Thus, Section 39 is aggressively invoked to mandate forensic lab verification involving signal/noise anomaly mapping before allowing video into the record.</p>
-                    <p style="margin-top: 10px; color: var(--error);"><strong>Summary:</strong> The BSA is India's first legal defense mechanism explicitly demanding absolute cryptological integrity over unverified digital reality.</p>
-                 </div>
-              </div>
-           </div>
-        </div>
-      </section>
-
-      <!-- ================= MEGA QUIZ SECTION ================= -->
-      <section id="quiz" class="content-section">
-        <header class="section-header">
-          <h1>Mega Quiz (40 Questions)</h1>
-          <p class="subtitle">Test your knowledge on every granular detail of the Bharatiya Sakshya Adhiniyam 2023.</p>
-        </header>
-        
-        <div id="quiz-container" class="quiz-card">
-          <!-- JS INJECTED -->
-        </div>
-
-        <div id="quiz-result" class="hidden quiz-card result-panel">
-          <h3 id="score-display"></h3>
-          <p id="score-message"></p>
-          <button id="restart-btn" class="action-btn">Retake Mega Quiz</button>
-        </div>
-      </section>
-
-    </main>
-  </div>
-
-  <script src="script.js"></script>
-
-  <!-- ============================================================
-       BSA 2023 — FIREBASE AUTH (Compat SDK — no modules needed)
-  ============================================================ -->
-  <script>
-  (function() {
-    var firebaseConfig = {
-      apiKey:            'AIzaSyDhC3dxEqS3ETSaN59Ap61AxJDm2VBWu4o',
-      authDomain:        'bsa-guide.firebaseapp.com',
-      projectId:         'bsa-guide',
-      storageBucket:     'bsa-guide.firebasestorage.app',
-      messagingSenderId: '153464998321',
-      appId:             '1:153464998321:web:20d3e37b80be98dfb0d590'
-    };
-    firebase.initializeApp(firebaseConfig);
-    var auth = firebase.auth();
-    var db   = firebase.firestore();
-
-    var ADMIN_EMAILS = ['leelakrishna117@gmail.com'];
-    var ROLE_ACCESS  = {
-      admin:   ['part1','digital-foundation','part2','part3','part5','part6','part7','quiz'],
-      student: ['part1','digital-foundation','part2','part3','part5','part6','part7','quiz'],
-      guest:   ['part1','digital-foundation']
-    };
-
-    var gate   = document.getElementById('access-gate');
-    var appDiv = document.querySelector('.app-layout');
-    appDiv.style.display = 'none';
-
-    function showMsg(id, msg, isGood) {
-      var el = document.getElementById(id);
-      el.textContent = msg;
-      el.classList.remove('hidden');
-      if (isGood) {
-        el.style.background = 'rgba(46,160,67,0.1)';
-        el.style.borderColor = 'rgba(46,160,67,0.35)';
-        el.style.color = '#3fb950';
-      } else {
-        el.style.background = '';
-        el.style.borderColor = '';
-        el.style.color = '';
-      }
-    }
-    function hideEl(id) {
-      var el = document.getElementById(id);
-      if (el) el.classList.add('hidden');
-    }
-    function friendlyErr(code) {
-      var msgs = {
-        'auth/invalid-email':         'Invalid email address.',
-        'auth/user-not-found':        'No account found with this email.',
-        'auth/wrong-password':        'Incorrect password.',
-        'auth/invalid-credential':    'Invalid email or password.',
-        'auth/email-already-in-use':  'An account with this email already exists.',
-        'auth/weak-password':         'Password must be at least 6 characters.',
-        'auth/too-many-requests':     'Too many attempts. Please wait and try again.',
-        'auth/network-request-failed':'Network error. Check your connection.',
-        'auth/operation-not-allowed': 'Email/password login is not enabled in Firebase console.'
-      };
-      return msgs[code] || 'Error: ' + code;
-    }
-
-    // ── Login ──
-    window.attemptLogin = function() {
-      var email = document.getElementById('g-user').value.trim();
-      var pass  = document.getElementById('g-pass').value;
-      hideEl('login-err');
-      auth.signInWithEmailAndPassword(email, pass)
-        .then(function(cred) {
-          if (!cred.user.emailVerified) {
-            showMsg('login-err', '\u26a0 Please verify your email first. Check your inbox (and spam folder).');
-            return auth.signOut();
-          }
-        })
-        .catch(function(e) {
-          showMsg('login-err', '\u26a0 ' + friendlyErr(e.code));
-          document.querySelector('.gate-card').classList.add('shake');
-          setTimeout(function(){ document.querySelector('.gate-card').classList.remove('shake'); }, 500);
-          document.getElementById('g-pass').value = '';
-        });
-    };
-
-    // ── Register ──
-    window.submitRegistration = function() {
-      var name  = document.getElementById('r-name').value.trim();
-      var email = document.getElementById('r-email').value.trim();
-      var phone = document.getElementById('r-phone').value.trim();
-      var prof  = document.getElementById('r-profession').value;
-      var inst  = document.getElementById('r-institution').value.trim();
-      var purp  = document.getElementById('r-purpose').value.trim();
-      var pass  = document.getElementById('r-password').value;
-      var pass2 = document.getElementById('r-password2').value;
-
-      var agree = document.getElementById('r-agree').checked;
-      hideEl('reg-error'); hideEl('reg-success');
-
-      if (!agree) {
-        showMsg('reg-error', '\u26a0 Please accept the Privacy Policy & Terms.'); return;
-      }
-      if (!name || !email || !prof || !purp || !pass) {
-        showMsg('reg-error', '\u26a0 Please fill all required (*) fields.'); return;
-      }
-      if (pass.length < 6) {
-        showMsg('reg-error', '\u26a0 Password must be at least 6 characters.'); return;
-      }
-      if (pass !== pass2) {
-        showMsg('reg-error', '\u26a0 Passwords do not match.'); return;
-      }
-      auth.createUserWithEmailAndPassword(email, pass)
-        .then(function(cred) {
-          var role = ADMIN_EMAILS.indexOf(email) >= 0 ? 'admin' : 'student';
-          return cred.user.sendEmailVerification()
-            .then(function() {
-              return db.collection('users').doc(cred.user.uid).set({
-                name: name, email: email, phone: phone || 'N/A',
-                profession: prof, institution: inst || 'N/A',
-                purpose: purp, role: role,
-                createdAt: firebase.firestore.FieldValue.serverTimestamp()
-              });
-            })
-            .then(function() { return auth.signOut(); })
-            .then(function() {
-              showMsg('reg-success',
-                '\u2713 Account created! Verification email sent to ' + email +
-                '. Click the link in that email, then come back and Sign In.', true);
-              ['r-name','r-email','r-phone','r-institution','r-purpose','r-password','r-password2']
-                .forEach(function(id) { document.getElementById(id).value = ''; });
-              document.getElementById('r-profession').value = '';
-            });
-        })
-        .catch(function(e) {
-          showMsg('reg-error', '\u26a0 ' + friendlyErr(e.code));
-        });
-    };
-
-    // ── Forgot Password ──
-    window.forgotPassword = function() {
-      var email = document.getElementById('g-user').value.trim();
-      if (!email) { alert('Enter your email in the field above first.'); return; }
-      auth.sendPasswordResetEmail(email)
-        .then(function() {
-          showMsg('login-err', '\u2713 Reset email sent to ' + email + '. Check your inbox.', true);
-        })
-        .catch(function(e) { alert(friendlyErr(e.code)); });
-    };
-
-    // ── Auth State — auto-enter when verified ──
-    auth.onAuthStateChanged(function(user) {
-      if (!user || !user.emailVerified) return;
-      var role = ADMIN_EMAILS.indexOf(user.email) >= 0 ? 'admin' : 'student';
-      var displayName = user.email.split('@')[0];
-      db.collection('users').doc(user.uid).get()
-        .then(function(snap) {
-          if (snap.exists) {
-            var d = snap.data();
-            role = d.role || role;
-            if (ADMIN_EMAILS.indexOf(user.email) >= 0) role = 'admin';
-            displayName = d.name || displayName;
-          }
-          gate.classList.add('hidden');
-          appDiv.style.display = '';
-          applyAccess(role, displayName);
-        })
-        .catch(function() {
-          gate.classList.add('hidden');
-          appDiv.style.display = '';
-          applyAccess(role, displayName);
-        });
-    });
-
-    function applyAccess(role, displayName) {
-      var allowed = ROLE_ACCESS[role] || ['part1'];
-      var colors  = { admin:'badge-admin', student:'badge-student', guest:'badge-guest' };
-      document.querySelectorAll('.nav-item[data-target]').forEach(function(btn) {
-        if (allowed.indexOf(btn.dataset.target) < 0) {
-          btn.style.opacity = '0.35'; btn.style.cursor = 'not-allowed';
-          btn.title = '\uD83D\uDD12 Restricted'; btn.disabled = true;
-        }
-      });
-      var header = document.querySelector('.sidebar-header');
-      if (header) {
-        var isAdmin = role === 'admin';
-        header.insertAdjacentHTML('beforeend',
-          '<div style="margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,0.06);' +
-          'font-size:0.8rem;color:#8b949e;display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap">' +
-          '<span>&#128100; <strong style="color:#e6edf3">' + displayName + '</strong> ' +
-          '<span class="badge ' + (colors[role]||'badge-guest') + '">' + role + '</span></span>' +
-          '<span style="display:flex;gap:6px">' +
-          (isAdmin ? '<button onclick="openAdminPanel()" style="background:rgba(31,111,235,0.15);border:1px solid rgba(88,166,255,0.25);color:#58a6ff;border-radius:6px;padding:3px 8px;cursor:pointer;font-size:0.72rem;font-weight:700">&#9881; Admin</button>' : '') +
-          '<button onclick="logoutBSA()" style="background:rgba(218,54,51,0.1);border:1px solid rgba(218,54,51,0.2);color:#f85149;border-radius:6px;padding:3px 8px;cursor:pointer;font-size:0.72rem;font-weight:700">Sign out</button>' +
-          '</span></div>'
-        );
-      }
-    }
-
-    // ── Admin Panel ──
-    window.openAdminPanel = function() {
-      document.getElementById('admin-panel').classList.remove('hidden');
-      var tbody = document.getElementById('adm-users-tbody');
-      var colors = { admin:'badge-admin', student:'badge-student', guest:'badge-guest' };
-      tbody.innerHTML = '<tr><td colspan="5" style="color:#8b949e;text-align:center;padding:20px">Loading...</td></tr>';
-      db.collection('users').get()
-        .then(function(snap) {
-          if (snap.empty) {
-            tbody.innerHTML = '<tr><td colspan="5" style="color:#8b949e;text-align:center;padding:20px">No registered users yet.</td></tr>';
-          } else {
-            tbody.innerHTML = snap.docs.map(function(d) {
-              var u = d.data();
-              var date = u.createdAt ? new Date(u.createdAt.seconds*1000).toLocaleDateString('en-IN') : 'N/A';
-              return '<tr><td><strong style="color:#e6edf3">' + u.name + '</strong></td>' +
-                '<td style="color:#8b949e;font-size:0.82rem">' + u.email + '</td>' +
-                '<td><span class="badge ' + (colors[u.role]||'badge-guest') + '">' + u.role + '</span></td>' +
-                '<td style="color:#8b949e;font-size:0.82rem">' + u.profession + '</td>' +
-                '<td style="color:#8b949e;font-size:0.82rem">' + date + '</td></tr>';
-            }).join('');
-          }
-        })
-        .catch(function(e) {
-          tbody.innerHTML = '<tr><td colspan="5" style="color:#f85149;padding:20px">Error: ' + e.message + '</td></tr>';
-        });
-    };
-    window.closeAdminPanel = function() { document.getElementById('admin-panel').classList.add('hidden'); };
-    window.logoutBSA = function() { auth.signOut().then(function(){ location.reload(); }); };
-
-    // Enter key
-    document.getElementById('g-user').addEventListener('keydown', function(e){ if(e.key==='Enter') document.getElementById('g-pass').focus(); });
-    document.getElementById('g-pass').addEventListener('keydown', function(e){ if(e.key==='Enter') window.attemptLogin(); });
-  })();
-
-  </script>
-
-  <script>
-  // ── Mobile sidebar drawer ──
-  const hamburger = document.getElementById('hamburger');
-  const sidebar   = document.querySelector('.sidebar');
-  const overlay   = document.getElementById('sidebar-overlay');
-
-  function openSidebar() {
-    sidebar.classList.add('open'); hamburger.classList.add('open');
-    overlay.classList.add('active'); document.body.style.overflow = 'hidden';
-  }
-  function closeSidebar() {
-    sidebar.classList.remove('open'); hamburger.classList.remove('open');
-    overlay.classList.remove('active'); document.body.style.overflow = '';
-  }
-
-  hamburger.addEventListener('click', () =>
-    sidebar.classList.contains('open') ? closeSidebar() : openSidebar()
-  );
-  overlay.addEventListener('click', closeSidebar);
-  document.querySelectorAll('.nav-item').forEach(btn =>
-    btn.addEventListener('click', () => { if (window.innerWidth <= 1100) closeSidebar(); })
-  );
-  </script>
-
-  <!-- ===== PRIVACY & TERMS MODAL ===== -->
-  <div id="policy-modal">
-    <div class="policy-card">
-      <div class="policy-content">
-        <h3>Privacy Policy & Terms</h3>
-        
-        <h4>1. Educational Purpose Only</h4>
-        <p>The BSA 2023 Guide is an educational resource developed for law students, advocates, and judicial officers. The content, including infographics and legal breakdowns, does not constitute formal legal advice. While we strive for absolute accuracy, always refer to the official Gazette of India for statutory verification.</p>
-
-        <h4>2. Data Protection (DPDP Compliance)</h4>
-        <p>As an Edu-Tech portal, we collect minimal data required for secure authentication (Name, Email, Profession, and Institution). Your data is used solely for:</p>
-        <ul>
-          <li>Granting access to secured modules.</li>
-          <li>Sending critical legal updates related to the BSA framework.</li>
-          <li>Administering the Mega Quiz and assessment results.</li>
-        </ul>
-        <p>Your data is securely stored in Google Firebase and will never be sold or shared with third parties for marketing.</p>
-
-        <h4>3. Intellectual Property</h4>
-        <p>The unique structural breakdowns, 8-dimensional forensic analysis, and interactive infographics on this platform are proprietary. Unauthorized reproduction, scraping, or commercial distribution of this material is strictly prohibited.</p>
-
-        <h4>4. User Conduct</h4>
-        <p>Accounts are for individual use. Sharing login credentials or attempting to bypass security gates will result in immediate suspension of access.</p>
-
-        <h4>5. Liability Disclaimer</h4>
-        <p>The developer shall not be liable for any legal interpretations made by users based on this guide. This is a learning tool designed to simplify complex transistions into the new evidentiary regime.</p>
-      </div>
-      <button class="gate-btn-primary policy-close" onclick="closePolicy()">I Understand & Accept</button>
     </div>
-  </div>
 
-  <script>
-    window.openPolicy = function() { document.getElementById('policy-modal').classList.add('active'); };
-    window.closePolicy = function() { document.getElementById('policy-modal').classList.remove('active'); };
-  </script>
+    <!-- ===== ADMIN PANEL (Firebase Bound) ===== -->
+    <div id="admin-panel" class="hidden">
+        <div class="adm-card">
+            <div class="adm-header">
+                <h3>&#128100; Admin Control Panel</h3>
+                <button onclick="closeAdminPanel()" class="adm-close">&#x2715; Close</button>
+            </div>
+            <div class="adm-table-wrap"><table class="adm-table"><thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Profession</th><th>Registered</th></tr></thead><tbody id="adm-users-tbody"><tr><td colspan="5" style="color:#8b949e;text-align:center;padding:20px">Loading...</td></tr></tbody></table></div>
+        </div>
+    </div>
 
+    <!-- HAMBURGER & OVERLAY -->
+    <button class="hamburger" id="hamburger" aria-label="Open menu"><span></span><span></span><span></span></button>
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+    <script>
+        window.switchTab = function(tab) {
+          var pl = document.getElementById('panel-login'), pr = document.getElementById('panel-register');
+          var tl = document.getElementById('tab-login'), tr = document.getElementById('tab-register');
+          if (tab === 'login') { pl.classList.remove('hidden'); pr.classList.add('hidden'); tl.classList.add('active'); tr.classList.remove('active'); } 
+          else { pl.classList.add('hidden'); pr.classList.remove('hidden'); tl.classList.remove('active'); tr.classList.add('active'); }
+        };
+    </script>
+
+    <div class="app-layout" style="display:none;">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>BSA 2023</h2>
+                <span class="version-badge">Mega-Edition v5.0 Masterclass</span>
+            </div>
+            <nav class="sidebar-nav">
+                <div class="nav-section">
+                    <p class="nav-section-title">Legal Mastery (Parts)</p>
+                    <button class="nav-item active" data-target="part1">Part I: Foundation & Relevancy</button>
+                    <button class="nav-item" data-target="part2">Part II: Digital Foundation (Sec 2)</button>
+                    <button class="nav-item" data-target="part3">Part III: On Proof & Digital Law</button>
+                    <button class="nav-item" data-target="part4">Part IV: The Best Evidence Rule</button>
+                    <button class="nav-item" data-target="part5">Part V: Digital Presumptions</button>
+                    <button class="nav-item" data-target="part6">Part VI: Accelerated Authenticity</button>
+                    <button class="nav-item" data-target="part7">Part VII: Cyber Forensics & Experts</button>
+                    <button class="nav-item" data-target="quiz-section">BSA Mega Quiz (40 Qs)</button>
+                </div>
+            </nav>
+        </aside>
+
+        <main class="main-area">
+            <!-- PART I -->
+            <section id="part1" class="content-section active">
+                <header class="section-header">
+                    <h1>Part I: Foundation & Relevancy</h1>
+                    <p class="subtitle"> modernized deep-dive into jurisdictions, definitions, and interpretations.</p>
+                </header>
+                <div class="hero-image-container"><img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=2600" class="hero-banner" /></div>
+                
+                <div class="mermaid-container"><div class="mermaid">
+graph LR
+    A[The Legal Universe] --> B{Definitions}
+    B --> C[Document: Physical + Digital]
+    B --> D[Evidence: Oral + Documentary]
+    C --> E[Emails/CCTV/Logs]
+    D --> F[Video Testimony/E-Files]
+    style A fill:#1f6feb,color:#fff
+                </div></div>
+
+                <div class="mermaid-container"><div class="mermaid">
+graph TD
+    A[Fact Classification] --> B[Physical Facts]
+    A --> C[Mental Condition]
+    B --> D[Seen/Heard/Felt]
+    C --> E[Intention/Good Faith/Fraud]
+    D --> F[Direct Perception]
+    E --> G[Inferred from Conduct]
+                </div></div>
+
+                <div class="text-block card">
+                    <h3>Modernized Legal Dictionary (Section 2)</h3>
+                    <p>The BSA bridges the gap between physical and digital reality by expanding the definition of matter recorded on any substance.</p>
+                </div>
+            </section>
+
+            <!-- PART II -->
+            <section id="part2" class="content-section">
+                <header class="section-header">
+                    <h1>Part II: Digital Foundation</h1>
+                    <p class="subtitle">Replacing the paper-first regime with a data-first philosophy.</p>
+                </header>
+                <div class="hero-image-container"><img src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=2600" class="hero-banner" /></div>
+
+                <div class="mermaid-container"><div class="mermaid">
+mindmap
+  root((Digital Foundation))
+    Document
+      Server Logs
+      Smartphones
+      Cloud Storage
+    Evidence
+      Video Testimony
+      Digital Inspection
+      Metadata Logs
+                </div></div>
+
+                <div class="mermaid-container"><div class="mermaid">
+sequenceDiagram
+    participant D as Device (Source)
+    participant E as Forensic Expert
+    participant H as Hash Generator
+    participant C as Court
+    D->>E: Seizure (Write-Blocker)
+    E->>H: Bit-for-Bit Copy
+    H->>C: Verified SHA-256 Hash
+    Note over C: Integrity Guaranteed
+                </div></div>
+            </section>
+
+            <!-- PART III -->
+            <section id="part3" class="content-section">
+                <header class="section-header">
+                    <h1>Part III: On Proof & Relevancy</h1>
+                    <p class="subtitle">Relevancy through chronological skeletons and digital breadcrumbs.</p>
+                </header>
+                <div class="hero-image-container"><img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&q=80&w=2600" class="hero-banner" /></div>
+
+                <div class="mermaid-container"><div class="mermaid">
+graph TD
+    A[Relevancy Dimensions] --> B[Res Gestae (Sec 4)]
+    A --> C[Conduct (Sec 6)]
+    A --> D[Alibi (Sec 9)]
+    A --> E[Conspiracy (Sec 8)]
+    B --> F[Spontaneous Logs]
+    C --> G[Preparation/Wipe]
+    D --> H[GPS Impossible Presence]
+    E --> I[Group Chat Intention]
+                </div></div>
+
+                <div class="mermaid-container"><div class="mermaid">
+graph LR
+    M[Motive] --> P[Preparation]
+    P --> C[Conduct]
+    P --> D[Search History]
+    C --> E[Factory Reset]
+    D --> R{Relevant Facts}
+    E --> R
+    style R fill:#f85149,color:#fff
+                </div></div>
+
+                <div class="mermaid-container"><div class="mermaid">
+graph TD
+    A[Alibi Probability] --> B{Possibility of Presence}
+    B -- No --> C[High Incompatibility]
+    C --> D[Plea of Alibi Success]
+    B -- Yes --> E[Alibi Failure]
+    style D fill:#238636,color:#fff
+                </div></div>
+            </section>
+
+            <!-- PART IV -->
+            <section id="part4" class="content-section">
+                <header class="section-header">
+                    <h1>Part IV: The Best Evidence Rule</h1>
+                    <p class="subtitle">Section 61-63: The mandatory scientific gateway for digital data.</p>
+                </header>
+                <div class="hero-image-container"><img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=2600" class="hero-banner" /></div>
+
+                <div class="text-block card" style="background: linear-gradient(135deg, rgba(31,111,235,0.05), rgba(137,87,229,0.05)); border: 1px solid var(--primary-color);">
+                    <h2 style="color: var(--primary-color);">Module 1: The New Legal Paradigm</h2>
+                    <p> BSA 2023 shift from "Paper-First" to "Data-First." In this paradigm, <strong>Data is Sovereign</strong>.</p>
+                </div>
+
+                <div class="mermaid-container"><div class="mermaid">
+graph TD
+    S[Original Device] -->|Sec 57| P(Primary Evidence)
+    O[Computer Output] -->|Sec 63| AD(Admissible Copy)
+    P --> N[No Certificate*]
+    AD --> C[Certificate Required]
+    C --> H[Hash Value Comparison]
+    H --> V[Verifiable Integrity]
+    style P fill:#238636,color:#fff
+    style AD fill:#d29922,color:#fff
+                </div></div>
+
+                <div class="mermaid-container"><div class="mermaid">
+graph LR
+    A[Primary Device] --> B{In Court?}
+    B -- Yes --> C[Inspection as Primary]
+    B -- No --> D[Secondary Evidence Gateway]
+    D --> E[Statutory Certificate]
+    E --> F[Dual Signature Check]
+    F --> G[Admissible]
+                </div></div>
+
+                <div class="mermaid-container"><div class="mermaid">
+stateDiagram-v2
+    [*] --> CertificateSubmission
+    CertificateSubmission --> ManagerSignature: Part A
+    ManagerSignature --> ExpertSignature: Part B
+    ExpertSignature --> HashVerification
+    HashVerification --> Admissible
+                </div></div>
+            </section>
+
+            <!-- PART V -->
+            <section id="part5" class="content-section">
+                <header class="section-header">
+                    <h1>Part V: Digital Presumptions</h1>
+                    <p class="subtitle">Shortcutting technical proof through secure record status.</p>
+                </header>
+                <div class="hero-image-container"><img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&q=80&w=2600" class="hero-banner" /></div>
+
+                <div class="mermaid-container"><div class="mermaid">
+stateDiagram-v2
+    [*] --> SecureRecord
+    SecureRecord --> IntegrityPresumed: Sec 86 (Shall)
+    [*] --> DigitalSignature
+    DigitalSignature --> ExecutionPresumed: Sec 85 (Shall)
+    [*] --> ElectronicEmail
+    ElectronicEmail --> DeliveryPresumed: Sec 90 (May)
+                </div></div>
+
+                <div class="mermaid-container"><div class="mermaid">
+graph LR
+    A[Secure Procedure] --> B[Hash/Block Seal]
+    B --> C{Presumption Anchor}
+    C --> D[Shall Presume Integrity]
+    D --> E[Burden shifts to Opponent]
+    style D fill:#1f6feb,color:#fff
+                </div></div>
+            </section>
+
+            <!-- PART VI -->
+            <section id="part6" class="content-section">
+                <header class="section-header">
+                    <h1>Part VI: Accelerated Authenticity</h1>
+                    <p class="subtitle">The 5-Year Rule for digital antiquity (Section 93).</p>
+                </header>
+                <div class="hero-image-container"><img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&q=80&w=2600" class="hero-banner" /></div>
+
+                <div class="mermaid-container"><div class="mermaid">
+gantt
+    title Digital vs Paper Antiquity
+    dateFormat YYYY
+    section IEA 1872
+    Paper Rule (30 Years) : 1872, 1902
+    section BSA 2023
+    Digital Rule (5 Years) : 2019, 2024
+                </div></div>
+
+                <div class="mermaid-container"><div class="mermaid">
+graph LR
+    A[5-Year Old Record] --> B{Proper Custody?}
+    B -- Yes --> C[Presumption of Genuineness]
+    B -- No --> D[Must Prove Genuineness]
+    C --> E[Section 93 Triggered]
+    style E fill:#238636,color:#fff
+                </div></div>
+            </section>
+
+            <!-- PART VII -->
+            <section id="part7" class="content-section">
+                <header class="section-header">
+                    <h1>Part VII: Cyber Forensics & Experts</h1>
+                    <p class="subtitle">Technical opinions elevated to statutory legal facts.</p>
+                </header>
+                <div class="hero-image-container"><img src="https://images.unsplash.com/photo-1558494949-ef010ccdcc39?auto=format&fit=crop&q=80&w=2600" class="hero-banner" /></div>
+
+                <div class="mermaid-container"><div class="mermaid">
+graph LR
+    F[Forensic Extraction] --> E{Sec 39 Expert}
+    E --> A[Deepfake Analysis]
+    E --> B[Hash Verification]
+    E --> C[Data Recovery]
+    E --> D[Certificate Part B]
+    style E fill:#8957e5,color:#fff
+                </div></div>
+
+                <div class="mermaid-container"><div class="mermaid">
+graph TD
+    A[Pixel Anomaly] --> B{Deepfake Check}
+    A --> C[Noise Signal Variance]
+    A --> D[Metadata Inconsistency]
+    B -- Found --> E[Evidence Rejected]
+    B -- Clean --> F[Evidence Verified]
+    style E fill:#f85149,color:#fff
+    style F fill:#238636,color:#fff
+                </div></div>
+
+                <div class="text-block card">
+                    <h3>The Expert Interface</h3>
+                    <p>Section 39 and 73 ensure that technical unmasking is done through mathematical certainty rather than subjective visual style.</p>
+                </div>
+            </section>
+
+            <!-- MEGA QUIZ -->
+            <section id="quiz-section" class="content-section">
+                <header class="section-header">
+                    <h1>BSA 2023 Mega Quiz</h1>
+                    <p class="subtitle">40 Granular Questions to Master the New Evidence Law.</p>
+                </header>
+                <div class="quiz-card card mt-4">
+                    <div id="quiz-container"></div>
+                    <div id="quiz-result" class="result-panel hidden">
+                        <h3>Result</h3>
+                        <div id="score-display"></div>
+                        <p id="score-message"></p>
+                        <button id="restart-btn" class="action-btn">Restart Quiz</button>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- POLICY MODAL -->
+    <div id="policy-modal">
+        <div class="policy-card">
+            <div class="policy-content">
+                <h3>DPDP Compliance & Terms</h3>
+                <p>Educational resource for law students. Content does not constitute formal legal advice.</p>
+            </div>
+            <button class="action-btn" onclick="closePolicy()">I Agree</button>
+        </div>
+    </div>
+    <script src="script.js"></script>
 </body>
 </html>
