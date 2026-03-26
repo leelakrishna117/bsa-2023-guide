@@ -12,7 +12,12 @@
     mermaid.initialize({ startOnLoad: false, theme: 'dark', fontFamily: 'Inter' });
     window.mermaidAPI = mermaid;
   </script>
+  <!-- Firebase Compat SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore-compat.js"></script>
 </head>
+
 <body>
   
 
@@ -225,7 +230,7 @@
     }
   </style>
 
-  <!-- Gate UI — plain script so onclick always works immediately -->
+  <!-- Gate UI — synchronous, always works -->
   <script>
     window.switchTab = function(tab) {
       var pl = document.getElementById('panel-login');
@@ -240,13 +245,6 @@
         tl.classList.remove('active'); tr.classList.add('active');
       }
     };
-    // Stubs replaced by Firebase module once it loads
-    window.attemptLogin       = function() { alert('Still loading auth, please try in a moment…'); };
-    window.submitRegistration = function() { alert('Still loading auth, please try in a moment…'); };
-    window.forgotPassword     = function() { alert('Still loading auth, please try in a moment…'); };
-    window.logoutBSA          = function() { location.reload(); };
-    window.openAdminPanel     = function() { document.getElementById('admin-panel').classList.remove('hidden'); };
-    window.closeAdminPanel    = function() { document.getElementById('admin-panel').classList.add('hidden'); };
   </script>
 
 
@@ -1834,73 +1832,230 @@
 
   <script src="script.js"></script>
 
-  <script type="module">
-  // ============================================================
-  //  BSA 2023 — FIREBASE AUTH SYSTEM
-  //  Users self-register, verify email, and get instant access.
-  //  Admin email(s) listed below get the 'admin' role.
-  // ============================================================
-  import { initializeApp }                           from 'https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js';
-  import { getAuth, createUserWithEmailAndPassword,
-           signInWithEmailAndPassword, sendEmailVerification,
-           onAuthStateChanged, signOut,
-           sendPasswordResetEmail }                  from 'https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js';
-  import { getFirestore, doc, setDoc, getDoc,
-           collection, getDocs,
-           serverTimestamp }                         from 'https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js';
+  <!-- ============================================================
+       BSA 2023 — FIREBASE AUTH (Compat SDK — no modules needed)
+  ============================================================ -->
+  <script>
+  (function() {
+    var firebaseConfig = {
+      apiKey:            'AIzaSyDhC3dxEqS3ETSaN59Ap61AxJDm2VBWu4o',
+      authDomain:        'bsa-guide.firebaseapp.com',
+      projectId:         'bsa-guide',
+      storageBucket:     'bsa-guide.firebasestorage.app',
+      messagingSenderId: '153464998321',
+      appId:             '1:153464998321:web:20d3e37b80be98dfb0d590'
+    };
+    firebase.initializeApp(firebaseConfig);
+    var auth = firebase.auth();
+    var db   = firebase.firestore();
 
-  const firebaseConfig = {
-    apiKey:            'AIzaSyDhC3dxEqS3ETSaN59Ap61AxJDm2VBWu4o',
-    authDomain:        'bsa-guide.firebaseapp.com',
-    projectId:         'bsa-guide',
-    storageBucket:     'bsa-guide.firebasestorage.app',
-    messagingSenderId: '153464998321',
-    appId:             '1:153464998321:web:20d3e37b80be98dfb0d590'
-  };
+    var ADMIN_EMAILS = ['leelakrishna117@gmail.com'];
+    var ROLE_ACCESS  = {
+      admin:   ['part1','digital-foundation','part2','part3','part5','part6','part7','quiz'],
+      student: ['part1','digital-foundation','part2','part3','part5','part6','part7','quiz'],
+      guest:   ['part1','digital-foundation']
+    };
 
-  const app  = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-  const db   = getFirestore(app);
+    var gate   = document.getElementById('access-gate');
+    var appDiv = document.querySelector('.app-layout');
+    appDiv.style.display = 'none';
 
-  // ── Admin emails — these get the 'admin' role automatically ──
-  const ADMIN_EMAILS = ['leelakrishna117@gmail.com'];
+    function showMsg(id, msg, isGood) {
+      var el = document.getElementById(id);
+      el.textContent = msg;
+      el.classList.remove('hidden');
+      if (isGood) {
+        el.style.background = 'rgba(46,160,67,0.1)';
+        el.style.borderColor = 'rgba(46,160,67,0.35)';
+        el.style.color = '#3fb950';
+      } else {
+        el.style.background = '';
+        el.style.borderColor = '';
+        el.style.color = '';
+      }
+    }
+    function hideEl(id) {
+      var el = document.getElementById(id);
+      if (el) el.classList.add('hidden');
+    }
+    function friendlyErr(code) {
+      var msgs = {
+        'auth/invalid-email':         'Invalid email address.',
+        'auth/user-not-found':        'No account found with this email.',
+        'auth/wrong-password':        'Incorrect password.',
+        'auth/invalid-credential':    'Invalid email or password.',
+        'auth/email-already-in-use':  'An account with this email already exists.',
+        'auth/weak-password':         'Password must be at least 6 characters.',
+        'auth/too-many-requests':     'Too many attempts. Please wait and try again.',
+        'auth/network-request-failed':'Network error. Check your connection.',
+        'auth/operation-not-allowed': 'Email/password login is not enabled in Firebase console.'
+      };
+      return msgs[code] || 'Error: ' + code;
+    }
 
-  const ROLE_ACCESS = {
-    admin:   ['part1','digital-foundation','part2','part3','part5','part6','part7','quiz'],
-    student: ['part1','digital-foundation','part2','part3','part5','part6','part7','quiz'],
-    guest:   ['part1','digital-foundation'],
-  };
+    // ── Login ──
+    window.attemptLogin = function() {
+      var email = document.getElementById('g-user').value.trim();
+      var pass  = document.getElementById('g-pass').value;
+      hideEl('login-err');
+      auth.signInWithEmailAndPassword(email, pass)
+        .then(function(cred) {
+          if (!cred.user.emailVerified) {
+            showMsg('login-err', '\u26a0 Please verify your email first. Check your inbox (and spam folder).');
+            return auth.signOut();
+          }
+        })
+        .catch(function(e) {
+          showMsg('login-err', '\u26a0 ' + friendlyErr(e.code));
+          document.querySelector('.gate-card').classList.add('shake');
+          setTimeout(function(){ document.querySelector('.gate-card').classList.remove('shake'); }, 500);
+          document.getElementById('g-pass').value = '';
+        });
+    };
 
-  const gate   = document.getElementById('access-gate');
-  const appDiv = document.querySelector('.app-layout');
-  appDiv.style.display = 'none';
+    // ── Register ──
+    window.submitRegistration = function() {
+      var name  = document.getElementById('r-name').value.trim();
+      var email = document.getElementById('r-email').value.trim();
+      var phone = document.getElementById('r-phone').value.trim();
+      var prof  = document.getElementById('r-profession').value;
+      var inst  = document.getElementById('r-institution').value.trim();
+      var purp  = document.getElementById('r-purpose').value.trim();
+      var pass  = document.getElementById('r-password').value;
+      var pass2 = document.getElementById('r-password2').value;
+      hideEl('reg-error'); hideEl('reg-success');
 
-  // ── Helpers ──
-  function showErr(id, msg) {
-    const el = document.getElementById(id);
-    el.textContent = msg; el.classList.remove('hidden');
-  }
-  function hideEl(id) { document.getElementById(id).classList.add('hidden'); }
+      if (!name || !email || !prof || !purp || !pass) {
+        showMsg('reg-error', '\u26a0 Please fill all required (*) fields.'); return;
+      }
+      if (pass.length < 6) {
+        showMsg('reg-error', '\u26a0 Password must be at least 6 characters.'); return;
+      }
+      if (pass !== pass2) {
+        showMsg('reg-error', '\u26a0 Passwords do not match.'); return;
+      }
+      auth.createUserWithEmailAndPassword(email, pass)
+        .then(function(cred) {
+          var role = ADMIN_EMAILS.indexOf(email) >= 0 ? 'admin' : 'student';
+          return cred.user.sendEmailVerification()
+            .then(function() {
+              return db.collection('users').doc(cred.user.uid).set({
+                name: name, email: email, phone: phone || 'N/A',
+                profession: prof, institution: inst || 'N/A',
+                purpose: purp, role: role,
+                createdAt: firebase.firestore.FieldValue.serverTimestamp()
+              });
+            })
+            .then(function() { return auth.signOut(); })
+            .then(function() {
+              showMsg('reg-success',
+                '\u2713 Account created! Verification email sent to ' + email +
+                '. Click the link in that email, then come back and Sign In.', true);
+              ['r-name','r-email','r-phone','r-institution','r-purpose','r-password','r-password2']
+                .forEach(function(id) { document.getElementById(id).value = ''; });
+              document.getElementById('r-profession').value = '';
+            });
+        })
+        .catch(function(e) {
+          showMsg('reg-error', '\u26a0 ' + friendlyErr(e.code));
+        });
+    };
 
-  function getFriendlyError(code) {
-    return {
-      'auth/invalid-email':        'Invalid email address.',
-      'auth/user-not-found':       'No account found with this email.',
-      'auth/wrong-password':       'Incorrect password.',
-      'auth/invalid-credential':   'Invalid email or password.',
-      'auth/email-already-in-use': 'An account with this email already exists.',
-      'auth/weak-password':        'Password must be at least 6 characters.',
-      'auth/too-many-requests':    'Too many attempts. Please wait and try again.',
-      'auth/network-request-failed':'Network error. Check your connection.',
-    }[code] || 'Something went wrong. Please try again.';
-  }
+    // ── Forgot Password ──
+    window.forgotPassword = function() {
+      var email = document.getElementById('g-user').value.trim();
+      if (!email) { alert('Enter your email in the field above first.'); return; }
+      auth.sendPasswordResetEmail(email)
+        .then(function() {
+          showMsg('login-err', '\u2713 Reset email sent to ' + email + '. Check your inbox.', true);
+        })
+        .catch(function(e) { alert(friendlyErr(e.code)); });
+    };
 
-  // ── Tab switcher ──
-  window.switchTab = function(tab) {
-    document.getElementById('panel-login').classList.toggle('hidden', tab !== 'login');
-    document.getElementById('panel-register').classList.toggle('hidden', tab !== 'register');
-    document.getElementById('tab-login').classList.toggle('active', tab === 'login');
-    document.getElementById('tab-register').classList.toggle('active', tab !== 'login');
+    // ── Auth State — auto-enter when verified ──
+    auth.onAuthStateChanged(function(user) {
+      if (!user || !user.emailVerified) return;
+      var role = ADMIN_EMAILS.indexOf(user.email) >= 0 ? 'admin' : 'student';
+      var displayName = user.email.split('@')[0];
+      db.collection('users').doc(user.uid).get()
+        .then(function(snap) {
+          if (snap.exists) {
+            var d = snap.data();
+            role = d.role || role;
+            if (ADMIN_EMAILS.indexOf(user.email) >= 0) role = 'admin';
+            displayName = d.name || displayName;
+          }
+          gate.classList.add('hidden');
+          appDiv.style.display = '';
+          applyAccess(role, displayName);
+        })
+        .catch(function() {
+          gate.classList.add('hidden');
+          appDiv.style.display = '';
+          applyAccess(role, displayName);
+        });
+    });
+
+    function applyAccess(role, displayName) {
+      var allowed = ROLE_ACCESS[role] || ['part1'];
+      var colors  = { admin:'badge-admin', student:'badge-student', guest:'badge-guest' };
+      document.querySelectorAll('.nav-item[data-target]').forEach(function(btn) {
+        if (allowed.indexOf(btn.dataset.target) < 0) {
+          btn.style.opacity = '0.35'; btn.style.cursor = 'not-allowed';
+          btn.title = '\uD83D\uDD12 Restricted'; btn.disabled = true;
+        }
+      });
+      var header = document.querySelector('.sidebar-header');
+      if (header) {
+        var isAdmin = role === 'admin';
+        header.insertAdjacentHTML('beforeend',
+          '<div style="margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,0.06);' +
+          'font-size:0.8rem;color:#8b949e;display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap">' +
+          '<span>&#128100; <strong style="color:#e6edf3">' + displayName + '</strong> ' +
+          '<span class="badge ' + (colors[role]||'badge-guest') + '">' + role + '</span></span>' +
+          '<span style="display:flex;gap:6px">' +
+          (isAdmin ? '<button onclick="openAdminPanel()" style="background:rgba(31,111,235,0.15);border:1px solid rgba(88,166,255,0.25);color:#58a6ff;border-radius:6px;padding:3px 8px;cursor:pointer;font-size:0.72rem;font-weight:700">&#9881; Admin</button>' : '') +
+          '<button onclick="logoutBSA()" style="background:rgba(218,54,51,0.1);border:1px solid rgba(218,54,51,0.2);color:#f85149;border-radius:6px;padding:3px 8px;cursor:pointer;font-size:0.72rem;font-weight:700">Sign out</button>' +
+          '</span></div>'
+        );
+      }
+    }
+
+    // ── Admin Panel ──
+    window.openAdminPanel = function() {
+      document.getElementById('admin-panel').classList.remove('hidden');
+      var tbody = document.getElementById('adm-users-tbody');
+      var colors = { admin:'badge-admin', student:'badge-student', guest:'badge-guest' };
+      tbody.innerHTML = '<tr><td colspan="5" style="color:#8b949e;text-align:center;padding:20px">Loading...</td></tr>';
+      db.collection('users').get()
+        .then(function(snap) {
+          if (snap.empty) {
+            tbody.innerHTML = '<tr><td colspan="5" style="color:#8b949e;text-align:center;padding:20px">No registered users yet.</td></tr>';
+          } else {
+            tbody.innerHTML = snap.docs.map(function(d) {
+              var u = d.data();
+              var date = u.createdAt ? new Date(u.createdAt.seconds*1000).toLocaleDateString('en-IN') : 'N/A';
+              return '<tr><td><strong style="color:#e6edf3">' + u.name + '</strong></td>' +
+                '<td style="color:#8b949e;font-size:0.82rem">' + u.email + '</td>' +
+                '<td><span class="badge ' + (colors[u.role]||'badge-guest') + '">' + u.role + '</span></td>' +
+                '<td style="color:#8b949e;font-size:0.82rem">' + u.profession + '</td>' +
+                '<td style="color:#8b949e;font-size:0.82rem">' + date + '</td></tr>';
+            }).join('');
+          }
+        })
+        .catch(function(e) {
+          tbody.innerHTML = '<tr><td colspan="5" style="color:#f85149;padding:20px">Error: ' + e.message + '</td></tr>';
+        });
+    };
+    window.closeAdminPanel = function() { document.getElementById('admin-panel').classList.add('hidden'); };
+    window.logoutBSA = function() { auth.signOut().then(function(){ location.reload(); }); };
+
+    // Enter key
+    document.getElementById('g-user').addEventListener('keydown', function(e){ if(e.key==='Enter') document.getElementById('g-pass').focus(); });
+    document.getElementById('g-pass').addEventListener('keydown', function(e){ if(e.key==='Enter') window.attemptLogin(); });
+  })();
+  </script>
+
     document.getElementById('tab-register').textContent = tab === 'register' ? 'Register' : 'Register';
   };
 
