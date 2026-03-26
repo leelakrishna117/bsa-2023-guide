@@ -30,15 +30,15 @@
         <button class="gate-tab" id="tab-register" onclick="switchTab('register')">Request Access</button>
       </div>
       <div id="panel-login">
-        <div id="login-err" class="gate-error hidden">&#9888; Invalid username or password.</div>
-        <div class="gate-field"><label>Username</label><input type="text" id="g-user" placeholder="Enter your username" autocomplete="username" /></div>
+        <div id="login-err" class="gate-error hidden"></div>
+        <div class="gate-field"><label>Email Address</label><input type="email" id="g-user" placeholder="your@email.com" autocomplete="email" /></div>
         <div class="gate-field"><label>Password</label><input type="password" id="g-pass" placeholder="Enter your password" autocomplete="current-password" /></div>
         <button class="gate-btn-primary" onclick="attemptLogin()">Sign In &rarr;</button>
-        <p class="gate-note">Don&rsquo;t have access? Click <strong>Request Access</strong> above.</p>
+        <p class="gate-note" style="display:flex;justify-content:space-between"><span>No account? Click <strong>Register</strong> above.</span><button onclick="forgotPassword()" style="background:none;border:none;color:#58a6ff;cursor:pointer;font-size:0.78rem;font-family:inherit">Forgot password?</button></p>
       </div>
       <div id="panel-register" class="hidden">
-        <div id="reg-success" class="gate-success hidden">&#10003; Request submitted! The administrator will review and provide your login credentials.</div>
-        <div id="reg-error" class="gate-error hidden">&#9888; Please fill all required (*) fields.</div>
+        <div id="reg-success" class="gate-success hidden"></div>
+        <div id="reg-error" class="gate-error hidden"></div>
         <div class="gate-grid-2">
           <div class="gate-field"><label>Full Name <span class="req">*</span></label><input type="text" id="r-name" placeholder="Your full name" /></div>
           <div class="gate-field"><label>Email Address <span class="req">*</span></label><input type="email" id="r-email" placeholder="your@email.com" /></div>
@@ -56,9 +56,13 @@
           </div>
         </div>
         <div class="gate-field"><label>Institution / Organization</label><input type="text" id="r-institution" placeholder="College, firm, court, etc." /></div>
-        <div class="gate-field"><label>Purpose of Access <span class="req">*</span></label><textarea id="r-purpose" rows="3" placeholder="Briefly describe why you need access..."></textarea></div>
-        <button class="gate-btn-primary" onclick="submitRegistration()">Submit Request &rarr;</button>
-        <p class="gate-note">Your details are visible only to the administrator.</p>
+        <div class="gate-field"><label>Purpose of Access <span class="req">*</span></label><textarea id="r-purpose" rows="2" placeholder="Brief reason for access..."></textarea></div>
+        <div class="gate-grid-2">
+          <div class="gate-field"><label>Password <span class="req">*</span></label><input type="password" id="r-password" placeholder="Min. 6 characters" /></div>
+          <div class="gate-field"><label>Confirm Password <span class="req">*</span></label><input type="password" id="r-password2" placeholder="Repeat password" /></div>
+        </div>
+        <button class="gate-btn-primary" onclick="submitRegistration()">Create Account &rarr;</button>
+        <p class="gate-note">You'll receive a verification email. Click the link to activate your account.</p>
       </div>
       <p class="gate-footer">Bharatiya Sakshya Adhiniyam 2023 &mdash; Interactive Masterclass</p>
     </div>
@@ -71,22 +75,10 @@
         <h3>&#128100; Admin Control Panel</h3>
         <button onclick="closeAdminPanel()" class="adm-close">&#x2715; Close</button>
       </div>
-      <p style="color:#8b949e;font-size:0.88rem;margin-bottom:20px;line-height:1.6">To permanently add a user: fill the form below, copy the snippet, paste it into the <code>USERS</code> object in <code>index.html</code>, then run <code>git add . &amp;&amp; git commit -m "Add user" &amp;&amp; git push</code>.</p>
-      <h4 style="color:#58a6ff;margin-bottom:12px;font-size:0.78rem;text-transform:uppercase;letter-spacing:0.07em">&#128274; Approved Users</h4>
-      <div class="adm-table-wrap"><table class="adm-table"><thead><tr><th>Username</th><th>Role</th><th>Display Name</th><th>Status</th></tr></thead><tbody id="adm-users-tbody"></tbody></table></div>
-      <div style="margin-top:28px">
-        <h4 style="color:#58a6ff;margin-bottom:12px;font-size:0.78rem;text-transform:uppercase;letter-spacing:0.07em">&#43; Generate New User Snippet</h4>
-        <div class="gate-grid-2">
-          <div class="gate-field"><label>Username</label><input type="text" id="new-u" placeholder="e.g. john123" /></div>
-          <div class="gate-field"><label>Password</label><input type="text" id="new-p" placeholder="e.g. Secure#Pass1" /></div>
-        </div>
-        <div class="gate-grid-2">
-          <div class="gate-field"><label>Display Name</label><input type="text" id="new-name" placeholder="e.g. John Doe" /></div>
-          <div class="gate-field"><label>Role</label><select id="new-role"><option value="student">student</option><option value="admin">admin</option><option value="guest">guest</option></select></div>
-        </div>
-        <button class="gate-btn-secondary" onclick="generateUserCode()">Generate Code Snippet</button>
-        <pre id="code-output" class="adm-code hidden"></pre>
-      </div>
+      <p style="color:#8b949e;font-size:0.88rem;margin-bottom:20px;line-height:1.6">All registered users are stored in Firebase. You can also disable any user from <a href="https://console.firebase.google.com" target="_blank" style="color:#58a6ff">console.firebase.google.com</a> &rarr; Authentication.</p>
+      <h4 style="color:#58a6ff;margin-bottom:12px;font-size:0.78rem;text-transform:uppercase;letter-spacing:0.07em">&#128100; Registered Users (from Firebase)</h4>
+      <div class="adm-table-wrap"><table class="adm-table"><thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Profession</th><th>Registered</th></tr></thead><tbody id="adm-users-tbody"><tr><td colspan="5" style="color:#8b949e;text-align:center;padding:20px">Loading...</td></tr></tbody></table></div>
+      <p style="color:#8b949e;font-size:0.85rem;margin-top:20px">To disable a user: go to Firebase Console &rarr; Authentication &rarr; find user &rarr; click Disable.</p>
     </div>
   </div>
 
@@ -1682,20 +1674,37 @@
 
   <script src="script.js"></script>
 
-  <script>
+  <script type="module">
   // ============================================================
-  //  BSA 2023 — ACCESS CONTROL & REGISTRATION SYSTEM
-  //  ADMIN: Add/change users in the USERS object below
-  //  FORMSPREE_ID: Replace with your Formspree form ID
+  //  BSA 2023 — FIREBASE AUTH SYSTEM
+  //  Users self-register, verify email, and get instant access.
+  //  Admin email(s) listed below get the 'admin' role.
   // ============================================================
-  const FORMSPREE_ID = 'xkopnqlw'; // Formspree form ID
+  import { initializeApp }                           from 'https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js';
+  import { getAuth, createUserWithEmailAndPassword,
+           signInWithEmailAndPassword, sendEmailVerification,
+           onAuthStateChanged, signOut,
+           sendPasswordResetEmail }                  from 'https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js';
+  import { getFirestore, doc, setDoc, getDoc,
+           collection, getDocs,
+           serverTimestamp }                         from 'https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js';
 
-  const USERS = {
-    // 'username': { password, role, displayName }
-    'admin':    { password: 'bsa@Admin2023', role: 'admin',   displayName: 'Administrator' },
-    'student1': { password: 'lawStudent#1',  role: 'student', displayName: 'Law Student'   },
-    'student2': { password: 'lawStudent#2',  role: 'student', displayName: 'Law Student 2' },
+  const firebaseConfig = {
+    apiKey:            'AIzaSyDhC3dxEqS3ETSaN59Ap61AxJDm2VBWu4o',
+    authDomain:        'bsa-guide.firebaseapp.com',
+    projectId:         'bsa-guide',
+    storageBucket:     'bsa-guide.firebasestorage.app',
+    messagingSenderId: '153464998321',
+    appId:             '1:153464998321:web:20d3e37b80be98dfb0d590'
   };
+
+  const app  = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db   = getFirestore(app);
+
+  // ── Add YOUR email here to get admin role automatically ──
+  const ADMIN_EMAILS = [];
+  // e.g. const ADMIN_EMAILS = ['yourname@gmail.com'];
 
   const ROLE_ACCESS = {
     admin:   ['part1','digital-foundation','part2','part3','part5','part6','part7','quiz'],
@@ -1703,99 +1712,152 @@
     guest:   ['part1','digital-foundation'],
   };
 
-  // ── DOM refs ──
-  const gate     = document.getElementById('access-gate');
-  const appDiv   = document.querySelector('.app-layout');
-  const loginErr = document.getElementById('login-err');
-
-  // Hide app until authenticated
+  const gate   = document.getElementById('access-gate');
+  const appDiv = document.querySelector('.app-layout');
   appDiv.style.display = 'none';
+
+  // ── Helpers ──
+  function showErr(id, msg) {
+    const el = document.getElementById(id);
+    el.textContent = msg; el.classList.remove('hidden');
+  }
+  function hideEl(id) { document.getElementById(id).classList.add('hidden'); }
+
+  function getFriendlyError(code) {
+    return {
+      'auth/invalid-email':        'Invalid email address.',
+      'auth/user-not-found':       'No account found with this email.',
+      'auth/wrong-password':       'Incorrect password.',
+      'auth/invalid-credential':   'Invalid email or password.',
+      'auth/email-already-in-use': 'An account with this email already exists.',
+      'auth/weak-password':        'Password must be at least 6 characters.',
+      'auth/too-many-requests':    'Too many attempts. Please wait and try again.',
+      'auth/network-request-failed':'Network error. Check your connection.',
+    }[code] || 'Something went wrong. Please try again.';
+  }
 
   // ── Tab switcher ──
   window.switchTab = function(tab) {
     document.getElementById('panel-login').classList.toggle('hidden', tab !== 'login');
     document.getElementById('panel-register').classList.toggle('hidden', tab !== 'register');
     document.getElementById('tab-login').classList.toggle('active', tab === 'login');
-    document.getElementById('tab-register').classList.toggle('active', tab === 'register');
+    document.getElementById('tab-register').classList.toggle('active', tab !== 'login');
+    document.getElementById('tab-register').textContent = tab === 'register' ? 'Register' : 'Register';
   };
 
   // ── Login ──
-  window.attemptLogin = function() {
-    const u = document.getElementById('g-user').value.trim().toLowerCase();
-    const p = document.getElementById('g-pass').value;
-    const user = USERS[u];
-    if (user && user.password === p) {
-      sessionStorage.setItem('bsa_user', u);
-      gate.classList.add('hidden');
-      appDiv.style.display = '';
-      applyAccess(user.role, user.displayName);
-    } else {
-      loginErr.classList.remove('hidden');
+  window.attemptLogin = async function() {
+    const email = document.getElementById('g-user').value.trim();
+    const pass  = document.getElementById('g-pass').value;
+    hideEl('login-err');
+    try {
+      const cred = await signInWithEmailAndPassword(auth, email, pass);
+      if (!cred.user.emailVerified) {
+        showErr('login-err', '\u26a0 Please verify your email first. Check your inbox (and spam folder).');
+        await signOut(auth);
+      }
+    } catch(e) {
+      showErr('login-err', '\u26a0 ' + getFriendlyError(e.code));
       document.querySelector('.gate-card').classList.add('shake');
       setTimeout(() => document.querySelector('.gate-card').classList.remove('shake'), 500);
       document.getElementById('g-pass').value = '';
     }
   };
 
-  // ── Register (submit to Formspree) ──
+  // ── Register ──
   window.submitRegistration = async function() {
-    const name   = document.getElementById('r-name').value.trim();
-    const email  = document.getElementById('r-email').value.trim();
-    const phone  = document.getElementById('r-phone').value.trim();
-    const prof   = document.getElementById('r-profession').value;
-    const inst   = document.getElementById('r-institution').value.trim();
-    const purp   = document.getElementById('r-purpose').value.trim();
-    const regErr = document.getElementById('reg-error');
-    const regOk  = document.getElementById('reg-success');
+    const name  = document.getElementById('r-name').value.trim();
+    const email = document.getElementById('r-email').value.trim();
+    const phone = document.getElementById('r-phone').value.trim();
+    const prof  = document.getElementById('r-profession').value;
+    const inst  = document.getElementById('r-institution').value.trim();
+    const purp  = document.getElementById('r-purpose').value.trim();
+    const pass  = document.getElementById('r-password').value;
+    const pass2 = document.getElementById('r-password2').value;
+    hideEl('reg-error'); hideEl('reg-success');
 
-    if (!name || !email || !prof || !purp) {
-      regErr.textContent = '\u26a0 Please fill all required fields (*).';
-      regErr.classList.remove('hidden'); return;
+    if (!name || !email || !prof || !purp || !pass) {
+      showErr('reg-error', '\u26a0 Please fill all required (*) fields.'); return;
     }
-    regErr.classList.add('hidden');
-
-    if (FORMSPREE_ID === 'YOUR_FORM_ID') {
-      // Demo mode — just show success without actually submitting
-      regOk.classList.remove('hidden');
-      return;
+    if (pass.length < 6) {
+      showErr('reg-error', '\u26a0 Password must be at least 6 characters.'); return;
     }
-
+    if (pass !== pass2) {
+      showErr('reg-error', '\u26a0 Passwords do not match.'); return;
+    }
     try {
-      const res = await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-        body: JSON.stringify({
-          _subject: `[BSA Access Request] ${name}`,
-          Name: name, Email: email, Phone: phone || 'N/A',
-          Profession: prof, Institution: inst || 'N/A', Purpose: purp
-        })
+      const cred = await createUserWithEmailAndPassword(auth, email, pass);
+      await sendEmailVerification(cred.user);
+      const role = ADMIN_EMAILS.includes(email) ? 'admin' : 'student';
+      await setDoc(doc(db, 'users', cred.user.uid), {
+        name, email, phone: phone || 'N/A', profession: prof,
+        institution: inst || 'N/A', purpose: purp, role,
+        createdAt: serverTimestamp()
       });
-      if (res.ok) { regOk.classList.remove('hidden'); }
-      else { throw new Error(); }
-    } catch {
-      regErr.textContent = '\u26a0 Submission failed. Please email the administrator directly.';
-      regErr.classList.remove('hidden');
+      await signOut(auth);
+      const ok = document.getElementById('reg-success');
+      ok.textContent = `\u2713 Account created! A verification email was sent to ${email}. Click the link to verify, then sign in here.`;
+      ok.classList.remove('hidden');
+      // Clear form
+      ['r-name','r-email','r-phone','r-institution','r-purpose','r-password','r-password2']
+        .forEach(id => { document.getElementById(id).value = ''; });
+      document.getElementById('r-profession').value = '';
+    } catch(e) {
+      showErr('reg-error', '\u26a0 ' + getFriendlyError(e.code));
     }
   };
 
-  // ── Apply role-based access ──
-  function applyAccess(role, displayName) {
+  // ── Forgot Password ──
+  window.forgotPassword = async function() {
+    const email = document.getElementById('g-user').value.trim();
+    if (!email) { alert('Enter your email address in the field above first.'); return; }
+    try {
+      await sendPasswordResetEmail(auth, email);
+      showErr('login-err', '\u2713 Password reset email sent to ' + email + '. Check your inbox.');
+      document.getElementById('login-err').style.background = 'rgba(46,160,67,0.1)';
+      document.getElementById('login-err').style.borderColor = 'rgba(46,160,67,0.35)';
+      document.getElementById('login-err').style.color = '#3fb950';
+    } catch(e) { alert(getFriendlyError(e.code)); }
+  };
+
+  // ── Auth State ── auto-enters app when verified ──
+  onAuthStateChanged(auth, async (user) => {
+    if (!user || !user.emailVerified) return;
+    let role = ADMIN_EMAILS.includes(user.email) ? 'admin' : 'student';
+    let displayName = user.email.split('@')[0];
+    try {
+      const snap = await getDoc(doc(db, 'users', user.uid));
+      if (snap.exists()) {
+        const d = snap.data();
+        role = d.role || role;
+        if (ADMIN_EMAILS.includes(user.email)) role = 'admin';
+        displayName = d.name || displayName;
+      }
+    } catch(e) {}
+    gate.classList.add('hidden');
+    appDiv.style.display = '';
+    applyAccess(role, displayName, user);
+  });
+
+  // ── Apply access ──
+  function applyAccess(role, displayName, user) {
     const allowed = ROLE_ACCESS[role] || ['part1'];
     const colors  = { admin:'badge-admin', student:'badge-student', guest:'badge-guest' };
-
     document.querySelectorAll('.nav-item[data-target]').forEach(btn => {
       if (!allowed.includes(btn.dataset.target)) {
         btn.style.opacity = '0.3'; btn.style.cursor = 'not-allowed';
-        btn.title = '\uD83D\uDD12 Full access required'; btn.disabled = true;
+        btn.title = '\uD83D\uDD12 Upgrade required'; btn.disabled = true;
       }
     });
-
     const header = document.querySelector('.sidebar-header');
     if (header) {
       const isAdmin = role === 'admin';
       header.insertAdjacentHTML('beforeend',
-        `<div style="margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,0.06);font-size:0.8rem;color:#8b949e;display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap">
-          <span>&#128100; <strong style="color:#e6edf3">${displayName}</strong> <span class="badge ${colors[role] || 'badge-guest'}">${role}</span></span>
+        `<div style="margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,0.06);
+           font-size:0.8rem;color:#8b949e;display:flex;align-items:center;
+           justify-content:space-between;gap:8px;flex-wrap:wrap">
+          <span>&#128100; <strong style="color:#e6edf3">${displayName}</strong>
+            <span class="badge ${colors[role]||'badge-guest'}">${role}</span></span>
           <span style="display:flex;gap:6px">
             ${isAdmin ? `<button onclick="openAdminPanel()" style="background:rgba(31,111,235,0.15);border:1px solid rgba(88,166,255,0.25);color:#58a6ff;border-radius:6px;padding:3px 8px;cursor:pointer;font-size:0.72rem;font-weight:700">&#9881; Admin</button>` : ''}
             <button onclick="logoutBSA()" style="background:rgba(218,54,51,0.1);border:1px solid rgba(218,54,51,0.2);color:#f85149;border-radius:6px;padding:3px 8px;cursor:pointer;font-size:0.72rem;font-weight:700">Sign out</button>
@@ -1805,48 +1867,36 @@
   }
 
   // ── Admin Panel ──
-  window.openAdminPanel = function() {
+  window.openAdminPanel = async function() {
+    document.getElementById('admin-panel').classList.remove('hidden');
     const tbody = document.getElementById('adm-users-tbody');
     const colors = { admin:'badge-admin', student:'badge-student', guest:'badge-guest' };
-    tbody.innerHTML = Object.entries(USERS).map(([u, d]) =>
-      `<tr>
-        <td><code style="color:#58a6ff">${u}</code></td>
-        <td><span class="badge ${colors[d.role]}">${d.role}</span></td>
-        <td>${d.displayName}</td>
-        <td><span class="status-active">&#9679; Active</span></td>
-      </tr>`
-    ).join('');
-    document.getElementById('admin-panel').classList.remove('hidden');
+    try {
+      const snap = await getDocs(collection(db, 'users'));
+      tbody.innerHTML = snap.empty
+        ? `<tr><td colspan="5" style="color:#8b949e;text-align:center;padding:20px">No registered users yet.</td></tr>`
+        : snap.docs.map(d => {
+            const u = d.data();
+            const date = u.createdAt?.toDate?.()?.toLocaleDateString('en-IN') || 'N/A';
+            return `<tr>
+              <td><strong style="color:#e6edf3">${u.name}</strong></td>
+              <td style="color:#8b949e;font-size:0.82rem">${u.email}</td>
+              <td><span class="badge ${colors[u.role]||'badge-guest'}">${u.role}</span></td>
+              <td style="color:#8b949e;font-size:0.82rem">${u.profession}</td>
+              <td style="color:#8b949e;font-size:0.82rem">${date}</td>
+            </tr>`;
+          }).join('');
+    } catch(e) {
+      tbody.innerHTML = `<tr><td colspan="5" style="color:#f85149;padding:20px">Error loading users: ${e.message}</td></tr>`;
+    }
   };
   window.closeAdminPanel = () => document.getElementById('admin-panel').classList.add('hidden');
 
-  window.generateUserCode = function() {
-    const u = document.getElementById('new-u').value.trim();
-    const p = document.getElementById('new-p').value.trim();
-    const n = document.getElementById('new-name').value.trim();
-    const r = document.getElementById('new-role').value;
-    if (!u || !p || !n) return alert('Please fill all fields.');
-    const out = document.getElementById('code-output');
-    out.textContent = `// Add this line inside the USERS object in index.html:\n'${u}': { password: '${p}', role: '${r}', displayName: '${n}' },`;
-    out.classList.remove('hidden');
-  };
+  window.logoutBSA = async function() { await signOut(auth); location.reload(); };
 
-  window.logoutBSA = function() {
-    sessionStorage.removeItem('bsa_user'); location.reload();
-  };
-
-  // ── Enter key on login ──
-  ['g-user','g-pass'].forEach(id =>
-    document.getElementById(id).addEventListener('keydown', e => { if (e.key==='Enter') attemptLogin(); })
-  );
-
-  // ── Restore session ──
-  const saved = sessionStorage.getItem('bsa_user');
-  if (saved && USERS[saved]) {
-    gate.classList.add('hidden');
-    appDiv.style.display = '';
-    applyAccess(USERS[saved].role, USERS[saved].displayName);
-  }
+  // Enter key support
+  document.getElementById('g-user').addEventListener('keydown', e => { if(e.key==='Enter') document.getElementById('g-pass').focus(); });
+  document.getElementById('g-pass').addEventListener('keydown', e => { if(e.key==='Enter') window.attemptLogin(); });
   </script>
 
   <script>
