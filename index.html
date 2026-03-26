@@ -225,6 +225,30 @@
     }
   </style>
 
+  <!-- Gate UI — plain script so onclick always works immediately -->
+  <script>
+    window.switchTab = function(tab) {
+      var pl = document.getElementById('panel-login');
+      var pr = document.getElementById('panel-register');
+      var tl = document.getElementById('tab-login');
+      var tr = document.getElementById('tab-register');
+      if (tab === 'login') {
+        pl.classList.remove('hidden'); pr.classList.add('hidden');
+        tl.classList.add('active');    tr.classList.remove('active');
+      } else {
+        pl.classList.add('hidden');    pr.classList.remove('hidden');
+        tl.classList.remove('active'); tr.classList.add('active');
+      }
+    };
+    // Stubs replaced by Firebase module once it loads
+    window.attemptLogin       = function() { alert('Still loading auth, please try in a moment…'); };
+    window.submitRegistration = function() { alert('Still loading auth, please try in a moment…'); };
+    window.forgotPassword     = function() { alert('Still loading auth, please try in a moment…'); };
+    window.logoutBSA          = function() { location.reload(); };
+    window.openAdminPanel     = function() { document.getElementById('admin-panel').classList.remove('hidden'); };
+    window.closeAdminPanel    = function() { document.getElementById('admin-panel').classList.add('hidden'); };
+  </script>
+
 
     <aside class="sidebar">
       <div class="sidebar-header">
