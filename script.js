@@ -93,29 +93,61 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Login handler
   window.attemptLogin = function() {
-    const email = document.getElementById('g-user').value;
-    const pass = document.getElementById('g-pass').value;
+    const emailField = document.getElementById('g-user');
+    const passField = document.getElementById('g-pass');
+    const email = emailField.value.trim();
+    const pass = passField.value;
     const err = document.getElementById('login-err');
 
+    if (!email || !pass) {
+      err.textContent = "Please fill in all fields.";
+      err.classList.remove('hidden');
+      return;
+    }
+
     if (!auth) {
-      // IF FIREBASE IS NOT LOADED, ALLOW BYPASS FOR LOCAL VIEWING
+      // IF FIREBASE IS NOT LOADED (Local environment)
+      console.warn("Firebase not configured. Bypassing gate for development.");
       window.attemptGuestAccess();
       return;
     }
 
     auth.signInWithEmailAndPassword(email, pass)
       .then(res => {
-        gate.style.display = 'none';
-        appLayout.style.display = 'flex';
-        showSection('part1');
-        checkAdmin(res.user.email);
+        handleAuthSuccess(res.user);
       })
       .catch(e => {
         err.textContent = e.message;
         err.classList.remove('hidden');
-        gate.querySelector('.gate-card').classList.add('shake');
-        setTimeout(() => gate.querySelector('.gate-card').classList.remove('shake'), 400);
+        const card = document.querySelector('.gate-card');
+        card.style.animation = 'none';
+        void card.offsetWidth; // trigger reflow
+        card.style.animation = 'shake 0.4s ease';
       });
+  };
+
+  function handleAuthSuccess(user) {
+    gate.style.display = 'none';
+    appLayout.style.display = 'flex';
+    showSection('part1');
+    checkAdmin(user.email);
+    // Optional: Save user session locally or update UI
+    console.log("Logged in as:", user.email);
+  }
+
+  window.forgotPassword = function() {
+    const email = document.getElementById('g-user').value.trim();
+    if (!email) {
+      alert("Please enter your email address in the Sign In field first.");
+      return;
+    }
+    if (!auth) {
+      alert("Firebase not configured. Password reset is only available on the live site.");
+      return;
+    }
+    auth.sendPasswordResetEmail(email)
+      .then(() => alert("Password reset link sent to " + email))
+      .catch(e => alert("Error: " + e.message));
   };
 
   // Registration handler
@@ -154,9 +186,23 @@ document.addEventListener('DOMContentLoaded', () => {
     const adminEmails = ['leelakrishna117@gmail.com', 'admin@bsa-guide.com'];
     if (adminEmails.includes(email.toLowerCase())) {
       console.log("Admin Access Granted");
-      // Could show admin button here...
+      const sidebarNav = document.querySelector('.sidebar-nav');
+      if (sidebarNav && !document.getElementById('admin-btn')) {
+        const admDiv = document.createElement('div');
+        admDiv.className = 'nav-section';
+        admDiv.innerHTML = `<p class="nav-section-title">Administration</p>
+                           <button class="nav-item" id="admin-btn" onclick="openAdmin()">Admin Dashboard</button>`;
+        sidebarNav.appendChild(admDiv);
+      }
     }
   }
+
+  window.openAdmin = function() {
+    document.getElementById('admin-panel').style.display = 'flex';
+  };
+  window.closeAdminPanel = function() {
+    document.getElementById('admin-panel').style.display = 'none';
+  };
 
   // ============================================================
   // 4. ACCORDIONS 
