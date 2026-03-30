@@ -1,41 +1,14 @@
 /**
  * BSA 2023 - Masterclass Portal Logic
- * Version: 1.2.2 (Bulletproof)
+ * Version: 1.2.3 (Direct Access - No Gate)
  */
 
-console.log("BSA Portal v5.2 - Masterclass Edition Loaded (JS v1.2.2)");
+console.log("BSA Portal v1.2.3 - Direct Access Mode Active");
 
 // 1. GLOBAL ELEMENT SELECTORS
-const gate = document.getElementById('access-gate');
 const appLayout = document.querySelector('.app-layout');
 
-// 2. FIREBASE INITIALIZATION
-let auth = null;
-let db = null;
-
-try {
-  const firebaseConfig = {
-    apiKey: "PASTE_API_KEY_HERE",
-    authDomain: "PASTE_AUTH_DOMAIN_HERE",
-    projectId: "PASTE_PROJECT_ID_HERE",
-    storageBucket: "PASTE_STORAGE_BUCKET_HERE",
-    messagingSenderId: "PASTE_MESSAGING_SENDER_ID_HERE",
-    appId: "PASTE_APP_ID_HERE"
-  };
-
-  if (typeof firebase !== 'undefined' && firebaseConfig.apiKey !== "PASTE_API_KEY_HERE") {
-    firebase.initializeApp(firebaseConfig);
-    auth = firebase.auth();
-    db = firebase.firestore();
-    console.log("Firebase initialized successfully.");
-  } else {
-    console.warn("Firebase not configured. Access Gate will remain in Guest mode.");
-  }
-} catch (e) {
-  console.error("Firebase Init Error:", e);
-}
-
-// 3. NAVIGATION & UI LOGIC
+// 2. NAVIGATION & UI LOGIC
 const navItems = document.querySelectorAll('.nav-item');
 const contentSections = document.querySelectorAll('.content-section');
 
@@ -77,146 +50,7 @@ function toggleMenu() {
 if (hamburger) hamburger.addEventListener('click', toggleMenu);
 if (overlay) overlay.addEventListener('click', toggleMenu);
 
-// 4. ACCESS GATE & AUTH LOGIC
-window.attemptGuestAccess = function() {
-  console.log("Guest Access Triggered.");
-  if (gate) gate.style.display = 'none';
-  if (appLayout) appLayout.style.display = 'flex';
-  showSection('part1');
-};
-
-window.attemptLogin = function() {
-  console.log("AttemptLogin function called.");
-  // Visual feedback: brief button feedback
-  const btn = document.querySelector('#panel-login .gate-btn-primary');
-  if (btn) btn.textContent = "Processing...";
-
-  const emailField = document.getElementById('g-user');
-  const passField = document.getElementById('g-pass');
-  const err = document.getElementById('login-err');
-  
-  if (!emailField || !passField || !err) {
-    console.error("Critical elements not found in DOM.");
-    if (btn) btn.textContent = "Sign In →";
-    return;
-  }
-
-  const email = emailField.value.trim();
-  const pass = passField.value;
-
-  if (!email || !pass) {
-    err.textContent = "Please fill in all fields.";
-    err.classList.remove('hidden');
-    if (btn) btn.textContent = "Sign In →";
-    return;
-  }
-
-  if (!auth) {
-    console.warn("No auth object. Bypassing...");
-    setTimeout(() => {
-      if (btn) btn.textContent = "Sign In →";
-      window.attemptGuestAccess();
-    }, 300);
-    return;
-  }
-
-  auth.signInWithEmailAndPassword(email, pass)
-    .then(res => {
-      if (btn) btn.textContent = "Success!";
-      handleAuthSuccess(res.user);
-    })
-    .catch(e => {
-      console.error("Login Failure:", e);
-      if (btn) btn.textContent = "Sign In →";
-      let msg = e.message;
-      if (e.code === 'auth/user-not-found') msg = "No user found with this email.";
-      if (e.code === 'auth/wrong-password') msg = "Incorrect password.";
-      err.textContent = msg;
-      err.classList.remove('hidden');
-      
-      const card = document.querySelector('.gate-card');
-      if (card) {
-        card.style.animation = 'none';
-        void card.offsetWidth; 
-        card.style.animation = 'shake 0.4s ease';
-      }
-    });
-};
-
-function handleAuthSuccess(user) {
-  if (gate) gate.style.display = 'none';
-  if (appLayout) appLayout.style.display = 'flex';
-  showSection('part1');
-  checkAdmin(user.email);
-}
-
-// 5. REGISTRATION & UTILS
-window.submitRegistration = function() {
-  const btn = document.querySelector('#panel-register .gate-btn-primary');
-  if (btn) btn.textContent = "Sending...";
-  
-  const email = document.getElementById('r-email')?.value;
-  const pass = document.getElementById('r-password')?.value;
-  const name = document.getElementById('r-name')?.value;
-  const profession = document.getElementById('r-profession')?.value;
-  const err = document.getElementById('reg-error');
-  const succ = document.getElementById('reg-success');
-
-  if (!auth || !db) {
-     alert("Firebase not configured. Use the master guide locally or check your config.");
-     if (btn) btn.textContent = "Create Account &rarr;";
-     return;
-  }
-
-  auth.createUserWithEmailAndPassword(email, pass)
-    .then(res => {
-      return db.collection('users').doc(res.user.uid).set({
-        name, email, profession, registeredAt: firebase.firestore.FieldValue.serverTimestamp()
-      });
-    })
-    .then(() => {
-      if (btn) btn.textContent = "Created!";
-      if (succ) { succ.textContent = "Account created! Please verify your email."; succ.classList.remove('hidden'); }
-      if (err) err.classList.add('hidden');
-    })
-    .catch(e => {
-      if (btn) btn.textContent = "Create Account &rarr;";
-      if (err) { err.textContent = e.message; err.classList.remove('hidden'); }
-      if (succ) succ.classList.add('hidden');
-    });
-};
-
-window.forgotPassword = function() {
-  const emailVal = document.getElementById('g-user')?.value.trim();
-  if (!emailVal) return alert("Enter email first.");
-  if (!auth) return alert("Firebase not configured.");
-  auth.sendPasswordResetEmail(emailVal).then(() => alert("Reset link sent.")).catch(e => alert(e.message));
-};
-
-function checkAdmin(email) {
-  const adminEmails = ['leelakrishna117@gmail.com', 'admin@bsa-guide.com'];
-  if (adminEmails.includes(email.toLowerCase())) {
-    const sidebarNav = document.querySelector('.sidebar-nav');
-    if (sidebarNav && !document.getElementById('admin-btn')) {
-      const admDiv = document.createElement('div');
-      admDiv.className = 'nav-section';
-      admDiv.innerHTML = `<p class="nav-section-title">Administration</p>
-                         <button class="nav-item" id="admin-btn" data-target="admin-section" onclick="openAdmin()">Admin Dashboard</button>`;
-      sidebarNav.appendChild(admDiv);
-    }
-  }
-}
-
-window.openAdmin = function() {
-  const panel = document.getElementById('admin-panel');
-  if (panel) panel.style.display = 'flex';
-};
-window.closeAdminPanel = function() {
-  const panel = document.getElementById('admin-panel');
-  if (panel) panel.style.display = 'none';
-};
-
-// 6. ACCORDIONS
+// 3. ACCORDIONS
 document.querySelectorAll('.accordion-item').forEach(item => {
   const head = item.querySelector('.accordion-head');
   if (head) {
@@ -228,7 +62,7 @@ document.querySelectorAll('.accordion-item').forEach(item => {
   }
 });
 
-// 7. QUIZ RENDER
+// 4. QUIZ LOGIC
 const questions = [
   { q: "1. Section 4: A digital log (GPS ping) is Res Gestae if:", o: ["Recorded 24h later", "Spontaneous and contemporaneous part of transaction", "Manual third party entry", "Deleted partition"], a: 1 },
   { q: "2. Section 6: Subsequent Conduct includes:", o: ["Backup", "OS update", "Immediate Factory Reset", "Charging"], a: 2 },
@@ -293,5 +127,3 @@ function showResult() {
 
 // Initial Run
 renderQ();
-window.closePolicy = () => document.getElementById('policy-modal').style.display='none';
-window.openPolicy = () => document.getElementById('policy-modal').style.display='flex';

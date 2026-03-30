@@ -30,85 +30,11 @@
 </head>
 
 <body>
-    <!-- ===== ACCESS GATE ===== -->
-    <div id="access-gate">
-        <div class="gate-card">
-            <div class="gate-logo">
-                <div class="gate-icon">&#9878;</div>
-                <div><h2>BSA 2023</h2><span>Masterclass Edition &mdash; Secured Portal</span></div>
-            </div>
-            <div class="gate-tabs">
-                <button class="gate-tab active" id="tab-login" onclick="switchTab('login')">Sign In</button>
-                <button class="gate-tab" id="tab-register" onclick="switchTab('register')">Register</button>
-            </div>
-            <div id="panel-login">
-                <div id="login-err" class="gate-error hidden"></div>
-                <div class="gate-field"><label>Email Address</label><input type="email" id="g-user" placeholder="your@email.com" autocomplete="email" /></div>
-                <div class="gate-field"><label>Password</label><input type="password" id="g-pass" placeholder="Enter your password" autocomplete="current-password" /></div>
-                <button class="gate-btn-primary" onclick="attemptLogin()">Sign In &rarr;</button>
-                <p class="gate-note" style="display:flex;justify-content:space-between"><span>No account? <button onclick="switchTab('register')" style="background:none;border:none;color:#58a6ff;cursor:pointer;font-size:0.78rem;font-weight:700;font-family:inherit;text-decoration:underline;padding:0">Register here</button></span><button onclick="forgotPassword()" style="background:none;border:none;color:#58a6ff;cursor:pointer;font-size:0.78rem;font-family:inherit">Forgot password?</button></p>
-            </div>
-            <div id="panel-register" class="hidden">
-                <div id="reg-success" class="gate-success hidden"></div>
-                <div id="reg-error" class="gate-error hidden"></div>
-                <div class="gate-grid-2">
-                    <div class="gate-field"><label>Full Name <span class="req">*</span></label><input type="text" id="r-name" placeholder="Your full name" /></div>
-                    <div class="gate-field"><label>Email Address <span class="req">*</span></label><input type="email" id="r-email" placeholder="your@email.com" /></div>
-                </div>
-                <div class="gate-grid-2">
-                    <div class="gate-field"><label>Phone Number</label><input type="tel" id="r-phone" placeholder="+91 XXXXX XXXXX" /></div>
-                    <div class="gate-field">
-                        <label>Profession <span class="req">*</span></label>
-                        <select id="r-profession">
-                            <option value="">Select profession...</option>
-                            <option>Law Student</option><option>Advocate / Lawyer</option>
-                            <option>Judge / Judicial Officer</option><option>Law Professor / Faculty</option>
-                            <option>Legal Researcher</option><option>Police / Investigator</option><option>Other</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="gate-field"><label>Institution / Organization</label><input type="text" id="r-institution" placeholder="College, firm, court, etc." /></div>
-                <div class="gate-field"><label>Purpose of Access <span class="req">*</span></label><textarea id="r-purpose" rows="2" placeholder="Brief reason for access..."></textarea></div>
-                <div class="gate-grid-2">
-                    <div class="gate-field"><label>Password <span class="req">*</span></label><input type="password" id="r-password" placeholder="Min. 6 characters" /></div>
-                    <div class="gate-field"><label>Confirm Password <span class="req">*</span></label><input type="password" id="r-password2" placeholder="Repeat password" /></div>
-                </div>
-                <div class="gate-check">
-                    <input type="checkbox" id="r-agree" />
-                    <label for="r-agree">I agree to the <button type="button" class="policy-btn-link" onclick="openPolicy()">Privacy Policy & Terms of Service</button></label>
-                </div>
-                <button class="gate-btn-primary" onclick="submitRegistration()">Create Account &rarr;</button>
-                <p class="gate-note">You'll receive a verification email. Click the link to activate your account.</p>
-            </div>
-            <p class="gate-footer">Bharatiya Sakshya Adhiniyam 2023 &mdash; Interactive Masterclass</p>
-        </div>
-    </div>
-
-    <!-- ===== ADMIN PANEL (Firebase Bound) ===== -->
-    <div id="admin-panel" class="hidden">
-        <div class="adm-card">
-            <div class="adm-header">
-                <h3>&#128100; Admin Control Panel</h3>
-                <button onclick="closeAdminPanel()" class="adm-close">&#x2715; Close</button>
-            </div>
-            <div class="adm-table-wrap"><table class="adm-table"><thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Profession</th><th>Registered</th></tr></thead><tbody id="adm-users-tbody"><tr><td colspan="5" style="color:#8b949e;text-align:center;padding:20px">Loading...</td></tr></tbody></table></div>
-        </div>
-    </div>
-
     <!-- HAMBURGER & OVERLAY -->
     <button class="hamburger" id="hamburger" aria-label="Open menu"><span></span><span></span><span></span></button>
     <div class="sidebar-overlay" id="sidebar-overlay"></div>
 
-    <script>
-        window.switchTab = function(tab) {
-          var pl = document.getElementById('panel-login'), pr = document.getElementById('panel-register');
-          var tl = document.getElementById('tab-login'), tr = document.getElementById('tab-register');
-          if (tab === 'login') { pl.classList.remove('hidden'); pr.classList.add('hidden'); tl.classList.add('active'); tr.classList.remove('active'); } 
-          else { pl.classList.add('hidden'); pr.classList.remove('hidden'); tl.classList.remove('active'); tr.classList.add('active'); }
-        };
-    </script>
-
-    <div class="app-layout" style="display:none;">
+    <div class="app-layout">
         <aside class="sidebar">
             <div class="sidebar-header">
                 <h2>BSA 2023</h2>
@@ -404,6 +330,6 @@ graph TD
             <button class="action-btn" onclick="closePolicy()">I Agree</button>
         </div>
     </div>
-    <script src="script.js?v=1.2.2"></script>
+    <script src="script.js?v=1.2.3"></script>
 </body>
 </html>
