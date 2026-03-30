@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
+  console.log("BSA Portal v5.2 - Masterclass Edition Loaded (JS v1.2)");
 
   // ============================================================
   // 1. FIREBASE CONFIGURATION (PASTE YOUR KEYS HERE)
@@ -117,22 +118,27 @@ document.addEventListener('DOMContentLoaded', () => {
         handleAuthSuccess(res.user);
       })
       .catch(e => {
-        err.textContent = e.message;
+        let msg = e.message;
+        if (e.code === 'auth/user-not-found') msg = "No user found with this email.";
+        if (e.code === 'auth/wrong-password') msg = "Incorrect password.";
+        err.textContent = msg;
         err.classList.remove('hidden');
         const card = document.querySelector('.gate-card');
-        card.style.animation = 'none';
-        void card.offsetWidth; // trigger reflow
-        card.style.animation = 'shake 0.4s ease';
+        if (card) {
+          card.style.animation = 'none';
+          void card.offsetWidth; 
+          card.style.animation = 'shake 0.4s ease';
+        }
       });
   };
 
   function handleAuthSuccess(user) {
-    gate.style.display = 'none';
-    appLayout.style.display = 'flex';
+    const gate = document.getElementById('access-gate');
+    const appLayout = document.querySelector('.app-layout');
+    if (gate) gate.style.display = 'none';
+    if (appLayout) appLayout.style.display = 'flex';
     showSection('part1');
     checkAdmin(user.email);
-    // Optional: Save user session locally or update UI
-    console.log("Logged in as:", user.email);
   }
 
   window.forgotPassword = function() {
