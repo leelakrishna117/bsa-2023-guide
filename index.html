@@ -84,9 +84,28 @@ graph TD
     E --> G[Inferred from Conduct]
                 </div></div>
 
-                <div class="text-block card">
-                    <h3>Modernized Legal Dictionary (Section 2)</h3>
-                    <p>The BSA bridges the gap between physical and digital reality by expanding the definition of matter recorded on any substance.</p>
+                <div class="grid-2">
+                    <div class="card">
+                        <h3>Section 2(d): The New "Document"</h3>
+                        <p>The BSA 2023 shatters the paper-first barrier. A "document" now explicitly includes:</p>
+                        <ul class="styled-list">
+                            <li><strong>Digital Records:</strong> Server logs, cloud snapshots, and blockchain ledgers.</li>
+                            <li><strong>Communication:</strong> Emails, WhatsApp messages, and encrypted signal logs.</li>
+                            <li><strong>IoT Data:</strong> Smartwatch pings and GPS telemetry are now "Substantial Evidence."</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h3>Section 2(e): Evidence Redefined</h3>
+                        <p>Evidence is now categorized to embrace the digital revolution:</p>
+                        <div class="info-box mt-4">
+                            <h4>Oral Evidence</h4>
+                            <p>Includes statements made via video-conferencing, effectively ending the need for physical presence in remote cases.</p>
+                        </div>
+                        <div class="info-box mt-4">
+                            <h4>Documentary Evidence</h4>
+                            <p>Includes all electronic records which are now treated as primary documents if the conditions of Section 57/63 are met.</p>
+                        </div>
+                    </div>
                 </div>
             </section>
 
@@ -122,6 +141,20 @@ sequenceDiagram
     H->>C: Verified SHA-256 Hash
     Note over C: Integrity Guaranteed
                 </div></div>
+                <div class="card">
+                    <h3>The Data-First Philosophy</h3>
+                    <p>Unlike the IEA 1872, which viewed digital data as an 'exception' (Section 65B), the BSA 2023 treats digital data as the <strong>Standard</strong>. The foundation rests on <strong>Integrity over Ink</strong>.</p>
+                    <div class="grid-2 mt-4">
+                        <div class="info-box">
+                            <h4>Hash Values</h4>
+                            <p>The mathematical signature (SHA-256) of a file is now a statutory requirement to prove non-alteration from seizure to courtroom.</p>
+                        </div>
+                        <div class="info-box">
+                            <h4>Metadata Sovereignty</h4>
+                            <p>The "Date Modified" and "Owner" logs of a file are no longer ancillary; they are core facts that prove the timing of a crime.</p>
+                        </div>
+                    </div>
+                </div>
             </section>
 
             <!-- PART III -->
@@ -163,6 +196,30 @@ graph TD
     B -- Yes --> E[Alibi Failure]
     style D fill:#238636,color:#fff
                 </div></div>
+                <div class="card">
+                    <h3>Digital Breadcrumbs & Conduct</h3>
+                    <p>Modern relevancy isn't just about what a person said, but what their devices <em>recorded</em> before and after the event.</p>
+                    <div class="accordion mt-4">
+                        <div class="accordion-item">
+                            <div class="accordion-head"><h4>Section 4: Digital Res Gestae</h4><span>+</span></div>
+                            <div class="accordion-body">
+                                <p>Logs recorded automatically by a system during a transaction (e.g., a stock market trade or a smart-lock entry) are part of the transaction and admissible without independent witness testimony.</p>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <div class="accordion-head"><h4>Section 6: Digital Preparation</h4><span>+</span></div>
+                            <div class="accordion-body">
+                                <p>Search histories (e.g., "how to hide a body") or the download of wiping software (e.g., CCleaner) just before a crime is "Conduct" that proves preparation and guilty mind.</p>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <div class="accordion-head"><h4>Section 9: The Digital Alibi</h4><span>+</span></div>
+                            <div class="accordion-body">
+                                <p>A plea of alibi is established through "Incompatibility." If your device pings a tower 50km away from the crime scene at the exact time of the incident, your presence at the scene becomes "Highly Improbable."</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </section>
 
             <!-- PART IV -->
@@ -208,6 +265,18 @@ stateDiagram-v2
     ExpertSignature --> HashVerification
     HashVerification --> Admissible
                 </div></div>
+                <div class="card" style="border-top: 4px solid var(--blue);">
+                    <h3>Admissibility Gateway: Section 63</h3>
+                    <p>The BSA mandates a clear path for every computer output (printouts, CDs, drives). To be admissible, a certificate must prove:</p>
+                    <ol class="styled-list" style="padding-left: 30px; margin-top: 20px;">
+                        <li><strong>Proper Operation:</strong> The computer was operating correctly during the data creation.</li>
+                        <li><strong>Lawful Control:</strong> The person producing the record had lawful access to the device.</li>
+                        <li><strong>Integrity:</strong> The contents were not altered during the storage or retrieval process.</li>
+                    </ol>
+                    <div class="info-box mt-4" style="background: rgba(210, 153, 34, 0.1); border-color: var(--orange);">
+                        <p><strong>🚨 Warning:</strong> Without a Section 63 Certificate, the most damning digital evidence is legally invisible (void) in Indian courts.</p>
+                    </div>
+                </div>
             </section>
 
             <!-- PART V -->
@@ -236,6 +305,20 @@ graph LR
     D --> E[Burden shifts to Opponent]
     style D fill:#1f6feb,color:#fff
                 </div></div>
+                <div class="card">
+                    <h3>Presuming Technical Truth</h3>
+                    <p>To speed up trials, the BSA grants "Presumption Status" to secure digital processes. This shifts the burden of proof from the prosecution to the defense.</p>
+                    <div class="grid-2 mt-4">
+                        <div class="info-box">
+                            <h4>Section 86: Integrity</h4>
+                            <p>If a record is stored in a "Secure System" (Hashed/Encrypted), the court <strong>Shall Presume</strong> that the record has not been altered.</p>
+                        </div>
+                        <div class="info-box">
+                            <h4>Section 85: Agreements</h4>
+                            <p>Digital signatures on contracts <strong>Shall be Presumed</strong> genuine, treating them with the same weight as physical signatures.</p>
+                        </div>
+                    </div>
+                </div>
             </section>
 
             <!-- PART VI -->
@@ -264,6 +347,11 @@ graph LR
     C --> E[Section 93 Triggered]
     style E fill:#238636,color:#fff
                 </div></div>
+                <div class="card">
+                    <h3>The End of the 30-Year Rule</h3>
+                    <p>Old paper documents benefited from a 30-year presumption of genuineness. In the digital age, hardware fails and formats change much faster.</p>
+                    <p><strong>BSA Section 93:</strong> For electronic records, the rule is reduced to <strong>5 Years</strong>. If a record is 5 years old and in proper custody, the court <em>may</em> presume its genuineness.</p>
+                </div>
             </section>
 
             <!-- PART VII -->
@@ -295,9 +383,14 @@ graph TD
     style F fill:#238636,color:#fff
                 </div></div>
 
-                <div class="text-block card">
-                    <h3>The Expert Interface</h3>
-                    <p>Section 39 and 73 ensure that technical unmasking is done through mathematical certainty rather than subjective visual style.</p>
+                <div class="card">
+                    <h3>The Rise of the Scientific Witness</h3>
+                    <p>Section 39 of the BSA elevates the role of the Cyber Expert. Their opinion is now vital for:</p>
+                    <ul class="styled-list">
+                        <li><strong>Deepfake Verification:</strong> Detecting AI-generated audio and video.</li>
+                        <li><strong>Encryption Breaking:</strong> Lawful bypass of device security for investigation.</li>
+                        <li><strong>Cloud Forensics:</strong> Analyzing data that never physically touched a local drive.</li>
+                    </ul>
                 </div>
             </section>
 
