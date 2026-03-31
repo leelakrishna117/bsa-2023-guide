@@ -942,3 +942,28 @@ em { color: var(--purple-2); font-style: italic; }
 
 .hero-banner { transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
 .hero-image-container:hover .hero-banner { transform: scale(1.05); }
+
+/* ============================================================
+   ATTRIBUTION FOOTER
+   ============================================================ */
+.app-footer {
+  margin-top: 60px;
+  padding: 40px 20px;
+  border-top: 1px solid var(--border-2);
+  text-align: center;
+  opacity: 0.6;
+  transition: opacity 0.3s;
+}
+
+.app-footer:hover { opacity: 1; }
+
+.app-footer p {
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  background: linear-gradient(90deg, var(--text-muted), var(--text), var(--text-muted));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
