@@ -39,7 +39,7 @@
           <button class="nav-item" data-target="part6">Part VI: Accelerated Authenticity</button>
           <button class="nav-item" data-target="part7">Part VII: Cyber Forensics</button>
           <div class="nav-group-title">2. Masterclass Modules</div>
-          <button class="nav-item" data-target="module-1">Module 1: New Legal Paradigm</button>
+          <button class="nav-item" data-target="paradigm-shift">Module 1: New Legal Paradigm</button>
           <div class="nav-group-title">3. Assessment</div>
           <button class="nav-item" data-target="quiz">Mega Quiz (40 Qs)</button>
         </div>
@@ -1798,126 +1798,298 @@
       </section>
       
       <!-- ================= MODULE 1: THE NEW LEGAL PARADIGM ================= -->
-      <section id="module-1" class="content-section">
+      <section id="paradigm-shift" class="content-section">
         <header class="section-header">
           <div class="badge" style="background: var(--blue-2); color: #fff; margin-bottom: 10px;">PREMIUM MASTERCLASS CONTENT</div>
           <h1>Module 1: The New Legal Paradigm</h1>
-          <p class="subtitle">Theory, Logic & Practical Application of BSA § 63, Certificates & Cloud Evidence</p>
+          <p class="subtitle">Theory, Logic & Practical Application of BSA § 63 & Digital Evidence</p>
         </header>
 
-        <!-- ORIENTATION -->
+        <!-- PART A: ORIENTATION -->
         <div class="text-block card">
-           <h2 style="color: var(--blue);">PART A — ORIENTATION: WHY THE LAW CHANGED</h2>
-           <p class="mt-4">The Indian Evidence Act, 1872 (IEA) was enacted in the era of ink and paper. When courts first encountered computers, Section 65B was surgically inserted in 2000 to manage electronic records. That provision served its purpose for two decades, but the digital world of 2000 bears little resemblance to the cloud-first, mobile-everywhere reality of today.</p>
+           <h2 style="color: var(--primary-color);">PART A — ORIENTATION: WHY THE LAW CHANGED</h2>
+           <p class="mt-4">The Indian Evidence Act, 1872 (IEA) was enacted in the era of ink and paper. When courts first encountered computers, Section 65B was surgically inserted in 2000 to manage electronic records. That provision served its purpose for two decades, but the digital world of 2000 — a world of floppy disks and dial-up modems — bears little resemblance to the cloud-first, mobile-everywhere reality of today.</p>
            <p style="margin-top: 15px;">The Bharatiya Sakshya Adhiniyam, 2023 (BSA) is not a patch; it is a rebuild. It treats digital records not as exotic technical artefacts requiring special handling, but as ordinary evidence — on equal footing with a handwritten contract or a stamped receipt.</p>
            
-           <div class="info-box mt-4" style="background: rgba(31,111,235,0.05); border: 1px solid var(--border-2);">
-              <h4 style="color: var(--blue);">ERA COMPARISON AT A GLANCE</h4>
-              <table class="data-table mt-2">
-                 <tr><th>IEA Era (2000–2023)</th><th>BSA Era (2023–Present)</th></tr>
-                 <tr><td>Computers were exceptions</td><td>Digital records are the norm</td></tr>
-                 <tr><td>§ 65B was an add-on provision</td><td>§ 63 is foundational, integrated design</td></tr>
-                 <tr><td>Certificate was secondary aid</td><td>Certificate is mandatory at every instance</td></tr>
-                 <tr><td>No concept of 'cloud'</td><td>Explicitly recognises cloud as single computer</td></tr>
-              </table>
+           <div class="info-box mt-4" style="background: rgba(88,166,255,0.05); border: 1px solid var(--border-2);">
+              <h4 style="color: var(--blue-2);">ERA COMPARISON AT A GLANCE</h4>
+              <div class="table-wrapper mt-4">
+                <table class="data-table">
+                   <thead>
+                     <tr><th>IEA Era (2000–2023)</th><th>BSA Era (2023–Present)</th></tr>
+                   </thead>
+                   <tbody>
+                     <tr><td>Computers were exceptions</td><td>Digital records are the norm</td></tr>
+                     <tr><td>§ 65B was an add-on provision</td><td>§ 63 is foundational, integrated design</td></tr>
+                     <tr><td>Certificate was secondary admissibility aid</td><td>Certificate is mandatory at every instance</td></tr>
+                     <tr><td>No concept of 'cloud' or 'network'</td><td>Explicitly recognises cloud / network as single computer</td></tr>
+                     <tr><td>Courts frequently confused primary vs secondary</td><td>Clear hierarchy: §§ 57–63 define evidence types</td></tr>
+                     <tr><td>Many cases dismissed on technicality</td><td>Practical, purpose-driven approach adopted</td></tr>
+                   </tbody>
+                </table>
+              </div>
+           </div>
+
+           <div class="info-box mt-4" style="border-left: 5px solid var(--gradient-1);">
+              <h4 style="color: var(--gradient-1);">KEY QUESTIONS THIS MODULE ANSWERS</h4>
+              <ul class="styled-list mt-2">
+                <li>What exactly changed from § 65B (IEA) to § 63 (BSA)?</li>
+                <li>Why are digital records now 'primary' evidence in most situations?</li>
+                <li>When and how must the Section 63(4) certificate be filed?</li>
+                <li>How does the law treat an entire cloud infrastructure as a single computer?</li>
+              </ul>
            </div>
         </div>
 
         <!-- SECTION 1 -->
         <div class="text-block card mt-4">
-           <h3 style="border-bottom-color: var(--primary-color);">SECTION 1 — FROM § 65B (IEA) TO § 63 (BSA): THE GREAT SHIFT</h3>
-           <div class="accordion mt-4">
-              <div class="accordion-item">
-                 <div class="accordion-head"><h4>1.1 The Architecture of the Old Law: § 65B IEA</h4><span>+</span></div>
-                 <div class="accordion-body">
-                    <p>Old § 65B created a 'secondary evidence' pathway for computer output, subject to a certificate confirming that the computer was working properly.</p>
-                    <table class="data-table mt-4">
-                       <tr><th>Sub-section</th><th>The Rule</th><th>Practical Problem</th></tr>
-                       <tr><td>65B(1)</td><td>Output = Admissible if conditions met</td><td>Treated all digital as 'secondary' by default</td></tr>
-                       <tr><td>65B(2)</td><td>Four strict conditions</td><td>No clarity on cloud or distributed systems</td></tr>
-                       <tr><td>65B(4)</td><td>Certificate signed by official</td><td>Ambiguity on whether mandatory later or early</td></tr>
-                    </table>
-                    <div style="background: rgba(218,54,51,0.1); padding: 15px; border-left: 3px solid var(--error); margin-top: 15px;">
-                       <strong>Landmark Case:</strong> <em>Arjun Panditrao Khotkar (2020)</em> — Settled that § 65B certificate is <strong>mandatory</strong> at the time of filing. BSA § 63(4) now codifies this.
-                    </div>
-                 </div>
-              </div>
+           <h2 style="color: var(--primary-color);">SECTION 1 — FROM § 65B (IEA) TO § 63 (BSA): THE GREAT SHIFT</h2>
+           
+           <div class="mt-4">
+             <h3 style="color: var(--blue-2);">1.1 The Architecture of the Old Law: § 65B IEA</h3>
+             <p class="mt-2">Section 65B of the IEA was India's first structured attempt to bring electronic records inside the law of evidence. It created a 'secondary evidence' pathway for computer output, subject to a certificate.</p>
+             <div class="table-wrapper mt-4">
+               <table class="data-table">
+                  <thead>
+                    <tr><th>Sub-section</th><th>What it said</th><th>Practical Problem</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>65B(1)</td><td>Computer output = admissible document</td><td>Treated all digital records as 'secondary' by default.</td></tr>
+                    <tr><td>65B(2)</td><td>Four conditions: regular use, proper working, etc.</td><td>Inconsistent interpretation; no clarity on cloud.</td></tr>
+                    <tr><td>65B(3)</td><td>Multiple computers could be one network</td><td>Rarely invoked; no guidance on cloud environments.</td></tr>
+                    <tr><td>65B(4)</td><td>Certificate signed by responsible official</td><td>Unclear if mandatory or directory until 2020.</td></tr>
+                  </tbody>
+               </table>
+             </div>
+             
+             <div class="info-box mt-4" style="background: rgba(218,54,51,0.05); border: 2px solid var(--error);">
+                <h4 style="color: var(--error);">LANDMARK CASE: Arjun Panditrao Khotkar (2020)</h4>
+                <p class="mt-2">The Supreme Court (3-judge bench) settled the debate: <strong>§ 65B certificate is mandatory, not optional.</strong></p>
+                <ul class="styled-list mt-2">
+                  <li>Without the certificate, electronic evidence is inadmissible — even if genuine.</li>
+                  <li>The certificate must accompany the document at the time of filing, NOT as an afterthought.</li>
+                  <li>BSA § 63(4) codifies and expands this holding — making it universally applicable.</li>
+                </ul>
+             </div>
+           </div>
 
-              <div class="accordion-item">
-                 <div class="accordion-head"><h4>1.2 The Architecture of the New Law: § 63 BSA</h4><span>+</span></div>
-                 <div class="accordion-body">
-                    <p>Section 63 mirrors § 65B but adds three surgical improvements: clear primary/secondary hierarchy, explicit cloud coverage, and absolute mandatory documentation.</p>
-                    <div class="info-box mt-4">
-                       <h4 style="color: var(--blue);">SIDE-BY-SIDE TEXTUAL COMPARISON</h4>
-                       <div class="grid-2 mt-2">
-                          <p><strong>§ 65B IEA (OLD):</strong> "...a certificate...shall be evidence of any matter stated in the certificate..."</p>
-                          <p><strong>§ 63 BSA (NEW):</strong> "...a certificate...shall be a condition precedent to the admission... at every stage..."</p>
-                       </div>
-                    </div>
-                 </div>
+           <div class="mt-4">
+             <h3 style="color: var(--blue-2);">1.2 The Architecture of the New Law: § 63 BSA</h3>
+             <p class="mt-2">Section 63 of the BSA mirrors the skeleton of § 65B but makes three surgical improvements: (1) Situates digital records in a clear hierarchy; (2) Explicitly covers cloud/networks; (3) Makes the certificate an absolute sine qua non.</p>
+             <div class="table-wrapper mt-4">
+               <table class="data-table">
+                  <thead>
+                    <tr><th>Sub-section</th><th>Core Rule</th><th>Innovation Over § 65B</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>63(1)</td><td>Electronic record is admissible evidence</td><td>Framed as a right/entitlement, not a procedural gateway.</td></tr>
+                    <tr><td>63(2)</td><td>Conditions for admissibility</td><td>Streamlined to 3 clear conditions.</td></tr>
+                    <tr><td>63(3)</td><td>Network/cloud = single computer</td><td><strong>BRAND NEW:</strong> explicitly names cloud platforms.</td></tr>
+                    <tr><td>63(4)</td><td>Certificate is mandatory at every instance</td><td>Codifies Arjun Panditrao; removes any residual discretion.</td></tr>
+                  </tbody>
+               </table>
+             </div>
+           </div>
+
+           <div class="info-box mt-4" style="border-top: 3px solid var(--purple);">
+              <h4 style="color: var(--purple-2);">SIDE-BY-SIDE TEXTUAL COMPARISON</h4>
+              <div class="table-wrapper mt-4">
+                <table class="data-table">
+                   <thead>
+                     <tr><th>§ 65B IEA — OLD TEXT</th><th>§ 63 BSA — NEW TEXT</th></tr>
+                   </thead>
+                   <tbody>
+                     <tr><td>"...a certificate...shall be evidence..."</td><td>"...a certificate...shall be a <strong>condition precedent</strong>... at every stage..."</td></tr>
+                     <tr><td>No explicit reference to cloud, SaaS, or distributed storage.</td><td>§ 63(3): 'a network of computers or a cloud environment shall be treated as a single computer'.</td></tr>
+                     <tr><td>Sign of 'a person occupying a responsible official position'.</td><td>Sign by 'person in charge of managing, operating or owning the computer, server, cloud service, or network'.</td></tr>
+                   </tbody>
+                </table>
               </div>
            </div>
         </div>
 
         <!-- SECTION 2 -->
         <div class="text-block card mt-4">
-           <h3>SECTION 2 — MAINSTREAMING DIGITAL EVIDENCE: § 61 BSA</h3>
-           <p><strong>§ 61 Core Principle:</strong> All documents, including electronic or digital records, are called "documentary evidence". Digital records are now ordinary evidence.</p>
-           <div class="grid-2 mt-4">
-              <div class="info-box">
-                 <h4 style="color: var(--success);">Illustration 1: WhatsApp Murder Threat</h4>
-                 <p>Screenshot + metadata export + certificate = complete package. The message is documentary evidence under § 61.</p>
+           <h2 style="color: var(--primary-color);">SECTION 2 — MAINSTREAMING DIGITAL EVIDENCE: § 61 BSA</h2>
+           <div style="background: rgba(88,166,255,0.05); padding: 25px; border-radius: 12px; border-left: 5px solid var(--blue-2); margin-top: 20px;">
+              <h3 style="color: var(--white);">"All documents, <strong>including</strong> electronic or digital records... being called documentary evidence."</h3>
+              <p class="mt-2">The key word is <em>including</em>. Digital records are no longer a separate or secondary class of evidence.</p>
+           </div>
+           
+           <h4 class="mt-4" style="color: var(--blue-2);">WHAT QUALIFIES AS A DIGITAL RECORD UNDER § 61?</h4>
+           <div class="table-wrapper mt-4">
+             <table class="data-table">
+                <thead>
+                  <tr><th>Category</th><th>Examples</th><th>Tip for Practitioners</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>Communication</td><td>WhatsApp, E-mails, SMS</td><td>Screenshot + metadata + cert = complete package.</td></tr>
+                  <tr><td>Transaction</td><td>Bank statements, UPI receipts</td><td>If server-generated, need system operator cert.</td></tr>
+                  <tr><td>Surveillance</td><td>CCTV, GPS, Drone recordings</td><td>Hash value of footage + system custodian cert.</td></tr>
+                  <tr><td>Business</td><td>ERP reports, Audit trails</td><td>IT Manager / SysAdmin cert is ideal.</td></tr>
+                  <tr><td>Social Media/Web</td><td>Facebook, Twitter, Website captures</td><td>Notarised screen-capture + metadata.</td></tr>
+                </tbody>
+             </table>
+           </div>
+
+           <div class="accordion mt-4">
+              <div class="accordion-item">
+                 <div class="accordion-head"><h4>Illustration 1 — The WhatsApp Murder Threat Case</h4><span>+</span></div>
+                 <div class="accordion-body">
+                    <p><strong>Facts:</strong> Accused sent a threatening voice note and text over WhatsApp.</p>
+                    <p><strong>Under IEA (Old):</strong> Courts often rejected screenshots as 'secondary' without certificate, causing delays.</p>
+                    <p><strong>Under BSA (New):</strong> The message is documentary evidence under § 61. Complainant issues a § 63(4) certificate. It is primary evidence if produced directly from device/cloud sync.</p>
+                 </div>
               </div>
-              <div class="info-box">
-                 <h4 style="color: var(--success);">Illustration 2: UPI Payment Dispute</h4>
-                 <p>PDF e-statements are 'documents'. If generated/downloaded directly from bank servers, they qualify as primary evidence under § 57 Expl. 4.</p>
+              <div class="accordion-item">
+                 <div class="accordion-head"><h4>Illustration 2 — The UPI Payment Dispute</h4><span>+</span></div>
+                 <div class="accordion-body">
+                    <p><strong>Facts:</strong> Plaintiff paid Rs. 10 lakhs via NEFT. Defendant denies receipt.</p>
+                    <p><strong>Classification:</strong> PDF statement is a 'document' under § 61. If downloaded directly from bank server, it is <strong>primary evidence</strong> under § 57 Expl. 4.</p>
+                    <p><strong>Step:</strong> Obtain cert from Bank's IT Nodal Officer. File with plaint.</p>
+                 </div>
               </div>
            </div>
         </div>
 
         <!-- SECTION 3 -->
         <div class="text-block card mt-4">
-           <h3 style="border-bottom-color: var(--gradient-1);">SECTION 3 — THE PRIMARY EVIDENCE EXPANSION: § 57, EXPL. 4</h3>
-           <p>This is the most revolutionary provision in the BSA regarding digital manifests.</p>
-           <div style="background: rgba(88,166,255,0.08); border: 1px solid var(--border-1); padding: 25px; border-radius: 15px;">
-              <p><em>"Where an electronic or digital record is created or stored simultaneously or by a series of processes... each such record shall be deemed to be a <strong>primary evidence</strong>."</em></p>
-           </div>
+           <h2 style="color: var(--primary-color);">SECTION 3 — THE PRIMARY EVIDENCE EXPANSION: § 57, EXPLANATION 4</h2>
            
            <div class="grid-2 mt-4">
-              <div class="info-box">
-                 <h4 style="color: var(--primary-color);">Illustration 3: Cloud Sync</h4>
-                 <p>Employee creates doc -> OneDrive auto-syncs. The Cloud copy is <strong>PRIMARY</strong> evidence under Expl. 4. Use it to expose local tampering.</p>
+              <div class="info-box" style="border-top: 3px solid var(--blue-2);">
+                 <h4 style="color: var(--blue-2);">PRIMARY EVIDENCE (§ 57)</h4>
+                 <ul class="styled-list">
+                    <li>The document itself</li>
+                    <li>Strongest form — proves itself</li>
+                    <li>No additional proof of contents needed</li>
+                    <li>Preferred and always admissible</li>
+                 </ul>
               </div>
-              <div class="info-box">
-                 <h4 style="color: var(--primary-color);">Illustration 4: Banking Transactions</h4>
-                 <p>Core Banking table + NEFT gateway log + SMS log. All three are <strong>PRIMARY</strong> evidence of the same event.</p>
+              <div class="info-box" style="border-top: 3px solid var(--warning);">
+                 <h4 style="color: var(--warning);">SECONDARY EVIDENCE (§ 58)</h4>
+                 <ul class="styled-list">
+                    <li>Copies, counterparts, oral accounts</li>
+                    <li>Requires explanation for missing original</li>
+                    <li>Court scrutiny on reliability is higher</li>
+                    <li>Admissible only in specific circumstances</li>
+                 </ul>
               </div>
+           </div>
+
+           <div style="background: rgba(88,166,255,0.05); border: 2px dashed var(--blue-2); padding: 20px; border-radius: 12px; margin-top: 25px;">
+              <h3 style="color: var(--white);">"Where a record is created or stored <strong>simultaneously</strong>... each such record shall be deemed to be a <strong>primary evidence</strong>."</h3>
+              <p class="mt-2">Translation: When a single digital event automatically creates multiple copies — whether at the same moment (simultaneous) or one after another (sequential) — EVERY copy is treated as primary evidence.</p>
+           </div>
+
+           <h4 class="mt-4" style="color: var(--blue-2);">WHY THIS IS REVOLUTIONARY</h4>
+           <div class="table-wrapper mt-4">
+             <table class="data-table">
+                <thead>
+                  <tr><th>Digital Reality</th><th>Legal Consequence Under Expl. 4</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>Sent E-mail: Copies in Sent folder, Server, and Recipient's Inbox.</td><td><strong>ALL THREE</strong> are primary evidence independently.</td></tr>
+                  <tr><td>Trading platform records trade on primary, backup, and audit servers.</td><td>Extract from <strong>any</strong> is primary evidence of trade.</td></tr>
+                  <tr><td>CCTV saves to local DVR and auto-uploads to Cloud.</td><td>Both local and cloud copies are <strong>primary evidence</strong>.</td></tr>
+                </tbody>
+             </table>
+           </div>
+
+           <div class="accordion mt-4">
+              <div class="accordion-item">
+                 <div class="accordion-head"><h4>Illustration 3 — Cloud Sync (Google Drive / OneDrive)</h4><span>+</span></div>
+                 <div class="accordion-body">
+                    <p>The moment an employee saves a file, it uploads to the cloud. If the employee later tampers with the local file, the cloud version history remains <strong>primary evidence</strong> under § 57 Expl. 4 to expose the fraud.</p>
+                 </div>
+              </div>
+              <div class="accordion-item">
+                 <div class="accordion-head"><h4>Illustration 4 — Banking Transaction: Multiple Logs</h4><span>+</span></div>
+                 <div class="accordion-body">
+                    <ul class="styled-list">
+                       <li>Core Banking System transaction table: <strong>YES</strong> (Primary)</li>
+                       <li>NEFT gateway confirmation log: <strong>YES</strong> (Primary)</li>
+                       <li>Customer's e-statement PDF (server-generated): <strong>YES</strong> (Primary)</li>
+                       <li>Printout made by customer at home: <span style="color: var(--error);"><strong>NO</strong></span> (Secondary)</li>
+                    </ul>
+                 </div>
+              </div>
+           </div>
+
+           <div class="info-box mt-4" style="background: rgba(218,54,51,0.05); border: 1px solid var(--error);">
+              <h4 style="color: var(--error);">CRITICAL DISTINCTION: When does Expl. 4 NOT apply?</h4>
+              <p class="mt-2">A screenshot taken by a user manually is NOT primary evidence — the creation was manual, not part of the original system process. A photocopy of a printout is secondary. <strong>Key Test:</strong> Was the copy created as part of the original data flow/process?</p>
            </div>
         </div>
 
         <!-- SECTION 4 -->
         <div class="text-block card mt-4">
-           <h3 style="border-bottom-color: var(--error);">SECTION 4 — THE MANDATORY CERTIFICATE: § 63(4) BSA</h3>
-           <p><strong>Sine Qua Non:</strong> The absolute indispensable condition. No certificate = No evidence.</p>
+           <h2 style="color: var(--primary-color);">SECTION 4 — THE MANDATORY CERTIFICATE: § 63(4) BSA</h2>
+           <div class="info-box mt-4" style="border-left: 5px solid var(--error);">
+              <h3 style="color: var(--error);">SINE QUA NON: "Without which not"</h3>
+              <p class="mt-2">The certificate is a <strong>condition precedent</strong>. Absence renders the electronic record inadmissible regardless of its authenticity or strength.</p>
+           </div>
+           
+           <h4 class="mt-4" style="color: var(--blue-2);">4.2 WHAT THE CERTIFICATE MUST CONTAIN</h4>
+           <div class="table-wrapper mt-4">
+             <table class="data-table">
+                <thead>
+                  <tr><th>#</th><th>Required Point</th><th>Practical Language</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>1</td><td>Regular Use</td><td>"System was in regular use during [date range] in ordinary course."</td></tr>
+                  <tr><td>2</td><td>Proper Working</td><td>"System was functioning properly; no malfunction affected accuracy."</td></tr>
+                  <tr><td>3</td><td>Normal Course</td><td>"Record was derived from information supplied in normal course."</td></tr>
+                  <tr><td>4</td><td>Accurate Reproduction</td><td>"Attached document is a true and accurate output of the record."</td></tr>
+                  <tr><td>5</td><td>Signatory Authority</td><td>"I, [Name], [Designation], am in charge of managing the system."</td></tr>
+                </tbody>
+             </table>
+           </div>
+
+           <h4 class="mt-4" style="color: var(--blue-2);">WHO CAN ISSUE THE CERTIFICATE?</h4>
+           <div class="table-wrapper mt-4">
+             <table class="data-table">
+                <thead>
+                  <tr><th>Source System</th><th>Eligible Certifier</th></tr>
+                </thead>
+                <tbody>
+                   <tr><td>Corporate ERP</td><td>IT Manager / CTO / System Admin</td></tr>
+                   <tr><td>Bank / NBFC</td><td>IT Nodal Officer / CISO</td></tr>
+                   <tr><td>Cloud Service (AWS/Azure)</td><td>Cloud provider representative OR tenant company's IT admin</td></tr>
+                   <tr><td>Telecom / ISP</td><td>Designated Nodal Officer (TRAI authorized)</td></tr>
+                </tbody>
+             </table>
+           </div>
+
+           <div class="info-box mt-4" style="background: rgba(137,87,229,0.05); border-top: 3px solid var(--purple);">
+              <h4 style="color: var(--purple-2);">THE 'STAGE' RULE: AT EVERY INSTANCE</h4>
+              <p class="mt-2">The phrase 'at every stage of proceedings' means: <strong>Plaint -> Trial -> Appeal -> High Court</strong>. You need the certificate at each level.</p>
+              <div style="display: flex; gap: 10px; margin-top: 15px; justify-content: center; flex-wrap: wrap;">
+                 <span class="badge" style="background: var(--blue-2);">Charge-sheet</span> <span style="color: var(--blue-2);">➜</span>
+                 <span class="badge" style="background: var(--blue-2);">Evidence Production</span> <span style="color: var(--blue-2);">➜</span>
+                 <span class="badge" style="background: var(--blue-2);">Arguments</span> <span style="color: var(--blue-2);">➜</span>
+                 <span class="badge" style="background: var(--blue-2);">Appellate Review</span>
+              </div>
+           </div>
+
            <div class="accordion mt-4">
               <div class="accordion-item">
-                 <div class="accordion-head"><h4>4.2 What the Certificate Must Contain</h4><span>+</span></div>
+                 <div class="accordion-head"><h4>Illustration 5 — The Forgotten Certificate</h4><span>+</span></div>
                  <div class="accordion-body">
-                    <ul class="mt-4" style="line-height: 2;">
-                       <li>1. Computer was used regularly.</li>
-                       <li>2. System was in proper working order.</li>
-                       <li>3. Record was derived from data supplied in normal course.</li>
-                       <li>4. Output strictly accurately reproduces the record.</li>
-                       <li>5. Signed by person in charge of managing/owning the network/cloud.</li>
-                    </ul>
+                    <p>A company sues for Rs. 2 crores based on e-mails but forgets the § 63(4) certificate. <strong>Result:</strong> E-mail printouts are inadmissible. The entire case crumbles due to a procedural lapse on day one.</p>
                  </div>
               </div>
               <div class="accordion-item">
-                 <div class="accordion-head"><h4>4.4 The 'Stage' Rule</h4><span>+</span></div>
+                 <div class="accordion-head"><h4>Illustration 6 — Draft Certificate Template (Annotated)</h4><span>+</span></div>
                  <div class="accordion-body">
-                    <p>The phrase <em>"at every stage of proceedings"</em> means the certificate must follow the document from Plaint to Appeal.</p>
-                    <div style="background: rgba(218,54,51,0.1); padding: 15px; border-left: 3px solid var(--error); margin-top: 15px;">
-                       <strong>The Danger:</strong> If you forget the certificate at day one, the entire case can crumble on a procedural lapse.
+                    <div style="background: rgba(15,20,25,0.8); padding: 25px; border-radius: 8px; border: 1px solid var(--border-2); font-family: monospace;">
+                       <p style="text-align: center; font-weight: bold; font-size: 1.1rem; border-bottom: 2px solid var(--blue-2); padding-bottom: 15px; margin-bottom: 20px;">CERTIFICATE UNDER SECTION 63(4) OF THE BSA, 2023</p>
+                       <p>I, [Full Name], [Designation], employed by [Organisation], hereby certify as follows:</p>
+                       <p>1. The computer system/server [System Name/IP] was in regular use... for storing and processing [Type of Data] from [Date] to [Date].</p>
+                       <p>2. The said system was in proper working condition... No malfunction affected the data integrity.</p>
+                       <p>3. The electronic record annexed hereto as Exhibit [__] was produced/stored in the ordinary course of operations.</p>
+                       <p>4. The annexed document is a true and accurate output of the said record.</p>
+                       <p style="margin-top: 30px;">Signed: ________________<br>Date: [Current Date]<br>Place: [City]</p>
                     </div>
                  </div>
               </div>
@@ -1926,33 +2098,118 @@
 
         <!-- SECTION 5 -->
         <div class="text-block card mt-4">
-           <h2 style="color: var(--purple-2);">SECTION 5 — THE 'SINGLE SYSTEM' CONCEPT: § 63(3) BSA</h2>
-           <p>Solves the "Distributed Data" nightmare. Azure, AWS, and Hybrid clouds are now legal units.</p>
-           <div class="info-box mt-4" style="background: rgba(155, 89, 182, 0.1); border-left: 3px solid #9b59b6;">
-              <h4 style="color: #b794f4;">Trigger: Network of Computers</h4>
-              <p>Load-balanced apps across 10 servers? One certificate from the CISO/IT Head covers all. No need for 10 separate physical machine proofs.</p>
+           <h2 style="color: var(--primary-color);">SECTION 5 — THE 'SINGLE SYSTEM' CONCEPT: § 63(3) BSA</h2>
+           <p class="mt-4">Modern IT is distributed (Web server in Region A, DB in Region B). Under old law, you might need multiple certificates. The BSA eliminates this confusion.</p>
+           
+           <div style="background: rgba(46,160,67,0.05); padding: 20px; border-radius: 12px; border-left: 5px solid var(--success); margin-top: 25px;">
+              <h3 style="color: var(--success);">"Network of computers or a cloud environment shall be <strong>deemed to be a single computer</strong>."</h3>
+           </div>
+
+           <div class="table-wrapper mt-4">
+             <table class="data-table">
+                <thead>
+                  <tr><th>Trigger</th><th>What It Covers</th><th>Real-World Example</th></tr>
+                </thead>
+                <tbody>
+                   <tr><td>Multiple computers over time</td><td>Processing done across different machines at different times.</td><td>Old server replaced by new server mid-year.</td></tr>
+                   <tr><td>Combination/network</td><td>Multiple machines working together.</td><td>Load-balanced web application across 10 servers.</td></tr>
+                   <tr><td>Cloud environment</td><td>AWS, Azure, GCP, SaaS services.</td><td>Google Workspace emails stored across global data centres.</td></tr>
+                </tbody>
+             </table>
+           </div>
+
+           <div class="info-box mt-4" style="border-top: 3px solid var(--success);">
+              <h4 style="color: var(--success);">PRACTICAL IMPACT: ONE CERTIFICATE COVERS ALL</h4>
+              <ul class="styled-list">
+                 <li>One § 63(4) certificate from the cloud admin covers the <strong>entire</strong> distributed system.</li>
+                 <li>No need for separate certificates for each physical server or region.</li>
+                 <li>For SaaS (Salesforce/SAP), the certificate may come from the vendor's rep.</li>
+              </ul>
+           </div>
+
+           <div class="accordion mt-4">
+              <div class="accordion-item">
+                 <div class="accordion-head"><h4>Illustration 7 — E-Commerce Fraud: Multi-Server Evidence</h4><span>+</span></div>
+                 <div class="accordion-body">
+                    <p>Evidence needed: Order logs (Mumbai), Payment logs (Singapore), API logs (Cloud). <strong>Under BSA:</strong> The entire AWS environment is a SINGLE COMPUTER. One certificate from the company's IT Head covers all logs.</p>
+                 </div>
+              </div>
+           </div>
+        </div>
+
+        <!-- SECTION 6 -->
+        <div class="text-block card mt-4">
+           <h2 style="color: var(--primary-color);">SECTION 6 — DECISION FRAMEWORK & SUMMARY</h2>
+           <h4 class="mt-4" style="color: var(--blue-2);">INTEGRATED FLOWCHART: DIGITAL EVIDENCE SUBMISSION</h4>
+           <div class="grid-2 mt-4">
+              <div class="info-box">
+                 <h4 style="color: var(--blue-2);">Step 1: Classification</h4>
+                 <p>Is it a digital record? Yes -> It's a document under § 61.</p>
+              </div>
+              <div class="info-box">
+                 <h4 style="color: var(--blue-2);">Step 2: Hierarchy</h4>
+                 <p>Was it auto-synced? Yes -> Classification: <strong>PRIMARY</strong> (§ 57 Expl. 4).</p>
+              </div>
+              <div class="info-box">
+                 <h4 style="color: var(--blue-2);">Step 3: Identification</h4>
+                 <p>Determine system -> Network/Cloud = <strong>Single Computer</strong> (§ 63(3)).</p>
+              </div>
+              <div class="info-box">
+                 <h4 style="color: var(--blue-2);">Step 4: Compliance</h4>
+                 <p>Obtain § 63(4) Cert. Verify 5 points. File on <strong>Day One</strong>.</p>
+              </div>
+           </div>
+
+           <h4 class="mt-6" style="color: var(--blue-2);">MODULE 1 MASTER SUMMARY TABLE</h4>
+           <div class="table-wrapper mt-4">
+             <table class="data-table">
+                <thead>
+                  <tr><th>Section</th><th>Core Rule</th><th>Innovation</th></tr>
+                </thead>
+                <tbody>
+                   <tr><td>§ 61 BSA</td><td>Digital records = documentary evidence</td><td>No 'secondary class' labels.</td></tr>
+                   <tr><td>§ 57 Expl. 4</td><td>Auto-created copies = primary evidence</td><td>Cloud syncs are 'original'.</td></tr>
+                   <tr><td>§ 63(3)</td><td>Network/cloud = single computer</td><td>One certificate for entire systems.</td></tr>
+                   <tr><td>§ 63(4)</td><td>Certificate is <strong>Sine Qua Non</strong></td><td>Zero discretion; mandatory at filing.</td></tr>
+                </tbody>
+             </table>
            </div>
         </div>
 
         <!-- SECTION 7 -->
         <div class="text-block card mt-4">
-           <h3>SECTION 7 — MODULE 1 SELF-TEST</h3>
+           <h2 style="color: var(--primary-color);">SECTION 7 — SELF-TEST: KNOWLEDGE CHECK</h2>
+           <p class="mt-2">Test your understanding of Module 1 concepts.</p>
+           
            <div class="accordion mt-4">
               <div class="accordion-item">
-                 <div class="accordion-head"><h4>Q: Email server clones to Sent and Archive simultaneously. Hierarchy?</h4><span>+</span></div>
+                 <div class="accordion-head"><h4>Q1. Lawyer files home-printed WhatsApp screenshots. Objection?</h4><span>+</span></div>
                  <div class="accordion-body">
-                    <p><strong>Answer:</strong> Both clones are <strong>PRIMARY</strong> evidence under § 57 Expl. 4 because they were created simultaneously by an automated process.</p>
+                    <p><strong>Answer:</strong> Inadmissible for two reasons: (a) No § 63(4) certificate; (b) User-printed screenshots are secondary evidence at best, not primary (they weren't auto-generated by the system process).</p>
                  </div>
               </div>
               <div class="accordion-item">
-                 <div class="accordion-head"><h4>Q: Can the certificate be filed later in appeal?</h4><span>+</span></div>
+                 <div class="accordion-head"><h4>Q2. Hybrid setup: Mumbai servers + Azure Pune. Certificates needed?</h4><span>+</span></div>
                  <div class="accordion-body">
-                    <p><strong>Answer:</strong> Generally NO. It must accompany the document "at every stage of proceedings" starting from the very first filing.</p>
+                    <p><strong>Answer:</strong> <strong>ONE.</strong> Under § 63(3), the entire hybrid system is a SINGLE computer. The IT Head issues one certificate describing the full architecture.</p>
+                 </div>
+              </div>
+              <div class="accordion-item">
+                 <div class="accordion-head"><h4>Q3. Certificate filed at Trial Court. Must file at Appeal too?</h4><span>+</span></div>
+                 <div class="accordion-body">
+                    <p><strong>Answer:</strong> <strong>YES.</strong> § 63(4) requires the certificate at EVERY stage. Safer to re-confirm system conditions at the time of appeal filing.</p>
+                 </div>
+              </div>
+              <div class="accordion-item">
+                 <div class="accordion-head"><h4>Q4. Email saved in Sent, Archive, and SMS sent. Are all primary?</h4><span>+</span></div>
+                 <div class="accordion-body">
+                    <p><strong>Answer:</strong> <strong>YES.</strong> All were created simultaneously or sequentially as part of the same process. Each independently qualifies as primary evidence under § 57 Expl. 4.</p>
                  </div>
               </div>
            </div>
         </div>
       </section>
+
 
       <!-- ================= FOOTER ATTRIBUTION ================= -->
       <footer class="app-footer">
